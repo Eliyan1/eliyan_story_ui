@@ -12,10 +12,10 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Etrylian', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  line-height: 1.6;
-  font-size: 18px;
+  line-height: 1.2;
+  font-size: 4vw;
   background-color: #0D1215;
-  color: #ffffff;
+  color: #82859B;
 }
 
 * {
@@ -23,12 +23,14 @@ body {
 }
 
 a {
-  color: #0070f3;
+  color: rgba(211, 212, 235, 0.6);
   text-decoration: none;
+  transition: 200ms;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: rgba(211, 212, 235, 0.9);
+  transition: 200ms;
 }
 
 img {

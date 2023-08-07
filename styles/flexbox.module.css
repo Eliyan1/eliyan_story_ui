@@ -1,17 +1,97 @@
 .container {
     display: flex;
+    text-align: center;
+    margin-left: 1%;
+    margin-right: 2%;
+    justify-content: space-between;
     
 }
 
 .headeritem{
-    margin: 1%;
     width: stretch;
-    justify-content: space-evenly
+    font-size: 2.5vw;
+    color: #484E63;
 }
 
 .storybox{
-    height: 200px;
-    width: 170px;
+    flex: 7;
+    height: 52vw;
     background-image: url("../image/Stone_Story_Frame.png");
-    background-size: cover;
+    background-size: 100% 100%;
+}
+
+.storysaveload{
+    display: flex;
+    position: relative;
+    top: 15.4vw;
+}
+
+.characterwrap{
+    flex: 3;
+    margin-left: 1%;
+}
+
+.characterbox{
+    height: 39vw;
+}
+
+.audiobox{
+    display: flex;
+    width: 85vw;
+    height: 38vw;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    flex-direction: row;
+}
+
+.audioline{
+    width:0;
+    border-right: 0.1vw solid;
+    height: 35vw;
+    margin-top: 1.7vw;
+    border-color: #869696;
+}
+
+.audiocontrol{
+    width: 15vw;
+    margin-left: 1%;
+}
+
+.audiobar{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    margin-left: 15%;
+    margin-right: 16%;
+    justify-content: space-evenly;
+    
+}
+
+.visualcontainer {
+    display: flex;
+    text-align: center;
+    margin-right: 2%;
+    justify-content: space-between;
+}
+
+.visualbox{
+    display: flex;
+    width: 80vw;
+    height: 52vw;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    flex-direction: row;
+}
+
+.visualcontrol{
+    width: 20vw;
+    margin-left: 1%;
+}
+
+.visualbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+    
 }
