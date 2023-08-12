@@ -1,3 +1,5 @@
+/* Alignment of Flexboxes */
+
 .container {
     display: flex;
     text-align: center;
@@ -7,7 +9,7 @@
     
 }
 
-.headeritem{
+.footeritem{
     width: stretch;
     font-size: 2.5vw;
     color: #484E63;

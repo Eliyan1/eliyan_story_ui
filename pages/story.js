@@ -1,10 +1,9 @@
 import React from'react';
-import Link from'next/link';
 import Flexstyle from '../styles/flexbox.module.css'
-import UIcomp from '../styles/ui_components.module.css'
+import StoryStyle from '../styles/story.module.css'
 import CharButton from '../components/charbutton'
 import StoryContent from '../components/storycontent'
-import CharSaveLoad from '../components/charsaveload'
+import Footer from '../components/footer'
 	
 export default function Story()  {
 	return <>
@@ -13,8 +12,8 @@ export default function Story()  {
 				<StoryContent/>
 
 				<div className={`${Flexstyle.storysaveload}`}>
-					<div className={`${UIcomp.storysave}`}>Save</div>
-					<div className={`${UIcomp.storyload}`}>Load</div>
+					<div className={`${StoryStyle.storysave}`}>Save</div>
+					<div className={`${StoryStyle.storyload}`}>Load</div>
 				</div>
 			</div>
 			<div className={`${Flexstyle.characterwrap}`}>
@@ -26,15 +25,21 @@ export default function Story()  {
 					<CharButton char={{name:'Gary'}} />
 				</div>
 				<div> 
-					<CharSaveLoad/>				
+					<div className={`${StoryStyle.charactersavecolumn}`}>
+      					<div className={`${StoryStyle.charactersaverow}`}>
+        					<div className={`${StoryStyle.charactersavebutton}`}>Create Character</div>
+        					<div className={`${StoryStyle.charactersavebutton}`}>Roll Initiative</div>
+      					</div>
+						<div className={`${StoryStyle.charactersaverow}`}>
+							<div className={`${StoryStyle.charactersavebutton}`}>Save Characters</div>
+							<div className={`${StoryStyle.charactersavebutton}`}>Load Characters</div>
+						</div>
+					</div>			
 				</div>
 			</div>
 
 		</div>
-		<div className={`${Flexstyle.container}`}>
-			<div className={`${Flexstyle.headeritem}`}><Link href="/story">Story</Link></div>
-			<div className={`${Flexstyle.headeritem}`}><Link href="/audio">Audio</Link></div>
-			<div className={`${Flexstyle.headeritem}`}><Link href="/visual">Visual</Link></div>
-		</div>
+		
+		<Footer/>
 	</>
 }

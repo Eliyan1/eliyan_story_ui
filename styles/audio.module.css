@@ -1,0 +1,103 @@
+/* Design of Audio Buttons */
+
+.audiobutton{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    font-size: 1.6vw;
+    color: rgba(219, 221, 229, 0.9);
+    margin: 0.2vw;
+    opacity: 0.85;
+    height: 6vw;
+    width: 19.7vw;
+    background-image: url("../image/Audio_Button_Block.png");
+    background-size: 100% 100%;
+    transition: 200ms;
+}
+
+.audiobutton:hover{
+    opacity: 1;
+    transition: 200ms;
+}
+
+/* Design of Audio Control Buttons */
+
+.audiocontrolbutton{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    font-size: 1.6vw;
+    color: rgba(219, 221, 229, 0.9);
+    margin-top: 0.2vw;
+    opacity: 0.85;
+    height: 5vw;
+    width: 17vw;
+    background-image: url("../image/Audio_Button.png");
+    background-size: 100% 100%;
+    transition: 200ms;
+}
+
+.audiocontrolbutton:hover{
+    opacity: 1;
+    transition: 200ms;
+}
+
+.audiocontrolspacer{
+    height: 3vw;
+}
+
+/* Design of Playing-Line and Volume Control */
+
+.audiobar{
+    height: 3vw;
+    width: 100vw;
+    background-image: url("../image/Mockup_Audiobar.png");
+    background-size: 100% 100%;
+}
+
+/* Design of Play-, Pause-, and Stop-Buttons */
+
+.audioplay{
+    height: 7vw;
+    width: 7vw;
+    background-image: url("../image/Play_Stone.png");
+    background-size: 100% 100%;
+    Margin: 2vw;
+    opacity: 0.75;
+    transition: 200ms;
+}
+
+.audioplay:hover{
+    opacity: 0.9;
+    transition: 200ms;
+}
+
+.audiostop{
+    height: 7vw;
+    width: 7vw;
+    background-image: url("../image/Stop_Stone.png");
+    background-size: 100% 100%;
+    Margin: 2vw;
+    opacity: 0.75;
+    transition: 200ms;
+}
+
+.audiostop:hover{
+    opacity: 0.9;
+    transition: 200ms;
+}
+
+.audiopause{
+    height: 7vw;
+    width: 7vw;
+    background-image: url("../image/Pause_Stone.png");
+    background-size: 100% 100%;
+    Margin: 2vw;
+    opacity: 0.75;
+    transition: 200ms;
+}
+
+.audiopause:hover{
+    opacity: 0.9;
+    transition: 200ms;
+}

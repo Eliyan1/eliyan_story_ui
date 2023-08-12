@@ -1,0 +1,172 @@
+/* Design of Story Slab */
+
+.storytitle{
+    position: relative;
+    top: 3vw;
+    left: 8vw;
+    width: 52vw;
+    font-size: 1.8vw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.5);
+}
+
+.storytablettitle{
+    position: relative;
+    top: 4vw;
+    left: 7vw;
+    width: 52vw;
+    font-size: 1.5vw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.3);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.storytablet{
+    position: relative;
+    top: 4vw;
+    left: 7vw;
+    width: 52vw;
+    font-size: 1.5vw;
+    text-align: justify;
+    color: rgba(219, 221, 229, 0.3);
+}
+
+.storysave{
+    font-size: 1.8vw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.45);
+    margin-left: 19vw;
+    transition: 200ms;
+}
+
+.storysave:hover{
+    color: rgba(219, 221, 229, 0.75);
+    transition: 200ms;
+}
+
+.storyload{
+    font-size: 1.8vw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.45);
+    margin-left: 21vw;
+    transition: 200ms;
+}
+
+.storyload:hover{
+    color: rgba(219, 221, 229, 0.75);
+    transition: 200ms;
+}
+
+/* Design of Character Buttons */
+
+.characterbutton{
+    display: flex;
+    justify-content:space-around;
+    background-image: url("../image/Character_Button_Flat.png");
+    background-size: 100% 100%;
+    margin-top: 1vw;
+    padding-top: 0.2vw;
+    opacity: 0.75;
+    height: 7vw;
+    transition: 200ms;
+}
+
+.characterbutton:hover{
+    opacity: 0.9;
+    transition: 200ms;
+}
+
+
+.characterbuttoncolumn{
+    display: flex;
+    flex-direction: column;
+}
+
+.characterbuttonrow{
+    display: flex;
+    flex-direction: row;
+    width: 28.8vw;
+    align-items: flex-end;
+}
+
+.charactername{
+    flex:3;
+    font-size: 2.8vw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.9);
+}
+
+.characterhealth{
+    font-size: 2.5vw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.9);
+}
+
+.characterhealthlabel{
+    font-size: 0.85vw;
+    text-align: center;
+    margin-top: 0.25vw;
+    margin-left: 0.2vw;
+    color: rgba(219, 221, 229, 0.9);
+}
+
+.characterhealthwrap{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
+.characterstatwrap{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.characterstatlabel{
+    font-size: 1.2vw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.9);
+    transition: 200ms;
+    margin-top: -0.2vw;
+}
+
+.characterstatvalue{
+    font-size: 1.7vw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.9);
+    transition: 200ms;
+    margin-top: -0.3vw;
+}
+
+.charactersavecolumn{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.charactersaverow{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.charactersavebutton{
+    font-size: 1.8vw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.9);
+    background-image: url("../image/Character_Button_Round.png");
+    background-size: 100% 100%;
+    opacity: 0.75;
+    margin-top: 0.9vw;
+    transition: 200ms;
+    width: 14.1vw;
+    height: 3.7vw;
+    padding-top:0.8vw;
+
+}
+
+.charactersavebutton:hover{
+    opacity: 0.9;
+    transition: 200ms;
+}

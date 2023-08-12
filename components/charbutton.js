@@ -1,4 +1,4 @@
-import UIcomp from '../styles/ui_components.module.css'
+import UIcomp from '../styles/story.module.css'
 
 export default function CharacterButton({char}) {
     return <div className={`${UIcomp.characterbutton}`}> 
