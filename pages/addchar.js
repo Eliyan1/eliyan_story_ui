@@ -33,6 +33,32 @@ export default function AddChar() {
             return;
         }
 
+        if (charName.length>12 ) {
+            alert("Character name cannot be longer than 12 characters")
+            return;
+        }
+
+        if (charHP>999 || charHP<1 ) {
+            alert("HP cannot be higher than 999 or lower than 1")
+            return;
+        }
+
+        if (charAC>50 || charHP<1 ) {
+            alert("AC cannot be higher than 50 or lower than 1")
+            return;
+        }
+
+        if (charStr>50 || charStr<1 ||
+            charDex>50 || charDex<1 ||
+            charCon>50 || charCon<1 ||
+            charInt>50 || charInt<1 ||
+            charWis>50 || charWis<1 ||
+            charCha>50 || charCha<1
+            ) {
+            alert("Character stats cannot be higher than 50 or lower than 1")
+            return;
+        }
+
         
         const res = await fetch('/api/characters/create',{
             method: 'POST',
