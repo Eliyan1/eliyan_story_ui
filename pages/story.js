@@ -11,6 +11,7 @@ import Character from "@/models/character";
 
 	
 export default function Story({characters})  {
+
 	return <>
 		<div className={`${Flexstyle.container}`}>
       		<div className={`${Flexstyle.storybox}`}>
@@ -33,7 +34,8 @@ export default function Story({characters})  {
 						con:characters.con,
 						intel:characters.intel,
 						wis: characters.wis,
-						cha: characters.cha
+						cha: characters.cha,
+						id: characters._id
 					}}/>
 					))}
 				</div>
@@ -44,7 +46,7 @@ export default function Story({characters})  {
         					<div className={`${StoryStyle.charactersavebutton}`}>Roll Initiative</div>
       					</div>
 						<div className={`${StoryStyle.charactersaverow}`}>
-							<Link href={"/editchar"} className={`${StoryStyle.charactersavebutton}`}>Edit Characters</Link>
+							<Link href={"/editchar"} className={`${StoryStyle.charactersavebutton}`}>Save Group</Link>
 							<div className={`${StoryStyle.charactersavebutton}`}>Load Characters</div>
 						</div>
 					</div>			
@@ -64,7 +66,7 @@ export const getServerSideProps = async () => {
 	 * @param {import("next").NextApiResponse} res 
 	 */
 	await connectMongoDB();
-	const characters = await Character.find();
+	const characters = await Character.find({"active":"true"});
 	
 	return{
 		props: {

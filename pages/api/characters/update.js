@@ -7,8 +7,21 @@ import Character from "@/models/character";
  */
 
 export default async function PUT(req,res) {
-    const { newName: name, newHP: hp } = req.body;
+    const { 
+        name: name, 
+        hp: hp,
+        ac: ac,
+        str: str,
+        dex: dex,
+        con: con,
+        wis: wis,
+        intel: intel,
+        cha: cha,
+        active: active     
+    } = req.body;
     await connectMongoDB();
-    await Character.findByIdAndUpdate(req.query.id, {name, hp});
+    console.log(req.query.id)
+    console.log(req.body)
+    await Character.findByIdAndUpdate(req.query.id, {name, hp, ac, str, dex, con, wis, intel, cha, active});
     res.status(200).json({message:"Character Updated"});
 }

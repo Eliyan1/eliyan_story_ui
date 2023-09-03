@@ -1,7 +1,31 @@
+import { useState } from 'react'
 import UIcomp from '../styles/story.module.css'
+import CharContextMenu from './charcontextmenu'
+
+
 
 export default function CharacterButton({char}) {
-    return <div className={`${UIcomp.characterbutton}`}> 
+  
+  const initialContextMenu = {
+    show: false,
+    x: 0,
+    y: 0
+  }
+
+  const [contextMenu, setContextMenu] = useState(initialContextMenu)
+  
+  const rightClick = (e) => {
+    e.preventDefault()
+
+    const {pageX, pageY} = e
+    setContextMenu({show: true, x: pageX, y: pageY})
+  }
+
+  const closeContextMenu = () => setContextMenu(initialContextMenu);
+
+
+  return <div>
+    <button className={`${UIcomp.characterbutton}`} onContextMenu={rightClick}>  
       <div className={`${UIcomp.characterbuttoncolumn}`}> 
       <div className={`${UIcomp.characterbuttonrow}`}>
           <div className={`${UIcomp.charactername}`}> {char.name} </div>
@@ -42,5 +66,7 @@ export default function CharacterButton({char}) {
           </div>
         </div>
       </div>
+    </button>
+    {contextMenu.show && <CharContextMenu x={contextMenu.x} y={contextMenu.y} closeContextMenu={closeContextMenu} charid={char.id}/>}
     </div>
   }

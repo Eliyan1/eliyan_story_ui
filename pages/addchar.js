@@ -15,10 +15,9 @@ export default function AddChar() {
     const router = useRouter();
 
 
-    const creatorChar = async (e) => {
+    const createChar = async (e) => {
         e.preventDefault();
-        console.log("You pressed a button");
-
+        
         if (charName=="" || 
         isNaN(parseFloat(charHP)) ||
         isNaN(parseFloat(charAC)) ||
@@ -68,6 +67,8 @@ export default function AddChar() {
             body: JSON.stringify({
                 name:   charName,
                 hp:     charHP,
+                curhp:  charHP,
+                temphp: 0,
                 ac:     charAC,
                 str:    charStr,
                 dex:    charDex,
@@ -75,6 +76,7 @@ export default function AddChar() {
                 intel:  charInt,
                 wis:    charWis,
                 cha:    charCha,
+                active: true
             }),
         });
 
@@ -99,6 +101,6 @@ export default function AddChar() {
         <input type="number" placeholder="Int" onChange={(e) => setInt(e.target.value)}/>
         <input type="number" placeholder="Wis" onChange={(e) => setWis(e.target.value)}/>
         <input type="number" placeholder="Cha" onChange={(e) => setCha(e.target.value)}/>
-        <button onClick={creatorChar}>Add Character</button>
+        <button onClick={createChar}>Add Character</button>
     </form>
 }

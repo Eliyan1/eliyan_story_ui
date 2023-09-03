@@ -4,13 +4,16 @@ const characterSchema = new Schema(
     {
         name: String,
         hp: Number,
+        curhp: Number,
+        temphp: Number,
         ac: Number,
         str: Number,
         dex: Number,
         con: Number,
         intel: Number,
         wis: Number,
-        cha: Number 
+        cha: Number,
+        active: Boolean 
     }
 );
 

@@ -35,7 +35,19 @@
 
 .characterbox{
     height: 39vw;
+    overflow-y: scroll;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.characterbox::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .characterbox {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 
 .audiobox{
     display: flex;
@@ -97,3 +109,4 @@
     width: 100%;
     
 }
+

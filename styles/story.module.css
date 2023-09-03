@@ -61,11 +61,12 @@
 /* Design of Character Buttons */
 
 .characterbutton{
+    all: unset;
     display: flex;
     justify-content:space-around;
     background-image: url("../image/Character_Button_Flat.png");
     background-size: 100% 100%;
-    margin-top: 1vw;
+    margin-top: 0.6vw;
     padding-top: 0.2vw;
     opacity: 0.75;
     height: 7vw;

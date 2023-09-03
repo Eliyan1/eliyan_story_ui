@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@uidotdev/usehooks": "^2.1.1",
     "mongoose": "^7.4.5",
     "next": "13.4.12",
     "react": "18.2.0",

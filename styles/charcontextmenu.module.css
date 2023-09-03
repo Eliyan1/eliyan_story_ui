@@ -1,0 +1,32 @@
+.contextmenu{
+    position: absolute;
+    transition: 200ms;
+    z-index: 1;
+    background-image: linear-gradient(to bottom right, #7D8897, #505864);
+    border: solid #8A94A2;
+    border-radius: 1vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contextmenuitem{
+    all:unset;
+    color: #B1B5C7; /*same as character button text (R:219, G:221, B:229)*/
+    font-size: 1.2vw;
+    padding: 0.3vw;
+    border-radius: 1vw;
+    transition: 200ms;
+    width:9.5vw
+}
+
+.contextmenuitem:hover{
+    background-color: rgba(219, 221, 229, 0.1);
+    transition: 200ms;
+}
+
+.contextmenuline{
+    height: 0;
+    border-bottom: 0.1vw solid #8A94A2;
+    width: 8.5vw;
+}
