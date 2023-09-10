@@ -26,10 +26,10 @@ export default function CharacterButton({char, charMenu}) {
 
 
   return <div>
-    <button className={`${UIcomp.characterbutton}`} onClick={(e)=>charMenu(e, characterName, setCharacterName)} onContextMenu={rightClick}>  
+    <button className={`${UIcomp.characterbutton}`} onClick={(e)=>charMenu(e, char.name, setCharacterName)} onContextMenu={rightClick}>  
       <div className={`${UIcomp.characterbuttoncolumn}`}> 
       <div className={`${UIcomp.characterbuttonrow}`}>
-          <div className={`${UIcomp.charactername}`}> {characterName} </div>
+          <div className={`${UIcomp.charactername}`}> {char.name} </div>
           <div className={`${UIcomp.characterhealthwrap}`}>
             <div className={`${UIcomp.characterhealth}`}> {char.hp} </div>
             <div className={`${UIcomp.characterhealthlabel}`}> HP </div>

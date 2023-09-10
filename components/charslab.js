@@ -2,13 +2,18 @@ import UIcomp from '../styles/story.module.css'
 import CharNotes from './charnotes'
 import { useState } from "react";
 
-export default function CharSlab() {
+export default function CharSlab(changeName) {
 
     const [charName, setName] = useState("Character Name");
 
+    const allNameChange = (e) => {
+		setName(e.target.value);
+		changeName(e);
+	}
+
     return {setName, charName,
         charPanel:(<div spellCheck="false" className={`${UIcomp.charslab}`}>
-        <input type="text" value={`${charName}`} className={`${UIcomp.charname}`} onChange={(e) => setName(e.target.value)}/>
+        <input type="text" value={`${charName}`} className={`${UIcomp.charname}`} onChange={(e) => allNameChange(e)}/>
         <div className={`${UIcomp.charslabhprow}`}>
             <div className={`${UIcomp.charslabstatwrap}`}>
                 <div className={`${UIcomp.charslabacvalue}`}>AC:</div>

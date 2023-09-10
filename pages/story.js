@@ -1,4 +1,3 @@
-import React, { useRef } from'react';
 import Flexstyle from '../styles/flexbox.module.css'
 import StoryStyle from '../styles/story.module.css'
 import CharButton from '../components/charbutton'
@@ -17,16 +16,14 @@ export default function Story({characters})  {
 	const {storyPanel, storyTitle, setTitle} = StorySlab()
 
 	const changeName = (e) => {
-		setName(e.target.value);
+		characters[0].name = e.target.value;
 	}
 
-	const {charPanel, charName, setName} = CharSlab(changeName)
+	const {charPanel, setName} = CharSlab(changeName)
 	
-	const switchToChar = async (e, char, setCharacterName) => {
+	const switchToChar = async (e, char) => {
 	e.preventDefault();
 	setName(char)
-	characters[0].name = "Test"
-	console.log(characters[0]._id)
 	setStorySlab(2);
 	}
 
