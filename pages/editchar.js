@@ -3,18 +3,18 @@ import { useRouter } from "next/router";
 import connectMongoDB from "@/libs/mongodb";
 import Character from "@/models/character";
 
-export default  function EditChar(character) {
+export default  function EditChar({character}) {
 
-    const [charName, setName] = useState(character.character.name);
-    const [charHP, setHP] = useState(character.character.hp);
-    const [charAC, setAC] = useState(character.character.ac);
-    const [charStr, setStr] = useState(character.character.str);
-    const [charDex, setDex] = useState(character.character.dex);
-    const [charCon, setCon] = useState(character.character.con);
-    const [charInt, setInt] = useState(character.character.intel);
-    const [charWis, setWis] = useState(character.character.wis);
-    const [charCha, setCha] = useState(character.character.cha);
-    const charID = character.character._id;
+    const [charName, setName] = useState(character.name);
+    const [charHP, setHP] = useState(character.hp);
+    const [charAC, setAC] = useState(character.ac);
+    const [charStr, setStr] = useState(character.str);
+    const [charDex, setDex] = useState(character.dex);
+    const [charCon, setCon] = useState(character.con);
+    const [charInt, setInt] = useState(character.intel);
+    const [charWis, setWis] = useState(character.wis);
+    const [charCha, setCha] = useState(character.cha);
+    const charID = character._id;
 
     const router = useRouter();
 

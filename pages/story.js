@@ -1,27 +1,45 @@
-import React from'react';
+import React, { useRef } from'react';
 import Flexstyle from '../styles/flexbox.module.css'
 import StoryStyle from '../styles/story.module.css'
 import CharButton from '../components/charbutton'
-import StoryContent from '../components/storycontent'
+import StorySlab from '../components/storyslab'
 import Footer from '../components/footer'
 import Link from 'next/link';
 import connectMongoDB from "@/libs/mongodb";
 import Character from "@/models/character";
-
-
+import { useState } from 'react'
+import CharSlab from '@/components/charslab';
 	
 export default function Story({characters})  {
 
+	const [storySlab, setStorySlab] = useState(1)
+
+	const [activeCharName, setActiveCharName] = useState("Character Name")
+
+	const {storyPanel, storyTitle, setTitle} = StorySlab()
+
+	const {charPanel, setName} = CharSlab()
+	
+	const switchToChar = async (e, char) => {
+	e.preventDefault();
+	setActiveCharName(char.name)
+	setName(char.name)
+	console.log(char.name)
+	setStorySlab(2);
+	}
+
+	const switchToStory = (e) => {
+	e.preventDefault()
+	setStorySlab(1)
+	}
+
 	return <>
 		<div className={`${Flexstyle.container}`}>
-      		<div className={`${Flexstyle.storybox}`}>
-				<StoryContent/>
-
-				<div className={`${Flexstyle.storysaveload}`}>
-					<div className={`${StoryStyle.storysave}`}>Save</div>
-					<div className={`${StoryStyle.storyload}`}>Load</div>
-				</div>
-			</div>
+			<div className={`${Flexstyle.storybox}`}>
+				{storySlab == 1 && <>{storyPanel}</>}
+				{storySlab == 2 && <>{charPanel}</>}
+	  		</div>
+			
 			<div className={`${Flexstyle.characterwrap}`}>
 				<div className={`${Flexstyle.characterbox}`}>
 					{characters.map(characters => (
@@ -36,7 +54,9 @@ export default function Story({characters})  {
 						wis: characters.wis,
 						cha: characters.cha,
 						id: characters._id
-					}}/>
+					}} 
+					charMenu={switchToChar}
+					/>
 					))}
 				</div>
 				<div> 
@@ -47,7 +67,7 @@ export default function Story({characters})  {
       					</div>
 						<div className={`${StoryStyle.charactersaverow}`}>
 							<Link href={"/editchar"} className={`${StoryStyle.charactersavebutton}`}>Save Group</Link>
-							<div className={`${StoryStyle.charactersavebutton}`}>Load Characters</div>
+							<div onClick={switchToStory} className={`${StoryStyle.charactersavebutton}`}>Load Characters</div>
 						</div>
 					</div>			
 				</div>

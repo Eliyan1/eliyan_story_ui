@@ -4,7 +4,7 @@ import CharContextMenu from './charcontextmenu'
 
 
 
-export default function CharacterButton({char}) {
+export default function CharacterButton({char, charMenu}) {
   
   const initialContextMenu = {
     show: false,
@@ -16,7 +16,6 @@ export default function CharacterButton({char}) {
   
   const rightClick = (e) => {
     e.preventDefault()
-
     const {pageX, pageY} = e
     setContextMenu({show: true, x: pageX, y: pageY})
   }
@@ -25,7 +24,7 @@ export default function CharacterButton({char}) {
 
 
   return <div>
-    <button className={`${UIcomp.characterbutton}`} onContextMenu={rightClick}>  
+    <button className={`${UIcomp.characterbutton}`} onClick={(e)=>charMenu(e, char)} onContextMenu={rightClick}>  
       <div className={`${UIcomp.characterbuttoncolumn}`}> 
       <div className={`${UIcomp.characterbuttonrow}`}>
           <div className={`${UIcomp.charactername}`}> {char.name} </div>

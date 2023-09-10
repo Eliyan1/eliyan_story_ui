@@ -1,13 +1,25 @@
 /* Design of Story Slab */
 
+.storyslab{
+    background-image: url("../image/Stone_Story_Frame.png");
+    background-size: 100% 100%;
+    height: 52vw;
+    width: 100%;
+}
+
 .storytitle{
+    all: unset;
     position: relative;
-    top: 3vw;
-    left: 8vw;
+    top: 0.95vw;
     width: 52vw;
-    font-size: 1.8vw;
+    font-size: 1.6vw;
+    height: 1.7vw;
     text-align: center;
     color: rgba(219, 221, 229, 0.5);
+}
+
+.storytitle:focus{
+    outline: none;
 }
 
 .storytablettitle{
@@ -56,6 +68,87 @@
 .storyload:hover{
     color: rgba(219, 221, 229, 0.75);
     transition: 200ms;
+}
+
+/* Design of Character Slab */
+
+.charslab{
+    background-image: url("../image/Stone_Story_Frame.png");
+    background-size: 100% 100%;
+    height: 45vw;
+    width: 100%;
+}
+
+.charname{
+    all: unset;
+    position: relative;
+    top: 0.4vw;
+    width: 45vw;
+    font-size: 1.5vw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.5);
+}
+
+.charslabhprow{
+    display: flex;
+    position: relative;
+    left: 7vw;
+    top: 0.5vw;
+    flex-direction: row;
+    width: 52vw;
+    align-items: flex-end;
+    justify-content:space-between;
+}
+
+.charslabstatrow{
+    display: flex;
+    position: relative;
+    left: 7vw;
+    top: 1vw;
+    flex-direction: row;
+    width: 52vw;
+    align-items: flex-end;
+    justify-content:space-between;
+}
+
+.charslabstatwrap{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex: 1;
+    width: 5vw;
+}
+
+.charslabacvalue{
+    font-size: 2.2vw;
+    text-align: center;
+    margin-left: 0.5vw;
+    color: rgba(219, 221, 229, 0.3);
+    transition: 200ms;
+}
+
+.charslabhpvalue{
+    font-size: 3.2vw;
+    text-align: center;
+    margin-left: 0.5vw;
+    color: rgba(219, 221, 229, 0.3);
+    transition: 200ms;
+}
+
+.charslabstatvalue{
+    font-size: 1.9vw;
+    text-align: center;
+    margin-left: 0.5vw;
+    color: rgba(219, 221, 229, 0.3);
+    transition: 200ms;
+}
+
+.charslabline{
+    height: 0;
+    border-bottom: 0.2vw solid rgba(219, 221, 229, 0.3);
+    width: 15vw;
+    margin-left: 25.5vw;
+    margin-top: 2vw;
 }
 
 /* Design of Character Buttons */

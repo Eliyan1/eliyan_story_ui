@@ -2,7 +2,7 @@ import { useClickAway } from "@uidotdev/usehooks"
 import CM from '../styles/charcontextmenu.module.css'
 import useRouter from "next/router";
 
-export default function CharContextMenu({x, y, closeContextMenu, charid }) {
+export default function CharContextMenu({x, y, closeContextMenu, charid}) {
     
     const ref = useClickAway(() => {closeContextMenu()});
     
@@ -31,7 +31,7 @@ export default function CharContextMenu({x, y, closeContextMenu, charid }) {
     return ( 
         <div 
         ref={ref} 
-        onClick={() =>closeContextMenu()} 
+        onClick={() => {closeContextMenu(); console.log(closeContextMenu)}} 
         className={`${CM.contextmenu}`} 
         style={{top: `${y}px`, left: `${x}px`}}>
             <button className={`${CM.contextmenuitem}`} onClick={() => {useRouter.push('/editchar?_id='+`${charid}`)}}> Edit Character</button>

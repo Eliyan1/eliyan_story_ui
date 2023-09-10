@@ -18,14 +18,12 @@
 .storybox{
     flex: 7;
     height: 52vw;
-    background-image: url("../image/Stone_Story_Frame.png");
-    background-size: 100% 100%;
 }
 
 .storysaveload{
     display: flex;
     position: relative;
-    top: 15.4vw;
+    top: 0.5vw;
 }
 
 .characterwrap{
