@@ -14,19 +14,23 @@ export default function Story({characters})  {
 
 	const [storySlab, setStorySlab] = useState(1)
 
-	const [activeCharName, setActiveCharName] = useState("Character Name")
-
 	const {storyPanel, storyTitle, setTitle} = StorySlab()
 
-	const {charPanel, setName} = CharSlab()
+	const changeName = (e) => {
+		setName(e.target.value);
+	}
+
+	const {charPanel, charName, setName} = CharSlab(changeName)
 	
-	const switchToChar = async (e, char) => {
+	const switchToChar = async (e, char, setCharacterName) => {
 	e.preventDefault();
-	setActiveCharName(char.name)
-	setName(char.name)
-	console.log(char.name)
+	setName(char)
+	characters[0].name = "Test"
+	console.log(characters[0]._id)
 	setStorySlab(2);
 	}
+
+
 
 	const switchToStory = (e) => {
 	e.preventDefault()

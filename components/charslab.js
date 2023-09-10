@@ -6,7 +6,7 @@ export default function CharSlab() {
 
     const [charName, setName] = useState("Character Name");
 
-    return {setName,
+    return {setName, charName,
         charPanel:(<div spellCheck="false" className={`${UIcomp.charslab}`}>
         <input type="text" value={`${charName}`} className={`${UIcomp.charname}`} onChange={(e) => setName(e.target.value)}/>
         <div className={`${UIcomp.charslabhprow}`}>
