@@ -2,14 +2,12 @@ import { useClickAway } from "@uidotdev/usehooks"
 import CM from '../styles/charcontextmenu.module.css'
 import useRouter from "next/router";
 
-export default function CharContextMenu({x, y, closeContextMenu, charid}) {
+export default function CharContextMenu({x, y, closeContextMenu, charid, removeActiveChar}) {
     
     const ref = useClickAway(() => {closeContextMenu()});
     
     const removeChar = async (e) => {
         e.preventDefault();
-        
-        console.log(charid)
         
         const res = await fetch(`/api/characters/update?id=${charid}`,{
             method: 'PUT',
@@ -21,8 +19,10 @@ export default function CharContextMenu({x, y, closeContextMenu, charid}) {
             }),
         });
 
+        console.log(removeActiveChar)
+        removeActiveChar(charid)
+
         if (res.ok) {
-            useRouter.push('/story');
         }else{
             throw new Error("Failed to edit the Character")
         }

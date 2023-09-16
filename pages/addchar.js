@@ -67,7 +67,7 @@ export default function AddChar() {
             body: JSON.stringify({
                 name:   charName,
                 hp:     charHP,
-                curhp:  charHP,
+                maxhp:  charHP,
                 temphp: 0,
                 ac:     charAC,
                 str:    charStr,

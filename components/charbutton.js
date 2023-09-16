@@ -4,7 +4,7 @@ import CharContextMenu from './charcontextmenu'
 
 
 
-export default function CharacterButton({char, charMenu}) {
+export default function CharacterButton({char, charMenu, removeActiveChar}) {
   
   const initialContextMenu = {
     show: false,
@@ -22,16 +22,14 @@ export default function CharacterButton({char, charMenu}) {
 
   const closeContextMenu = () => setContextMenu(initialContextMenu);
 
-  const [characterName, setCharacterName] = useState(char.name)
-
 
   return <div>
-    <button className={`${UIcomp.characterbutton}`} onClick={(e)=>charMenu(e, char.name, setCharacterName)} onContextMenu={rightClick}>  
+    <button className={`${UIcomp.characterbutton}`} onClick={(e)=>charMenu(e, char)} onContextMenu={rightClick}>  
       <div className={`${UIcomp.characterbuttoncolumn}`}> 
       <div className={`${UIcomp.characterbuttonrow}`}>
           <div className={`${UIcomp.charactername}`}> {char.name} </div>
           <div className={`${UIcomp.characterhealthwrap}`}>
-            <div className={`${UIcomp.characterhealth}`}> {char.hp} </div>
+            <div className={`${UIcomp.characterhealth}`}> {char.hp + char.temphp} </div>
             <div className={`${UIcomp.characterhealthlabel}`}> HP </div>
           </div>
           <div className={`${UIcomp.characterhealthwrap}`}>
@@ -68,6 +66,6 @@ export default function CharacterButton({char, charMenu}) {
         </div>
       </div>
     </button>
-    {contextMenu.show && <CharContextMenu x={contextMenu.x} y={contextMenu.y} closeContextMenu={closeContextMenu} charid={char.id}/>}
+    {contextMenu.show && <CharContextMenu x={contextMenu.x} y={contextMenu.y} closeContextMenu={closeContextMenu} charid={char._id} removeActiveChar={removeActiveChar}/>}
     </div>
   }

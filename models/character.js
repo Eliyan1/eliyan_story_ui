@@ -4,7 +4,7 @@ const characterSchema = new Schema(
     {
         name: String,
         hp: Number,
-        curhp: Number,
+        maxhp: Number,
         temphp: Number,
         ac: Number,
         str: Number,
