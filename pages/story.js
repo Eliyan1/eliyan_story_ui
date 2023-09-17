@@ -59,8 +59,8 @@ export default function Story({characters, stories})  {
 	console.log(activeChar)
 	}
 
-	return <>
-		<div className={`${Flexstyle.container}`}>
+	return <div className={`${Flexstyle.aspectwrapper}`}>
+		<div className={`${Flexstyle.maincontent}`}>
 			<div className={`${Flexstyle.storybox}`}>
 				{storySlab == 1 && 
 				<StorySlab 
@@ -115,7 +115,7 @@ export default function Story({characters, stories})  {
 		</div>
 		
 		<Footer/>
-	</>
+	</div>
 }
 
 export const getServerSideProps = async () => {

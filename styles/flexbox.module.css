@@ -1,29 +1,56 @@
 /* Alignment of Flexboxes */
 
+.aspectwrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 177vh;
+    aspect-ratio: 16/9;
+    margin: auto;
+    container-type: size;
+}
+
 .container {
     display: flex;
     text-align: center;
     margin-left: 1%;
     margin-right: 2%;
     justify-content: space-between;
-    
+}
+
+.maincontent {
+    display: flex;
+    text-align: center;
+    margin-left: 1%;
+    margin-right: 2%;
+    justify-content: space-between;
+    height:93%;    
+}
+
+.footer {
+    display: flex;
+    text-align: center;
+    margin-left: 1%;
+    margin-right: 2%;
+    justify-content: space-between;
+    height: 7%;  
 }
 
 .footeritem{
     width: stretch;
-    font-size: 2.5vw;
+    font-size: 4cqw;
     color: #484E63;
 }
 
 .storybox{
     flex: 7;
-    height: 52vw;
+    height: 100%;
 }
 
 .storysaveload{
     display: flex;
     position: relative;
-    top: 0.5vw;
+    margin-top: 0.3cqw;
 }
 
 .characterwrap{
@@ -32,7 +59,7 @@
 }
 
 .characterbox{
-    height: 39vw;
+    height: 78.5%;
     overflow-y: scroll;
 }
 

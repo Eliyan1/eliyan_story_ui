@@ -43,7 +43,7 @@ export default function StoryLoad({stories, setActiveStoryContent, setActiveStor
   }
 
   return <div spellCheck="false" className={`${UIcomp.storyslab}`}>
-        <div type="text" className={`${UIcomp.storytitle}`}>Select your Story</div>
+        <div type="text" className={`${UIcomp.loadtitle}`}>Select your Story</div>
         {stories.map(stories => (
         <div className={`${UIcomp.charoption}`} key={stories._id} onClick={(e)=>(loadStory({e, stories}))}> - {stories.title}</div>
         ))}

@@ -59,6 +59,11 @@ export default function CharSlab(characters) {
         characters[activeIndex].maxhp=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
 	}
 
+    const strUpdate = (e) => {
+        setStr(e.target.value);
+        characters[activeIndex].str=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+	}
+
     const dexUpdate = (e) => {
         setDex(e.target.value);
         characters[activeIndex].dex=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;

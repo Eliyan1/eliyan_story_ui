@@ -3,17 +3,25 @@
 .storyslab{
     background-image: url("../image/Stone_Story_Frame.png");
     background-size: 100% 100%;
-    height: 52vw;
+    height: 100%;
     width: 100%;
 }
 
 .storytitle{
     all: unset;
     position: relative;
-    top: 0.95vw;
-    width: 52vw;
-    font-size: 1.6vw;
-    height: 1.7vw;
+    margin-top: 5cqh;
+    font-size: 1.7cqw;
+    height: 4%;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.5);
+}
+
+.loadtitle{
+    position: relative;
+    padding-top: 5.2cqh;
+    font-size: 1.7cqw;
+    height: 4.2%;
     text-align: center;
     color: rgba(219, 221, 229, 0.5);
 }
@@ -22,34 +30,11 @@
     outline: none;
 }
 
-.storytablettitle{
-    position: relative;
-    top: 4vw;
-    left: 7vw;
-    width: 52vw;
-    font-size: 1.5vw;
-    text-align: center;
-    color: rgba(219, 221, 229, 0.3);
-    text-decoration: underline;
-    font-weight: 600;
-}
-
-.storytablet{
-    position: relative;
-    top: 4vw;
-    left: 7vw;
-    width: 52vw;
-    font-size: 1.5vw;
-    text-align: justify;
-    color: rgba(219, 221, 229, 0.3);
-}
-
 .storysave{
-    font-size: 1.8vw;
+    font-size: 1.9cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.45);
-    margin-left: 19vw;
-    transition: 200ms;
+    margin-left: 29%;
 }
 
 .storysave:hover{
@@ -58,11 +43,10 @@
 }
 
 .storyload{
-    font-size: 1.8vw;
+    font-size: 1.9cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.45);
-    margin-left: 21vw;
-    transition: 200ms;
+    margin-left: 29%;
 }
 
 .storyload:hover{
@@ -75,16 +59,15 @@
 .charslab{
     background-image: url("../image/Stone_Story_Frame.png");
     background-size: 100% 100%;
-    height: 45vw;
+    height: 87%;
     width: 100%;
 }
 
 .charname{
     all: unset;
     position: relative;
-    top: 0.4vw;
-    width: 45vw;
-    font-size: 1.5vw;
+    top: 1%;
+    font-size: 1.6cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.5);
 }
@@ -92,10 +75,10 @@
 .charslabhprow{
     display: flex;
     position: relative;
-    left: 9vw;
-    top: 0.7vw;
+    left: 13.5%;
+    top: 1.8%;
     flex-direction: row;
-    width: 48vw;
+    width: 72%;
     align-items: flex-end;
     justify-content:space-between;
 }
@@ -103,10 +86,10 @@
 .charslabstatrow{
     display: flex;
     position: relative;
-    left: 7vw;
-    top: 1.2vw;
+    left: 10.5%;
+    top: 2.5%;
     flex-direction: row;
-    width: 52vw;
+    width: 77%;
     align-items: flex-end;
     justify-content:space-between;
 }
@@ -116,15 +99,12 @@
     flex-direction: row;
     justify-content: center;
     flex: 1;
-    width: 5vw;
 }
 
 .charslabac{
-    font-size: 2.2vw;
+    font-size: 2.3cqw;
     text-align: center;
-    margin-left: 0.5vw;
     color: rgba(219, 221, 229, 0.3);
-    transition: 200ms;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -141,12 +121,11 @@
 
 .charslabacvalue{
     all: unset;
-    width: 3.5vw;
-    font-size: 2.2vw;
+    width: 14%;
+    font-size: 2.3cqw;
     text-align: left;
-    margin-left: 0.5vw;
+    margin-left: 0.5%;
     color: rgba(219, 221, 229, 0.3);
-    transition: 200ms;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -163,11 +142,10 @@
 
 .charslabhpvalue{
     all:unset;
-    font-size: 3.2vw;
-    margin-left: 0.2vw;
+    font-size: 3.2cqw;
     color: rgba(219, 221, 229, 0.3);
-    transition: 200ms;
-    width:4.5vw;
+    margin-left: 2%;
+    width:32%;
     text-align: right;
 }
 
@@ -185,19 +163,16 @@
 
 .charslabmaxhpvalue{
     all:unset;
-    font-size: 3.2vw;
+    font-size: 3.2cqw;
     color: rgba(219, 221, 229, 0.3);
-    transition: 200ms;
-    width: 4.5vw;
+    width: 32%;
     text-align: left;
 }
 
 .charslabhp{
-    font-size: 3.2vw;
+    font-size: 3.2cqw;
     text-align: center;
-    margin-left: 0.2vw;
     color: rgba(219, 221, 229, 0.3);
-    transition: 200ms;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -214,44 +189,44 @@
 
 .charslabstatvalue{
     all:unset;
-    width: 1.8vw;
-    font-size: 1.9vw;
+    width: 22%;
+    font-size: 2cqw;
     text-align: left;
-    margin-left: 0.5vw;
+    margin-left: 4%;
     color: rgba(219, 221, 229, 0.3);
-    transition: 200ms;
 }
 
 .charslabstat{
-    font-size: 1.9vw;
+    font-size: 2cqw;
     text-align: center;
-    margin-left: 0.5vw;
     color: rgba(219, 221, 229, 0.3);
-    transition: 200ms;
 }
 
 .charslabline{
     height: 0;
-    border-bottom: 0.2vw solid rgba(219, 221, 229, 0.3);
-    width: 15vw;
-    margin-left: 25.5vw;
-    margin-top: 2.3vw;
+    border-bottom: 0.7px solid rgba(219, 221, 229, 0.3);
+    width: 30%;
+    margin-left: 35%;
+    margin-top: 3%;
 }
 
 .charoption{
     position: relative;
-    top: 1.5vw;
-    left: 7vw;
-    width: 52vw;
-    font-size: 2vw;
-    padding-left: 6vw;
+    top: 3.8cqh;
+    left: 9.3%;
+    width: 80%;
+    font-size: 2cqw;
+    padding-left: 11%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
     text-align: justify;
-    margin-top: 0.5vw;
     color: rgba(219, 221, 229, 0.3);
 }
 
 .charoption:hover{
     color: rgba(219, 221, 229, 0.5);
+    background-color: rgba(219, 221, 229, 0.1);
+    transition: 200ms;
 }
 
 /* Design of Character Buttons */
@@ -262,11 +237,11 @@
     justify-content:space-around;
     background-image: url("../image/Character_Button_Flat.png");
     background-size: 100% 100%;
-    margin-top: 0.6vw;
-    padding-top: 0.2vw;
+    margin-top: 2.2%;
+    padding-top: 1%;
     opacity: 0.75;
-    height: 7vw;
-    transition: 200ms;
+    width: 100%;
+    aspect-ratio: 4/1;
 }
 
 .characterbutton:hover{
@@ -274,38 +249,38 @@
     transition: 200ms;
 }
 
-
 .characterbuttoncolumn{
     display: flex;
     flex-direction: column;
+    width: 98%;
 }
 
 .characterbuttonrow{
     display: flex;
     flex-direction: row;
-    width: 28.8vw;
     align-items: flex-start;
+    padding-left: 2%;
 }
 
 .charactername{
-    flex:3;
-    font-size: 2.8vw;
+    flex: 3.2;
+    font-size: 3cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.9);
 }
 
 .characterhealth{
-    font-size: 2.5vw;
-    margin-top: 0.4vw;
+    font-size: 2.6cqw;
+    margin-top: 10%;
     text-align: center;
     color: rgba(219, 221, 229, 0.9);
 }
 
 .characterhealthlabel{
-    font-size: 0.85vw;
+    font-size: 0.9cqw;
     text-align: center;
-    margin-top: 0.65vw;
-    margin-left: 0.2vw;
+    margin-top: 13%;
+    margin-left: 4%;
     color: rgba(219, 221, 229, 0.9);
 }
 
@@ -313,6 +288,7 @@
     display: flex;
     flex-direction: row;
     flex: 1;
+    margin-left: 1%;
 }
 
 .characterstatwrap{
@@ -322,19 +298,17 @@
 }
 
 .characterstatlabel{
-    font-size: 1.2vw;
+    font-size: 1.3cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.9);
-    transition: 200ms;
-    margin-top: -0.2vw;
+    margin-top: -0.3cqw;
 }
 
 .characterstatvalue{
-    font-size: 1.7vw;
+    font-size: 1.7cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.9);
-    transition: 200ms;
-    margin-top: -0.3vw;
+    margin-top: -0.3cqw;
 }
 
 .charactersavecolumn{
@@ -350,17 +324,16 @@
 }
 
 .charactersavebutton{
-    font-size: 1.8vw;
+    font-size: 1.8cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.9);
     background-image: url("../image/Character_Button_Round.png");
     background-size: 100% 100%;
     opacity: 0.75;
-    margin-top: 0.9vw;
-    transition: 200ms;
-    width: 14.1vw;
-    height: 3.7vw;
-    padding-top:0.8vw;
+    margin-top: 3.5%;
+    width: 49%;
+    aspect-ratio: 15/4;
+    padding-top:3%;
 
 }
 
