@@ -5,8 +5,14 @@ import { useState } from "react";
 export default function StorySlab({activeStoryTitle, activeStoryContent, setActiveStoryTitle, setStorySlab, checkStoryPresent, saveStory}) {
 
     return <div spellCheck="false" className={`${UIcomp.storyslab}`}>
-      <input type="text" value={`${activeStoryTitle}`} className={`${UIcomp.storytitle}`} onChange={(e) => setActiveStoryTitle(e.target.value)}
-      />
+      <div className={`${UIcomp.titlewrapper}`}>
+        <input 
+          type="text" 
+          value={`${activeStoryTitle}`} 
+          className={`${UIcomp.storytitle}`} 
+          onChange={(e) => setActiveStoryTitle(e.target.value)}
+        />
+      </div>
         <StoryEditor 
         activeStoryTitle={activeStoryTitle} 
         activeStoryContent={activeStoryContent} 

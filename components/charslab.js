@@ -138,14 +138,16 @@ export default function CharSlab(characters) {
 
     return {populateActiveCharacter,
         charPanel:(<div spellCheck="false" className={`${UIcomp.charslab}`}>
-        <input 
-            type="text"
-            maxLength={12} 
-            value={`${charName}`} 
-            className={`${UIcomp.charname}`} 
-            onChange={(e) => nameUpdate(e)}
-            onBlur={(e) => updateCharDatabase(e)}
-        />
+        <div className={`${UIcomp.namewrapper}`}> 
+            <input 
+                type="text"
+                maxLength={12} 
+                value={`${charName}`} 
+                className={`${UIcomp.charname}`} 
+                onChange={(e) => nameUpdate(e)}
+                onBlur={(e) => updateCharDatabase(e)}
+            />
+        </div>
         <div className={`${UIcomp.charslabhprow}`}>
             <div className={`${UIcomp.charslabstatwrap}`}>
                 <div className={`${UIcomp.charslabac}`}>AC:</div>

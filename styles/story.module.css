@@ -7,12 +7,20 @@
     width: 100%;
 }
 
+.titlewrapper{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    top: 3cqw;
+}
+
 .storytitle{
     all: unset;
+    font-family: 'Etrylian';
     position: relative;
-    margin-top: 5cqh;
     font-size: 1.7cqw;
-    height: 4%;
+    height: 1.9cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.5);
 }
@@ -63,10 +71,17 @@
     width: 100%;
 }
 
+.namewrapper{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    top: 2.45cqw;
+}
+
 .charname{
     all: unset;
     position: relative;
-    top: 1%;
     font-size: 1.6cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.5);
@@ -76,7 +91,7 @@
     display: flex;
     position: relative;
     left: 13.5%;
-    top: 1.8%;
+    top: 7.8%;
     flex-direction: row;
     width: 72%;
     align-items: flex-end;
@@ -87,7 +102,7 @@
     display: flex;
     position: relative;
     left: 10.5%;
-    top: 2.5%;
+    top: 8.5%;
     flex-direction: row;
     width: 77%;
     align-items: flex-end;
@@ -207,7 +222,7 @@
     border-bottom: 0.7px solid rgba(219, 221, 229, 0.3);
     width: 30%;
     margin-left: 35%;
-    margin-top: 3%;
+    margin-top: 7.2%;
 }
 
 .charoption{
