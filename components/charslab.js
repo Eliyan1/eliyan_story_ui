@@ -1,8 +1,9 @@
+import { Link } from 'react-router-dom';
 import UIcomp from '../styles/story.module.css'
 import CharNotes from './charnotes'
 import { useState } from "react";
 
-export default function CharSlab(characters) {
+export default function CharSlab(characters, setStorySlab) {
 
     const [activeIndex, setActiveIndex] = useState(0)
     const [charName, setName] = useState("Character Name");
@@ -137,7 +138,8 @@ export default function CharSlab(characters) {
 
 
     return {populateActiveCharacter,
-        charPanel:(<div spellCheck="false" className={`${UIcomp.charslab}`}>
+        charPanel:(<>
+        <div spellCheck="false" className={`${UIcomp.charslab}`}>
         <div className={`${UIcomp.namewrapper}`}> 
             <input 
                 type="text"
@@ -254,5 +256,13 @@ export default function CharSlab(characters) {
         <div className={`${UIcomp.charslabline}`}/>
         
         <CharNotes/>
-    </div>)
+    </div>
+
+    <div className={`${UIcomp.charslabbuttonwrapper}`}>
+        <div onClick={()=>{setStorySlab(2)}} className={`${UIcomp.charslabbutton}`}>Character Notes</div>
+        <div  className={`${UIcomp.charslabbutton}`}>External Info</div>
+        <div onClick={()=>{setStorySlab(1)}} className={`${UIcomp.charslabbutton}`}>Return to Story</div>
+    </div>
+
+    </>)
   }}

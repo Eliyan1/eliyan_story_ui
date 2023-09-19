@@ -19,7 +19,7 @@ export default function Story({characters, stories})  {
 	const [activeStoryContent, setActiveStoryContent] = useState("") 
 	const [activeStoryTitle, setActiveStoryTitle] = useState("Title of Adventure") 
 
-	const {charPanel, populateActiveCharacter} = CharSlab(characters)
+	const {charPanel, populateActiveCharacter} = CharSlab(characters, setStorySlab)
 
 	const [activeChar, setActiveChars] = useState(characters.filter((characters)=> characters.active == true))
 	
@@ -105,7 +105,7 @@ export default function Story({characters, stories})  {
         					<div onClick={()=>{setStorySlab(1)}} className={`${StoryStyle.charactersavebutton}`}>Roll Initiative</div>
       					</div>
 						<div className={`${StoryStyle.charactersaverow}`}>
-							<Link href={"/editchar"} className={`${StoryStyle.charactersavebutton}`}>Save Group</Link>
+							<div className={`${StoryStyle.charactersavebutton}`}>Save Group</div>
 							<div onClick={()=>{setStorySlab(3)}} className={`${StoryStyle.charactersavebutton}`}>Load Characters</div>
 						</div>
 					</div>			
