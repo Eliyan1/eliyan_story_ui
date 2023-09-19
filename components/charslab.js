@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import UIcomp from '../styles/story.module.css'
 import CharNotes from './charnotes'
 import { useState } from "react";
@@ -260,7 +259,7 @@ export default function CharSlab(characters, setStorySlab) {
 
     <div className={`${UIcomp.charslabbuttonwrapper}`}>
         <div onClick={()=>{setStorySlab(2)}} className={`${UIcomp.charslabbutton}`}>Character Notes</div>
-        <div  className={`${UIcomp.charslabbutton}`}>External Info</div>
+        <div className={`${UIcomp.charslabbutton}`}>External Info</div>
         <div onClick={()=>{setStorySlab(1)}} className={`${UIcomp.charslabbutton}`}>Return to Story</div>
     </div>
 
