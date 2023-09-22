@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function StorySlab({activeStoryTitle, activeStoryContent, setActiveStoryTitle, setStorySlab, checkStoryPresent, saveStory}) {
 
     return <div spellCheck="false" className={`${UIcomp.storyslab}`}>
+      <div className={`${UIcomp.frontslab}`}/>
       <div className={`${UIcomp.titlewrapper}`}>
         <input 
           type="text" 

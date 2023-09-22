@@ -28,12 +28,11 @@ export default function CharLoad({characters, setActiveChars}) {
 }
 
     return <div spellCheck="false" className={`${UIcomp.storyslab}`}>
-         <div type="text" className={`${UIcomp.loadtitle}`}>Select your Character</div>
-         {characters.map(characters => (
-					<div className={`${UIcomp.charoption}`} key={characters._id} onClick={(e) => {addChar({e, char:characters})}}> - {characters.name}</div>
-         ))}
-            
-
+      <div className={`${UIcomp.frontslab}`}/>
+      <div type="text" className={`${UIcomp.loadtitle}`}>Select your Character</div>
+      {characters.map(characters => (
+      <div className={`${UIcomp.charoption}`} key={characters._id} onClick={(e) => {addChar({e, char:characters})}}> - {characters.name}</div>
+      ))}            
     </div>
     }
   

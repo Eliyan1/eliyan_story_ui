@@ -7,6 +7,26 @@
     width: 100%;
 }
 
+.frontslab{
+    position: absolute;
+    background-image: url("../image/Stone_Story_Frame_Front.png");
+    background-size: 100% 100%;
+    height: 93%;
+    width: 67.2%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.frontslabshort{
+    position: absolute;
+    background-image: url("../image/Stone_Story_Frame_Front.png");
+    background-size: 100% 100%;
+    height: 80%;
+    width: 67.2%;
+    z-index: 1;
+    pointer-events: none;
+}
+
 .titlewrapper{
     position: relative;
     display: flex;
@@ -22,7 +42,7 @@
     font-size: 1.7cqw;
     height: 1.9cqw;
     text-align: center;
-    color: rgba(219, 221, 229, 0.5);
+    color: rgba(219, 221, 229, 0.75);
 }
 
 .loadtitle{
@@ -31,7 +51,7 @@
     font-size: 1.7cqw;
     height: 4.2%;
     text-align: center;
-    color: rgba(219, 221, 229, 0.5);
+    color: rgba(219, 221, 229, 0.75);
 }
 
 .storytitle:focus{
@@ -41,24 +61,26 @@
 .storysave{
     font-size: 1.9cqw;
     text-align: center;
-    color: rgba(219, 221, 229, 0.45);
+    color: rgba(219, 221, 229, 0.65);
     margin-left: 29%;
+    cursor: pointer;
 }
 
 .storysave:hover{
-    color: rgba(219, 221, 229, 0.75);
+    color: rgba(219, 221, 229, 0.8);
     transition: 200ms;
 }
 
 .storyload{
     font-size: 1.9cqw;
     text-align: center;
-    color: rgba(219, 221, 229, 0.45);
+    color: rgba(219, 221, 229, 0.65);
     margin-left: 29%;
+    cursor: pointer;
 }
 
 .storyload:hover{
-    color: rgba(219, 221, 229, 0.75);
+    color: rgba(219, 221, 229, 0.8);
     transition: 200ms;
 }
 
@@ -84,7 +106,7 @@
     position: relative;
     font-size: 1.6cqw;
     text-align: center;
-    color: rgba(219, 221, 229, 0.5);
+    color: rgba(219, 221, 229, 0.75);
 }
 
 .charslabhprow{
@@ -119,7 +141,7 @@
 .charslabac{
     font-size: 2.3cqw;
     text-align: center;
-    color: rgba(219, 221, 229, 0.3);
+    color: rgba(219, 221, 229, 0.45);
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -140,7 +162,7 @@
     font-size: 2.3cqw;
     text-align: left;
     margin-left: 0.5%;
-    color: rgba(219, 221, 229, 0.3);
+    color: rgba(219, 221, 229, 0.45);
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -158,7 +180,7 @@
 .charslabhpvalue{
     all:unset;
     font-size: 3.2cqw;
-    color: rgba(219, 221, 229, 0.3);
+    color: rgba(219, 221, 229, 0.45);
     margin-left: 2%;
     width:32%;
     text-align: right;
@@ -179,7 +201,7 @@
 .charslabmaxhpvalue{
     all:unset;
     font-size: 3.2cqw;
-    color: rgba(219, 221, 229, 0.3);
+    color: rgba(219, 221, 229, 0.45);
     width: 32%;
     text-align: left;
 }
@@ -187,7 +209,7 @@
 .charslabhp{
     font-size: 3.2cqw;
     text-align: center;
-    color: rgba(219, 221, 229, 0.3);
+    color: rgba(219, 221, 229, 0.45);
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -208,18 +230,18 @@
     font-size: 2cqw;
     text-align: left;
     margin-left: 4%;
-    color: rgba(219, 221, 229, 0.3);
+    color: rgba(219, 221, 229, 0.45);
 }
 
 .charslabstat{
     font-size: 2cqw;
     text-align: center;
-    color: rgba(219, 221, 229, 0.3);
+    color: rgba(219, 221, 229, 0.45);
 }
 
 .charslabline{
     height: 0;
-    border-bottom: 0.7px solid rgba(219, 221, 229, 0.3);
+    border-bottom: 0.7px solid rgba(219, 221, 229, 0.45);
     width: 30%;
     margin-left: 35%;
     margin-top: 7.2%;
@@ -236,7 +258,7 @@
 .charslabbutton{
     font-size: 2.1cqw;
     text-align: center;
-    color: rgba(219, 221, 229, 0.9);
+    color: rgba(219, 221, 229, 1.0);
     background-image: url("../image/Character_Button_Round.png");
     background-size: 100% 100%;
     opacity: 0.75;
@@ -260,11 +282,12 @@
     padding-top: 0.5%;
     padding-bottom: 0.5%;
     text-align: justify;
-    color: rgba(219, 221, 229, 0.3);
+    color: rgba(219, 221, 229, 0.45);
+    cursor: pointer;
 }
 
 .charoption:hover{
-    color: rgba(219, 221, 229, 0.5);
+    color: rgba(219, 221, 229, 0.75);
     background-color: rgba(219, 221, 229, 0.1);
     transition: 200ms;
 }
@@ -282,6 +305,7 @@
     opacity: 0.75;
     width: 100%;
     aspect-ratio: 4/1;
+    cursor: pointer;
 }
 
 .characterbutton:hover{
@@ -306,14 +330,14 @@
     flex: 3.2;
     font-size: 3cqw;
     text-align: center;
-    color: rgba(219, 221, 229, 0.9);
+    color: rgba(219, 221, 229, 1.0);
 }
 
 .characterhealth{
     font-size: 2.6cqw;
     margin-top: 10%;
     text-align: center;
-    color: rgba(219, 221, 229, 0.9);
+    color: rgba(219, 221, 229, 1.0);
 }
 
 .characterhealthlabel{
@@ -321,7 +345,7 @@
     text-align: center;
     margin-top: 13%;
     margin-left: 4%;
-    color: rgba(219, 221, 229, 0.9);
+    color: rgba(219, 221, 229, 1.0);
 }
 
 .characterhealthwrap{
@@ -340,14 +364,14 @@
 .characterstatlabel{
     font-size: 1.3cqw;
     text-align: center;
-    color: rgba(219, 221, 229, 0.9);
+    color: rgba(219, 221, 229, 1.0);
     margin-top: -0.3cqw;
 }
 
 .characterstatvalue{
     font-size: 1.7cqw;
     text-align: center;
-    color: rgba(219, 221, 229, 0.9);
+    color: rgba(219, 221, 229, 1.0);
     margin-top: -0.3cqw;
 }
 
@@ -366,7 +390,7 @@
 .charactersavebutton{
     font-size: 1.8cqw;
     text-align: center;
-    color: rgba(219, 221, 229, 0.9);
+    color: rgba(219, 221, 229, 1.0);
     background-image: url("../image/Character_Button_Round.png");
     background-size: 100% 100%;
     opacity: 0.75;
@@ -374,7 +398,7 @@
     width: 49%;
     aspect-ratio: 15/4;
     padding-top:3%;
-
+    cursor: pointer;
 }
 
 .charactersavebutton:hover{

@@ -139,6 +139,7 @@ export default function CharSlab(characters, setStorySlab) {
     return {populateActiveCharacter,
         charPanel:(<>
         <div spellCheck="false" className={`${UIcomp.charslab}`}>
+        <div className={`${UIcomp.frontslabshort}`}/>
         <div className={`${UIcomp.namewrapper}`}> 
             <input 
                 type="text"

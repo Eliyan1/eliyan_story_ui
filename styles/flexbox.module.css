@@ -39,7 +39,7 @@
 
 .footeritem{
     width: stretch;
-    font-size: 3.7cqw;
+    font-size: 3.6cqw;
     color: #484E63;
 }
 
@@ -51,7 +51,7 @@
 .storysaveload{
     display: flex;
     position: relative;
-    margin-top: 0.3cqw;
+    margin-top: 0.5cqw;
 }
 
 .characterwrap{
