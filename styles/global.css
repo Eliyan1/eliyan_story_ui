@@ -18,6 +18,11 @@ body {
   color: #82859B;
 }
 
+div::selection{
+    color: rgba(255, 255, 229, 0.6);
+    background: none;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -25,6 +30,11 @@ body {
 a {
   color: rgba(211, 212, 235, 0.6);
   text-decoration: none;
+}
+
+a::selection{
+  color: rgba(255, 255, 229, 0.75);
+  background: none;
 }
 
 a:hover {

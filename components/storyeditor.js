@@ -13,8 +13,6 @@ const StoryEditor = ({activeStoryTitle, activeStoryContent, setStorySlab, checkS
     content: activeStoryContent,
   });
 
-  
-
   const saveClick = async (e) => {
     e.preventDefault()
     

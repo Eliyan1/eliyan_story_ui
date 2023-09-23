@@ -45,6 +45,11 @@
     color: rgba(219, 221, 229, 0.75);
 }
 
+.storytitle::selection{
+    background: none;
+    color: rgba(255, 255, 229, 0.9);
+}
+
 .loadtitle{
     position: relative;
     padding-top: 5.2cqh;
@@ -52,6 +57,11 @@
     height: 4.2%;
     text-align: center;
     color: rgba(219, 221, 229, 0.75);
+}
+
+.loadtitle::selection{
+    background: none;
+    color: rgba(255, 255, 229, 0.9);
 }
 
 .storytitle:focus{
@@ -66,6 +76,11 @@
     cursor: pointer;
 }
 
+.storysave::selection{
+    background: none;
+    color: rgba(255, 255, 229, 0.8);
+}
+
 .storysave:hover{
     color: rgba(219, 221, 229, 0.8);
     transition: 200ms;
@@ -77,6 +92,11 @@
     color: rgba(219, 221, 229, 0.65);
     margin-left: 29%;
     cursor: pointer;
+}
+
+.storyload::selection{
+    background: none;
+    color: rgba(255, 255, 229, 0.8);
 }
 
 .storyload:hover{
@@ -107,6 +127,11 @@
     font-size: 1.6cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.75);
+}
+
+.charname::selection{
+    color: rgba(255, 255, 229, 0.9);
+    background: none;
 }
 
 .charslabhprow{
@@ -144,6 +169,11 @@
     color: rgba(219, 221, 229, 0.45);
 }
 
+.charslabac::selection{
+    color: rgba(255, 255, 229, 0.6);
+    background: none;
+}
+
 /* Chrome, Safari, Edge, Opera */
 .charslabacvalue::-webkit-outer-spin-button,
 .charslabacvalue::-webkit-inner-spin-button {
@@ -163,6 +193,11 @@
     text-align: left;
     margin-left: 0.5%;
     color: rgba(219, 221, 229, 0.45);
+}
+
+.charslabacvalue{
+    color: rgba(255, 255, 229, 0.6);
+    background: none;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -186,6 +221,11 @@
     text-align: right;
 }
 
+.charslabhpvalue::selection{
+    color: rgba(255, 255, 229, 0.6);
+    background: none;
+}
+
 /* Chrome, Safari, Edge, Opera */
 .charslabmaxhpvalue::-webkit-outer-spin-button,
 .charslabmaxhpvalue::-webkit-inner-spin-button {
@@ -206,10 +246,20 @@
     text-align: left;
 }
 
+.charslabmaxhpvalue::selection{
+    color: rgba(255, 255, 229, 0.6);
+    background: none;
+}
+
 .charslabhp{
     font-size: 3.2cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.45);
+}
+
+.charlabhp::selection{
+    color: rgba(255, 255, 229, 0.6);
+    background: none;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -233,10 +283,20 @@
     color: rgba(219, 221, 229, 0.45);
 }
 
+.charslabstatvalue::selection{
+    color: rgba(255, 255, 229, 0.6);
+    background: none;
+}
+
 .charslabstat{
     font-size: 2cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.45);
+}
+
+.charslabstat::selection{
+    color: rgba(255, 255, 229, 0.6);
+    background: none;
 }
 
 .charslabline{
@@ -245,6 +305,11 @@
     width: 30%;
     margin-left: 35%;
     margin-top: 7.2%;
+}
+
+.charlabline::selection{
+    color: rgba(255, 255, 229, 0.6);
+    background: none;
 }
 
 .charslabbuttonwrapper{
@@ -268,6 +333,11 @@
     padding-top:1.1cqw;
 }
 
+.charslabbutton::selection{
+    color: rgba(255, 255, 229, 1);
+    background: none;
+}
+
 .charslabbutton:hover{
     opacity: 0.9;
 }
@@ -284,6 +354,11 @@
     text-align: justify;
     color: rgba(219, 221, 229, 0.45);
     cursor: pointer;
+}
+
+.charoption::selection{
+    color: rgba(255, 255, 229, 0.6);
+    background: none;
 }
 
 .charoption:hover{
@@ -333,11 +408,21 @@
     color: rgba(219, 221, 229, 1.0);
 }
 
+.charactername::selection{
+    color: rgba(255, 255, 229, 1);
+    background: none;
+}
+
 .characterhealth{
     font-size: 2.6cqw;
     margin-top: 10%;
     text-align: center;
     color: rgba(219, 221, 229, 1.0);
+}
+
+.characterhealth::selection{
+    color: rgba(255, 255, 229, 1);
+    background: none;
 }
 
 .characterhealthlabel{
@@ -346,6 +431,11 @@
     margin-top: 13%;
     margin-left: 4%;
     color: rgba(219, 221, 229, 1.0);
+}
+
+.characterhealthlabel::selection{
+    color: rgba(255, 255, 229, 1);
+    background: none;
 }
 
 .characterhealthwrap{
@@ -368,11 +458,21 @@
     margin-top: -0.3cqw;
 }
 
+.characterstatlabel::selection{
+    color: rgba(255, 255, 229, 1);
+    background: none;
+}
+
 .characterstatvalue{
     font-size: 1.7cqw;
     text-align: center;
     color: rgba(219, 221, 229, 1.0);
     margin-top: -0.3cqw;
+}
+
+.characterstatvalue::selection{
+    color: rgba(255, 255, 229, 1);
+    background: none;
 }
 
 .charactersavecolumn{
@@ -399,6 +499,11 @@
     aspect-ratio: 15/4;
     padding-top:3%;
     cursor: pointer;
+}
+
+.charactersavebutton::selection{
+    color: rgba(255, 255, 229, 1);
+    background: none;
 }
 
 .charactersavebutton:hover{
