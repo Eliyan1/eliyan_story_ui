@@ -38,21 +38,6 @@ const StoryEditor = ({activeStoryTitle, activeStoryContent, setStorySlab, checkS
 
   };
 
-  const loadClick = async (e) => {
-    e.preventDefault();
-
-    console.log(setStorySlab)
-
-        
-    // const res = await fetch(`/api/story/get?id=64fc7da636d6ad6f719cfb07`,{
-    //     method: 'PUT',
-    // }).then(res => res.json()) //same as const res = await res.json()
-
-    // editor.commands.setContent(res.story.content);
-    // setTitle(res.story.title)
-    // console.log(setTitle)
-  }
-
   return (
     <div className={EditStyle.editor}>
         <EditorContent spellCheck="false" editor={editor} />

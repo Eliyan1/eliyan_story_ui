@@ -3,6 +3,7 @@ import mongoose, { Schema } from "mongoose";
 const characterSchema = new Schema(
     {
         name: String,
+        title: String,
         hp: Number,
         maxhp: Number,
         temphp: Number,
@@ -13,7 +14,8 @@ const characterSchema = new Schema(
         intel: Number,
         wis: Number,
         cha: Number,
-        active: Boolean 
+        active: Boolean,
+        notes: JSON 
     }
 );
 

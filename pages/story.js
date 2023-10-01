@@ -52,11 +52,10 @@ export default function Story({characters, stories})  {
 	const switchToChar = async (e, char) => {
 	e.preventDefault();
 	const activeCharIndex = characters.findIndex((characters)=> characters._id == char._id)
-	console.log(characters.filter((characters)=> characters.active == true));
 	populateActiveCharacter(activeCharIndex)
+	await setStorySlab(0); //necessary to update the notes of the character
 	setStorySlab(2);
 	setActiveChars(characters.filter((characters)=> characters.active == true))
-	console.log(activeChar)
 	}
 
 	return <div className={`${Flexstyle.aspectwrapper}`}>

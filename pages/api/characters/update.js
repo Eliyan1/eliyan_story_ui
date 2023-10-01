@@ -19,11 +19,12 @@ export default async function PUT(req,res) {
         wis: wis,
         intel: intel,
         cha: cha,
-        active: active     
+        active: active,
+        notes: notes     
     } = req.body;
     await connectMongoDB();
     console.log(req.query.id)
     console.log(req.body)
-    await Character.findByIdAndUpdate(req.query.id, {name, hp, maxhp, temphp, ac, str, dex, con, wis, intel, cha, active});
+    await Character.findByIdAndUpdate(req.query.id, {name, hp, maxhp, temphp, ac, str, dex, con, wis, intel, cha, active, notes});
     res.status(200).json({message:"Character Updated"});
 }

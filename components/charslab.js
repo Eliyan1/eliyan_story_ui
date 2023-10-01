@@ -7,7 +7,7 @@ export default function CharSlab(characters, setStorySlab) {
     const [activeIndex, setActiveIndex] = useState(0)
     const [charName, setName] = useState("Character Name");
     const [charAC, setAC] = useState(0);
-    const [charHP, setHP] = useState(0);
+    const [charHP, setHP] = useState('');
     const [charMHP, setMHP] = useState(0);
     const [charTHP, setTHP] = useState(0);
     const [charStr, setStr] = useState(0);
@@ -16,6 +16,9 @@ export default function CharSlab(characters, setStorySlab) {
     const [charWis, setWis] = useState(0);
     const [charInt, setInt] = useState(0);
     const [charCha, setCha] = useState(0);
+    const [charNotes, setNotes] = useState("Character Notes")
+    const [charCurHP, setCurHP] = useState(0)
+    const [charCurTHP, setCurTHP] = useState(0)
     
 
     const populateActiveCharacter = (activeCharIndex) => {
@@ -31,8 +34,14 @@ export default function CharSlab(characters, setStorySlab) {
         setWis(characters[activeCharIndex].wis)
         setInt(characters[activeCharIndex].intel)
         setCha(characters[activeCharIndex].cha)
+        setNotes(characters[activeCharIndex].notes)
     }
 
+    const handleKeyPress = (e) => {
+        if(e.keyCode === 13){
+            e.target.blur(); 
+        }
+    }
 
     const nameUpdate = (e) => {
 		setName(e.target.value);
@@ -40,58 +49,102 @@ export default function CharSlab(characters, setStorySlab) {
 	}
 
     const acUpdate = (e) => {
-        setAC(e.target.value)
-        characters[activeIndex].ac=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        if (e.target.valueAsNumber>0 && e.target.value<100){
+            setAC(e.target.value)
+            characters[activeIndex].ac=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        }
+        
 	}
 
     const hpUpdate = (e) => {
-        setHP(e.target.value);
-        characters[activeIndex].hp=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        if (e.target.value.startsWith("-") && !isNaN(e.target.value.substring(1))) {
+            setHP(e.target.value)
+            characters[activeIndex].temphp = charCurTHP - e.target.value.substring(1)
+                if (characters[activeIndex].temphp < 0) {
+                    characters[activeIndex].temphp = 0;
+                    characters[activeIndex].hp=charCurHP + charCurTHP - e.target.value.substring(1)
+                    console.log(charCurHP - e.target.value.substring(1))
+                }
+            setTHP(characters[activeIndex].temphp)
+        }else if (e.target.value.startsWith("=") && !isNaN(e.target.value.substring(1))) {
+            setHP(e.target.value)
+            characters[activeIndex].hp=charCurHP + Number(e.target.value.substring(1))
+            console.log(charCurHP + Number(e.target.value.substring(1)))
+            console.log(charHP)
+        }else if (!isNaN(e.target.value)) {
+            setHP(Number(e.target.value));
+            console.log(charHP)
+            characters[activeIndex].hp=Number(e.target.value)
+        }
 	}
 
+    const hpSelect = (e) => {
+        setCurHP(characters[activeIndex].hp);
+        setCurTHP(characters[activeIndex].temphp);
+        e.target.select()
+    }
+
     const thpUpdate = (e) => {
-        setTHP(e.target.value);
-        characters[activeIndex].temphp=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        if (e.target.valueAsNumber>0 && e.target.value<1000){
+            setTHP(e.target.value);
+            characters[activeIndex].temphp=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        }
 	}
 
     const mhpUpdate = (e) => {
-        setMHP(e.target.value);
-        characters[activeIndex].maxhp=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        if (e.target.valueAsNumber>0 && e.target.value<1000){
+            setMHP(e.target.value);
+            characters[activeIndex].maxhp=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        }
 	}
 
     const strUpdate = (e) => {
-        setStr(e.target.value);
-        characters[activeIndex].str=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        if (e.target.valueAsNumber>0 && e.target.value<100){
+            setStr(e.target.value);
+            characters[activeIndex].str=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        }
 	}
 
     const dexUpdate = (e) => {
-        setDex(e.target.value);
-        characters[activeIndex].dex=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        if (e.target.valueAsNumber>0 && e.target.value<100){
+            setDex(e.target.value);
+            characters[activeIndex].dex=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        }
 	}
 
     const conUpdate = (e) => {
-        setCon(e.target.value);
-        characters[activeIndex].con=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        if (e.target.valueAsNumber>0 && e.target.value<100){
+            setCon(e.target.value);
+            characters[activeIndex].con=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        }
 	}
 
     const wisUpdate = (e) => {
-        setWis(e.target.value);
-        characters[activeIndex].wis=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        if (e.target.valueAsNumber>0 && e.target.value<100){
+            setWis(e.target.value);
+            characters[activeIndex].wis=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        }
 	}
 
     const intUpdate = (e) => {
-        setInt(e.target.value);
-        characters[activeIndex].intel=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        if (e.target.valueAsNumber>0 && e.target.value<100){
+            setInt(e.target.value);
+            characters[activeIndex].intel=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        }
 	}
 
     const chaUpdate = (e) => {
-        setCha(e.target.value);
-        characters[activeIndex].cha=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        if (e.target.valueAsNumber>0 && e.target.value<100) {
+            setCha(e.target.value);
+            characters[activeIndex].cha=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+        }
 	}
 
     const updateCharDatabase = async (e) => {
         e.preventDefault();
-        
+        characters[activeIndex].hp <0 ? characters[activeIndex].hp=0 : characters[activeIndex].hp=characters[activeIndex].hp;
+        characters[activeIndex].hp >characters[activeIndex].maxhp ? characters[activeIndex].hp=characters[activeIndex].maxhp  : characters[activeIndex].hp;
+        setHP(characters[activeIndex].hp)
         // if (characters[activeIndex].name=="" || 
         // characters[activeIndex].ac==null ||
         // characters[activeIndex].hp==null||
@@ -148,6 +201,8 @@ export default function CharSlab(characters, setStorySlab) {
                 className={`${UIcomp.charname}`} 
                 onChange={(e) => nameUpdate(e)}
                 onBlur={(e) => updateCharDatabase(e)}
+                onKeyDown={(e) => handleKeyPress(e)}
+                onFocus={(e) => e.target.select()}
             />
         </div>
         <div className={`${UIcomp.charslabhprow}`}>
@@ -159,16 +214,21 @@ export default function CharSlab(characters, setStorySlab) {
                     className={`${UIcomp.charslabacvalue}`}
                     onChange={(e) => acUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
+                    onKeyDown={(e) => handleKeyPress(e)}
+                    onFocus={(e) => e.target.select()}
                 />
             </div>
             <div className={`${UIcomp.charslabstatwrap}`}>
                 <div className={`${UIcomp.charslabhp}`}>HP:</div>
                 <input 
-                    type="number"
+                    type="text"
+                    maxLength={4}
                     value={`${charHP}`} 
                     className={`${UIcomp.charslabhpvalue}`}
+                    onFocus={(e) => hpSelect(e)}
                     onChange={(e) => hpUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
+                    onKeyDown={(e) => handleKeyPress(e)}
                 />
                 <div className={`${UIcomp.charslabhp}`}>/</div>
                 <input 
@@ -177,6 +237,8 @@ export default function CharSlab(characters, setStorySlab) {
                     className={`${UIcomp.charslabmaxhpvalue}`}
                     onChange={(e) => mhpUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
+                    onKeyDown={(e) => handleKeyPress(e)}
+                    onFocus={(e) => e.target.select()}
                 />
             </div>
             <div className={`${UIcomp.charslabstatwrap}`}>
@@ -187,6 +249,8 @@ export default function CharSlab(characters, setStorySlab) {
                     className={`${UIcomp.charslabacvalue}`}
                     onChange={(e) => thpUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
+                    onKeyDown={(e) => handleKeyPress(e)}
+                    onFocus={(e) => e.target.select()}
                 />
             </div>
         </div>
@@ -199,6 +263,8 @@ export default function CharSlab(characters, setStorySlab) {
                     className={`${UIcomp.charslabstatvalue}`}
                     onChange={(e) => strUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
+                    onKeyDown={(e) => handleKeyPress(e)}
+                    onFocus={(e) => e.target.select()}
                 />
             </div>
             <div className={`${UIcomp.charslabstatwrap}`}>
@@ -209,6 +275,8 @@ export default function CharSlab(characters, setStorySlab) {
                     className={`${UIcomp.charslabstatvalue}`}
                     onChange={(e) => dexUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
+                    onKeyDown={(e) => handleKeyPress(e)}
+                    onFocus={(e) => e.target.select()}
                 />
             </div>
             <div className={`${UIcomp.charslabstatwrap}`}>
@@ -219,6 +287,8 @@ export default function CharSlab(characters, setStorySlab) {
                     className={`${UIcomp.charslabstatvalue}`}
                     onChange={(e) => conUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
+                    onKeyDown={(e) => handleKeyPress(e)}
+                    onFocus={(e) => e.target.select()}
                 />
             </div>
             <div className={`${UIcomp.charslabstatwrap}`}>
@@ -229,6 +299,8 @@ export default function CharSlab(characters, setStorySlab) {
                     className={`${UIcomp.charslabstatvalue}`}
                     onChange={(e) => wisUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
+                    onKeyDown={(e) => handleKeyPress(e)}
+                    onFocus={(e) => e.target.select()}
                 />
             </div>
             <div className={`${UIcomp.charslabstatwrap}`}>
@@ -239,6 +311,8 @@ export default function CharSlab(characters, setStorySlab) {
                     className={`${UIcomp.charslabstatvalue}`}
                     onChange={(e) => intUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
+                    onKeyDown={(e) => handleKeyPress(e)}
+                    onFocus={(e) => e.target.select()}
                 />
             </div>
             <div className={`${UIcomp.charslabstatwrap}`}>
@@ -249,13 +323,19 @@ export default function CharSlab(characters, setStorySlab) {
                     className={`${UIcomp.charslabstatvalue}`}
                     onChange={(e) => chaUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
+                    onKeyDown={(e) => handleKeyPress(e)}
+                    onFocus={(e) => e.target.select()}
                 />
             </div>
         </div>
 
         <div className={`${UIcomp.charslabline}`}/>
         
-        <CharNotes/>
+        <CharNotes
+            activeCharacter={characters[activeIndex]}
+            charNotes={charNotes}
+            setNotes={setNotes} 
+        />
     </div>
 
     <div className={`${UIcomp.charslabbuttonwrapper}`}>
