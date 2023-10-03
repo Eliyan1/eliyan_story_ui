@@ -1,11 +1,9 @@
 import UIcomp from '../styles/story.module.css'
 
-export default function CharLoad({characters, setActiveChars}) {
+export default function CharLoad({characters, setActiveChars, activeChars, setStorySlab}) {
 
   const addChar = async ({e, char}) => {
     e.preventDefault();
-    
-    console.log(char)
 
     const res = await fetch(`/api/characters/update?id=${char._id}`,{
       method: 'PUT',
@@ -16,10 +14,10 @@ export default function CharLoad({characters, setActiveChars}) {
           active:   true
       }),
   });
-
-  characters[characters.findIndex((characters)=> characters._id == char._id)].active=true
-  setActiveChars(characters.filter((characters)=> characters.active == true))
-  console.log(characters.filter((characters)=> characters.active == true))
+  
+  const newEntry = JSON.parse(JSON.stringify([...activeChars, char]));
+  newEntry[newEntry.length-1].init=newEntry.length-1;
+  setActiveChars(newEntry)
 
   if (!res.ok) {
     throw new Error("Failed to edit the Character")
@@ -27,12 +25,24 @@ export default function CharLoad({characters, setActiveChars}) {
 
 }
 
-    return <div spellCheck="false" className={`${UIcomp.storyslab}`}>
-      <div className={`${UIcomp.frontslab}`}/>
+    return <div spellCheck="false" className={`${UIcomp.charslab}`}>
+      <div className={`${UIcomp.frontslabshort}`}/>
       <div type="text" className={`${UIcomp.loadtitle}`}>Select your Character</div>
+      <div className={`${UIcomp.charoptionwrapper}`}>
       {characters.map(characters => (
-      <div className={`${UIcomp.charoption}`} key={characters._id} onClick={(e) => {addChar({e, char:characters})}}> - {characters.name}</div>
-      ))}            
+      <div 
+      className={`${UIcomp.charoption}`} 
+      key={characters._id} 
+      onClick={(e) => {addChar({e, char:characters})}}> 
+      
+      - {characters.name}
+      
+      </div>
+      ))}
+      </div>
+      <div className={`${UIcomp.loadslabbuttonwrapper}`}>
+        <div onClick={()=>{setStorySlab(1)}} className={`${UIcomp.loadslabbutton}`}>Return to Current Story</div>
+    </div>           
     </div>
     }
   

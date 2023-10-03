@@ -42,12 +42,24 @@ export default function StoryLoad({stories, setActiveStoryContent, setActiveStor
     
   }
 
-  return <div spellCheck="false" className={`${UIcomp.storyslab}`}>
-    <div className={`${UIcomp.frontslab}`}/>
+  return <div spellCheck="false" className={`${UIcomp.charslab}`}>
+    <div className={`${UIcomp.frontslabshort}`}/>
     <div type="text" className={`${UIcomp.loadtitle}`}>Select your Story</div>
+    <div className={`${UIcomp.charoptionwrapper}`}>
     {stories.map(stories => (
-    <div className={`${UIcomp.charoption}`} key={stories._id} onClick={(e)=>(loadStory({e, stories}))}> - {stories.title}</div>
-    ))}
+      <div 
+      className={`${UIcomp.charoption}`} 
+      key={stories._id} 
+      onClick={(e)=>(loadStory({e, stories}))}> 
+      
+      - {stories.title}
+      
+      </div>
+      ))}
+    </div>
+    <div className={`${UIcomp.loadslabbuttonwrapper}`}>
+        <div onClick={()=>{setStorySlab(1)}} className={`${UIcomp.loadslabbutton}`}>Return to Current Story</div>
+    </div>
   </div>
 }
 

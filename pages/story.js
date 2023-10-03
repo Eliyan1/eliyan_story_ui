@@ -11,17 +11,19 @@ import { useState } from 'react';
 import CharSlab from '@/components/charslab';
 import CharLoad from '@/components/charload';
 import StoryLoad from '@/components/storyload';
+import InitiativeTracker from '@/components/initiativetracker'
 	
 export default function Story({characters, stories})  {
 
 	const [storySlab, setStorySlab] = useState(1)
 
 	const [activeStoryContent, setActiveStoryContent] = useState("") 
-	const [activeStoryTitle, setActiveStoryTitle] = useState("Title of Adventure") 
+	const [activeStoryTitle, setActiveStoryTitle] = useState("Title of Adventure")
+	
+	const [activeChars, setActiveChars] = useState([])
 
-	const {charPanel, populateActiveCharacter} = CharSlab(characters, setStorySlab)
+	const {charPanel, populateActiveCharacter} = CharSlab(activeChars, setStorySlab)
 
-	const [activeChar, setActiveChars] = useState(characters.filter((characters)=> characters.active == true))
 	
 	const checkStoryPresent = () => {
 		console.log(stories.findIndex((stories)=> stories.title == activeStoryTitle))
@@ -46,16 +48,15 @@ export default function Story({characters, stories})  {
 	const removeActiveChar =  (charID) => {
 		characters[characters.findIndex((characters)=> characters._id == charID)].active=false
 		setActiveChars(characters.filter((characters)=> characters.active == true))
-		console.log(activeChar)
+		console.log(activeChars)
 	}
 	
 	const switchToChar = async (e, char) => {
 	e.preventDefault();
-	const activeCharIndex = characters.findIndex((characters)=> characters._id == char._id)
+	const activeCharIndex = activeChars.findIndex((activeChars)=> activeChars.init == char.init)
 	populateActiveCharacter(activeCharIndex)
 	await setStorySlab(0); //necessary to update the notes of the character
 	setStorySlab(2);
-	setActiveChars(characters.filter((characters)=> characters.active == true))
 	}
 
 	return <div className={`${Flexstyle.aspectwrapper}`}>
@@ -70,27 +71,52 @@ export default function Story({characters, stories})  {
 				checkStoryPresent={checkStoryPresent}
 				saveStory={saveStory}
 				/>}
+
 				{storySlab == 2 && <>{charPanel}</>}
-				{storySlab == 3 && <CharLoad characters={characters} setActiveChars={setActiveChars}/>}
-				{storySlab == 4 && <StoryLoad stories={stories} setActiveStoryContent={setActiveStoryContent} setActiveStoryTitle={setActiveStoryTitle} setStorySlab={setStorySlab}/>}
+
+				{storySlab == 3 && 
+				<CharLoad 
+					characters={characters} 
+					setActiveChars={setActiveChars} 
+					activeChars={activeChars} 
+					setStorySlab={setStorySlab}
+				/>}
+
+				{storySlab == 4 && 
+				<StoryLoad 
+					stories={stories} 
+					setActiveStoryContent={setActiveStoryContent} 
+					setActiveStoryTitle={setActiveStoryTitle} 
+					setStorySlab={setStorySlab}
+				/>}
+
+				{storySlab == 5 && 
+				<InitiativeTracker 
+					activeChars={activeChars} 
+					setStorySlab={setStorySlab}
+					setActiveChars={setActiveChars}
+					populateActiveCharacter={populateActiveCharacter}
+				/>}
+
 	  		</div>
 			
 			<div className={`${Flexstyle.characterwrap}`}>
 				<div className={`${Flexstyle.characterbox}`}>
-					{activeChar.map(characters => (
-					<CharButton key={characters._id} char={
-						{name:characters.name, 
-						hp:characters.hp,
-						temphp:characters.temphp, 
-						ac:characters.ac, 
-						str:characters.str,
-						dex:characters.dex,
-						con:characters.con,
-						intel:characters.intel,
-						wis: characters.wis,
-						cha: characters.cha,
-						_id: characters._id,
-						active: characters.active
+					{activeChars.map(activeChars => (
+					<CharButton key={activeChars.init} char={
+						{name:activeChars.name, 
+						hp:activeChars.hp,
+						temphp:activeChars.temphp, 
+						ac:activeChars.ac, 
+						str:activeChars.str,
+						dex:activeChars.dex,
+						con:activeChars.con,
+						intel:activeChars.intel,
+						wis: activeChars.wis,
+						cha: activeChars.cha,
+						_id: activeChars._id,
+						active: activeChars.active,
+						init: activeChars.init
 					}} 
 					charMenu = {switchToChar}
 					removeActiveChar = {removeActiveChar}
@@ -101,7 +127,7 @@ export default function Story({characters, stories})  {
 					<div className={`${StoryStyle.charactersavecolumn}`}>
       					<div className={`${StoryStyle.charactersaverow}`}>
         					<Link href={"/addchar"} className={`${StoryStyle.charactersavebutton}`}>Create Character</Link>
-        					<div onClick={()=>{setStorySlab(1)}} className={`${StoryStyle.charactersavebutton}`}>Roll Initiative</div>
+        					<div onClick={()=>{setStorySlab(5)}} className={`${StoryStyle.charactersavebutton}`}>Roll Initiative</div>
       					</div>
 						<div className={`${StoryStyle.charactersaverow}`}>
 							<div className={`${StoryStyle.charactersavebutton}`}>Save Group</div>

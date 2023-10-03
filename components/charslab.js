@@ -2,7 +2,7 @@ import UIcomp from '../styles/story.module.css'
 import CharNotes from './charnotes'
 import { useState } from "react";
 
-export default function CharSlab(characters, setStorySlab) {
+export default function CharSlab(activeChars,  setStorySlab) {
 
     const [activeIndex, setActiveIndex] = useState(0)
     const [charName, setName] = useState("Character Name");
@@ -23,18 +23,18 @@ export default function CharSlab(characters, setStorySlab) {
 
     const populateActiveCharacter = (activeCharIndex) => {
         setActiveIndex(activeCharIndex);
-        setName(characters[activeCharIndex].name);
-        setAC(characters[activeCharIndex].ac)
-        setHP(characters[activeCharIndex].hp)
-        setTHP(characters[activeCharIndex].temphp)
-        setMHP(characters[activeCharIndex].maxhp)
-        setStr(characters[activeCharIndex].str)
-        setDex(characters[activeCharIndex].dex)
-        setCon(characters[activeCharIndex].con)
-        setWis(characters[activeCharIndex].wis)
-        setInt(characters[activeCharIndex].intel)
-        setCha(characters[activeCharIndex].cha)
-        setNotes(characters[activeCharIndex].notes)
+        setName(activeChars[activeCharIndex].name);
+        setAC(activeChars[activeCharIndex].ac)
+        setHP(activeChars[activeCharIndex].hp)
+        setTHP(activeChars[activeCharIndex].temphp)
+        setMHP(activeChars[activeCharIndex].maxhp)
+        setStr(activeChars[activeCharIndex].str)
+        setDex(activeChars[activeCharIndex].dex)
+        setCon(activeChars[activeCharIndex].con)
+        setWis(activeChars[activeCharIndex].wis)
+        setInt(activeChars[activeCharIndex].intel)
+        setCha(activeChars[activeCharIndex].cha)
+        setNotes(activeChars[activeCharIndex].notes)
     }
 
     const handleKeyPress = (e) => {
@@ -45,13 +45,13 @@ export default function CharSlab(characters, setStorySlab) {
 
     const nameUpdate = (e) => {
 		setName(e.target.value);
-		characters[activeIndex].name=e.target.value;
+		activeChars[activeIndex].name=e.target.value;
 	}
 
     const acUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
             setAC(e.target.value)
-            characters[activeIndex].ac=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+            activeChars[activeIndex].ac=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
         
 	}
@@ -59,92 +59,92 @@ export default function CharSlab(characters, setStorySlab) {
     const hpUpdate = (e) => {
         if (e.target.value.startsWith("-") && !isNaN(e.target.value.substring(1))) {
             setHP(e.target.value)
-            characters[activeIndex].temphp = charCurTHP - e.target.value.substring(1)
-                if (characters[activeIndex].temphp < 0) {
-                    characters[activeIndex].temphp = 0;
-                    characters[activeIndex].hp=charCurHP + charCurTHP - e.target.value.substring(1)
+            activeChars[activeIndex].temphp = charCurTHP - e.target.value.substring(1)
+                if (activeChars[activeIndex].temphp < 0) {
+                    activeChars[activeIndex].temphp = 0;
+                    activeChars[activeIndex].hp=charCurHP + charCurTHP - e.target.value.substring(1)
                     console.log(charCurHP - e.target.value.substring(1))
                 }
-            setTHP(characters[activeIndex].temphp)
+            setTHP(activeChars[activeIndex].temphp)
         }else if (e.target.value.startsWith("=") && !isNaN(e.target.value.substring(1))) {
             setHP(e.target.value)
-            characters[activeIndex].hp=charCurHP + Number(e.target.value.substring(1))
+            activeChars[activeIndex].hp=charCurHP + Number(e.target.value.substring(1))
             console.log(charCurHP + Number(e.target.value.substring(1)))
             console.log(charHP)
         }else if (!isNaN(e.target.value)) {
             setHP(Number(e.target.value));
             console.log(charHP)
-            characters[activeIndex].hp=Number(e.target.value)
+            activeChars[activeIndex].hp=Number(e.target.value)
         }
 	}
 
     const hpSelect = (e) => {
-        setCurHP(characters[activeIndex].hp);
-        setCurTHP(characters[activeIndex].temphp);
+        setCurHP(activeChars[activeIndex].hp);
+        setCurTHP(activeChars[activeIndex].temphp);
         e.target.select()
     }
 
     const thpUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<1000){
             setTHP(e.target.value);
-            characters[activeIndex].temphp=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+            activeChars[activeIndex].temphp=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const mhpUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<1000){
             setMHP(e.target.value);
-            characters[activeIndex].maxhp=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+            activeChars[activeIndex].maxhp=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const strUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
             setStr(e.target.value);
-            characters[activeIndex].str=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+            activeChars[activeIndex].str=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const dexUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
             setDex(e.target.value);
-            characters[activeIndex].dex=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+            activeChars[activeIndex].dex=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const conUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
             setCon(e.target.value);
-            characters[activeIndex].con=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+            activeChars[activeIndex].con=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const wisUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
             setWis(e.target.value);
-            characters[activeIndex].wis=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+            activeChars[activeIndex].wis=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const intUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
             setInt(e.target.value);
-            characters[activeIndex].intel=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+            activeChars[activeIndex].intel=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const chaUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100) {
             setCha(e.target.value);
-            characters[activeIndex].cha=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
+            activeChars[activeIndex].cha=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const updateCharDatabase = async (e) => {
         e.preventDefault();
-        characters[activeIndex].hp <0 ? characters[activeIndex].hp=0 : characters[activeIndex].hp=characters[activeIndex].hp;
-        characters[activeIndex].hp >characters[activeIndex].maxhp ? characters[activeIndex].hp=characters[activeIndex].maxhp  : characters[activeIndex].hp;
-        setHP(characters[activeIndex].hp)
+        if(activeChars[activeIndex].hp<0) {activeChars[activeIndex].hp=0};
+        if(activeChars[activeIndex].hp >activeChars[activeIndex].maxhp) {activeChars[activeIndex].hp=activeChars[activeIndex].maxhp};
+        setHP(activeChars[activeIndex].hp)
         // if (characters[activeIndex].name=="" || 
         // characters[activeIndex].ac==null ||
         // characters[activeIndex].hp==null||
@@ -163,23 +163,23 @@ export default function CharSlab(characters, setStorySlab) {
         // }
 
         
-        const res = await fetch(`/api/characters/update?id=${characters[activeIndex]._id}`,{
+        const res = await fetch(`/api/characters/update?id=${activeChars[activeIndex]._id}`,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name:   characters[activeIndex].name,
-                hp:     characters[activeIndex].hp,
-                maxhp:  characters[activeIndex].maxhp,
-                temphp: characters[activeIndex].temphp,
-                ac:     characters[activeIndex].ac,
-                str:    characters[activeIndex].str,
-                dex:    characters[activeIndex].dex,
-                con:    characters[activeIndex].con,
-                intel:  characters[activeIndex].intel,
-                wis:    characters[activeIndex].wis,
-                cha:    characters[activeIndex].cha
+                name:   activeChars[activeIndex].name,
+                hp:     activeChars[activeIndex].hp,
+                maxhp:  activeChars[activeIndex].maxhp,
+                temphp: activeChars[activeIndex].temphp,
+                ac:     activeChars[activeIndex].ac,
+                str:    activeChars[activeIndex].str,
+                dex:    activeChars[activeIndex].dex,
+                con:    activeChars[activeIndex].con,
+                intel:  activeChars[activeIndex].intel,
+                wis:    activeChars[activeIndex].wis,
+                cha:    activeChars[activeIndex].cha
             }),
         });
 
@@ -332,7 +332,7 @@ export default function CharSlab(characters, setStorySlab) {
         <div className={`${UIcomp.charslabline}`}/>
         
         <CharNotes
-            activeCharacter={characters[activeIndex]}
+            activeCharacter={activeChars[activeIndex]}
             charNotes={charNotes}
             setNotes={setNotes} 
         />
