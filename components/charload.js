@@ -1,28 +1,13 @@
 import UIcomp from '../styles/story.module.css'
 
-export default function CharLoad({characters, setActiveChars, activeChars, setStorySlab}) {
+export default function CharLoad({characters, setActiveChars, activeChars, setStorySlab, uniqueChar, setUniqueChar}) {
 
   const addChar = async ({e, char}) => {
-    e.preventDefault();
-
-    const res = await fetch(`/api/characters/update?id=${char._id}`,{
-      method: 'PUT',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-          active:   true
-      }),
-  });
-  
+    e.preventDefault();  
   const newEntry = JSON.parse(JSON.stringify([...activeChars, char]));
-  newEntry[newEntry.length-1].init=newEntry.length-1;
+  newEntry[newEntry.length-1].uniquechar= uniqueChar;
+  setUniqueChar(uniqueChar+1)
   setActiveChars(newEntry)
-
-  if (!res.ok) {
-    throw new Error("Failed to edit the Character")
-  }
-
 }
 
     return <div spellCheck="false" className={`${UIcomp.charslab}`}>

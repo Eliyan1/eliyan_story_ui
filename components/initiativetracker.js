@@ -23,7 +23,7 @@ return <div spellCheck="false" className={`${UIcomp.charslab}`}>
 <div type="text" className={`${UIcomp.loadtitle}`}>Set Initiative</div>
 <div className={`${UIcomp.initiativevertwrapper}`}>
       {activeChars.map(activeChars => (
-        <div className={`${UIcomp.initiativehorwrapper}`} key={activeChars.init}>
+        <div className={`${UIcomp.initiativehorwrapper}`} key={activeChars.uniquechar}>
           <div className={`${UIcomp.initname}`}> {activeChars.name}: </div>
           <input 
             type='number'
@@ -31,9 +31,7 @@ return <div spellCheck="false" className={`${UIcomp.charslab}`}>
             className={`${UIcomp.initvalue}`}
             onKeyDown={(e) => handleKeyPress(e)}
             onFocus={(e) => e.target.select()}
-          > 
-          
-          
+          >           
           </input>
         </div>
     ))}

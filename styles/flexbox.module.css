@@ -8,7 +8,7 @@
     aspect-ratio: 16/9;
     margin: auto;
     container-type: size;
-}
+    }
 
 .container {
     display: flex;
@@ -18,12 +18,22 @@
     justify-content: space-between;
 }
 
-.maincontent {
+.storycontent {
     display: flex;
     text-align: center;
     margin-left: 1%;
     margin-right: 2%;
     justify-content: space-between;
+    height:93%;    
+}
+
+.audiocontent {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-left: 1%;
+    margin-right: 2%;
+    justify-content: center;
     height:93%;    
 }
 
@@ -40,8 +50,19 @@
 .footeritem{
     width: stretch;
     font-size: 3.6cqw;
-    color: #484E63;
+    color: rgba(211, 212, 235, 0.6);
+    cursor: pointer;
 }
+
+.footeritem::selection{
+    color: rgba(255, 255, 229, 0.75);
+    background: none;
+  }
+  
+  .footeritem:hover {
+    color: rgba(211, 212, 235, 0.9);
+    transition: 200ms;
+  }
 
 .storybox{
     flex: 7;
@@ -77,27 +98,49 @@
 
 .audiobox{
     display: flex;
-    width: 85vw;
-    height: 38vw;
+    width: 85cqw;
+    height: 38cqw;
     flex-wrap: wrap;
     align-content: flex-start;
     flex-direction: row;
+    overflow-y: scroll;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.audiobox::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .audiobox {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 
 .audioline{
     width:0;
-    border-right: 0.1vw solid;
-    height: 35vw;
+    border-right: 0.1cqw solid rgba(219, 221, 229, 0.6);
+    height: 35cqw;
     margin-top: 1.7vw;
-    border-color: #869696;
 }
 
 .audiocontrol{
-    width: 15vw;
+    width: 15cqw;
     margin-left: 1%;
 }
 
 .audiobar{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-left: 4cqw;
+    margin-top: 1cqw;
+    
+}
+
+.audiobuttonbar{
     display: flex;
     flex-direction: row;
     text-align: center;
@@ -116,23 +159,25 @@
 
 .visualbox{
     display: flex;
-    width: 80vw;
-    height: 52vw;
+    width: 80cqw;
+    height: 52cqw;
     flex-wrap: wrap;
     align-content: flex-start;
     flex-direction: row;
 }
 
 .visualcontrol{
-    width: 20vw;
+    width: 20cqw;
     margin-left: 1%;
 }
 
 .visualbar{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-around;
     width: 100%;
+
+    margin-top: 0.5cqw;
     
 }
 

@@ -4,7 +4,7 @@ import CharContextMenu from './charcontextmenu'
 
 
 
-export default function CharacterButton({char, charMenu, removeActiveChar}) {
+export default function CharacterButton({char, charMenu, removeActiveChar, moveCharUp, moveCharDown}) {
   
   const initialContextMenu = {
     show: false,
@@ -66,6 +66,6 @@ export default function CharacterButton({char, charMenu, removeActiveChar}) {
         </div>
       </div>
     </button>
-    {contextMenu.show && <CharContextMenu x={contextMenu.x} y={contextMenu.y} closeContextMenu={closeContextMenu} charid={char._id} removeActiveChar={removeActiveChar}/>}
+    {contextMenu.show && <CharContextMenu x={contextMenu.x} y={contextMenu.y} closeContextMenu={closeContextMenu} uniquechar={char.uniquechar} removeActiveChar={removeActiveChar} moveCharUp={moveCharUp} moveCharDown={moveCharDown}/>}
     </div>
   }

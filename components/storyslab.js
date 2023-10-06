@@ -1,6 +1,5 @@
 import UIcomp from '../styles/story.module.css'
 import StoryEditor from './storyeditor'
-import { useState } from "react";
 
 export default function StorySlab({activeStoryTitle, activeStoryContent, setActiveStoryTitle, setStorySlab, checkStoryPresent, saveStory}) {
 

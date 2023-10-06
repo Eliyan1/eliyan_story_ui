@@ -21,7 +21,7 @@ const StoryEditor = ({activeStoryTitle, activeStoryContent, setStorySlab, checkS
     console.log(storyNumber)
 
     if (storyNumber==-1){
-    const res = await fetch('/api/story/create',{
+    await fetch('/api/story/create',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -34,8 +34,6 @@ const StoryEditor = ({activeStoryTitle, activeStoryContent, setStorySlab, checkS
     }else{
       saveStory(storyNumber, content)
     }
-
-
   };
 
   return (

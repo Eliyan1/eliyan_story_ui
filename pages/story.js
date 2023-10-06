@@ -2,18 +2,14 @@ import Flexstyle from '../styles/flexbox.module.css'
 import StoryStyle from '../styles/story.module.css'
 import CharButton from '../components/charbutton'
 import StorySlab from '../components/storyslab'
-import Footer from '../components/footer'
 import Link from 'next/link';
-import connectMongoDB from "@/libs/mongodb";
-import Character from "@/models/character";
-import StoryDB from "@/models/story";
 import { useState } from 'react';
 import CharSlab from '@/components/charslab';
 import CharLoad from '@/components/charload';
 import StoryLoad from '@/components/storyload';
 import InitiativeTracker from '@/components/initiativetracker'
 	
-export default function Story({characters, stories})  {
+export default function Story({characters, stories, activePage})  {
 
 	const [storySlab, setStorySlab] = useState(1)
 
@@ -22,7 +18,10 @@ export default function Story({characters, stories})  {
 	
 	const [activeChars, setActiveChars] = useState([])
 
+	const [uniqueChar, setUniqueChar] = useState(0) 
+
 	const {charPanel, populateActiveCharacter} = CharSlab(activeChars, setStorySlab)
+
 
 	
 	const checkStoryPresent = () => {
@@ -31,7 +30,7 @@ export default function Story({characters, stories})  {
 	}
 
 	const saveStory = async (storyIndex, content) => {
-		const res = await fetch(`/api/story/update?id=${stories[storyIndex]._id}`,{
+		await fetch(`/api/story/update?id=${stories[storyIndex]._id}`,{
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -42,14 +41,31 @@ export default function Story({characters, stories})  {
 			}),
 		});
 		stories[storyIndex].content=content;
-		console.log (activeStoryTitle);
 	}
 
-	const removeActiveChar =  (charID) => {
-		characters[characters.findIndex((characters)=> characters._id == charID)].active=false
-		setActiveChars(characters.filter((characters)=> characters.active == true))
-		console.log(activeChars)
+	const removeActiveChar =  (uniquechar) => {
+		const removeIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == uniquechar);
+		const removeChar = JSON.parse(JSON.stringify(activeChars))
+		removeChar.splice(removeIndex,1);
+		setActiveChars(removeChar);
 	}
+
+	const moveCharUp = (uniquechar) => {
+		const moveIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == uniquechar);
+		const moveChar = JSON.parse(JSON.stringify(activeChars));
+		if (moveIndex === 0) {return}
+		[moveChar[moveIndex], moveChar[moveIndex-1]] = [moveChar[moveIndex-1], moveChar[moveIndex]]
+		setActiveChars(moveChar)
+	}
+
+	const moveCharDown = (uniquechar) => {
+		const moveIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == uniquechar);
+		const moveChar = JSON.parse(JSON.stringify(activeChars));
+		if (moveIndex === moveChar.length - 1) {return}
+		[moveChar[moveIndex], moveChar[moveIndex+1]] = [moveChar[moveIndex+1], moveChar[moveIndex]]
+		setActiveChars(moveChar)
+	}
+
 	
 	const switchToChar = async (e, char) => {
 	e.preventDefault();
@@ -59,104 +75,87 @@ export default function Story({characters, stories})  {
 	setStorySlab(2);
 	}
 
-	return <div className={`${Flexstyle.aspectwrapper}`}>
-		<div className={`${Flexstyle.maincontent}`}>
-			<div className={`${Flexstyle.storybox}`}>
-				{storySlab == 1 && 
-				<StorySlab 
-				activeStoryTitle={activeStoryTitle} 
-				activeStoryContent={activeStoryContent} 
+	return <div className={`${Flexstyle.storycontent}`} style={{display: activePage==1 ? "flex" : "none"}}>
+		<div className={`${Flexstyle.storybox}`}>
+			{storySlab == 1 && 
+			<StorySlab 
+			activeStoryTitle={activeStoryTitle} 
+			activeStoryContent={activeStoryContent} 
+			setActiveStoryTitle={setActiveStoryTitle} 
+			setStorySlab={setStorySlab}
+			checkStoryPresent={checkStoryPresent}
+			saveStory={saveStory}
+			/>}
+
+			{storySlab == 2 && <>{charPanel}</>}
+
+			{storySlab == 3 && 
+			<CharLoad 
+				characters={characters} 
+				setActiveChars={setActiveChars} 
+				activeChars={activeChars} 
+				setStorySlab={setStorySlab}
+				uniqueChar = {uniqueChar}
+				setUniqueChar = {setUniqueChar}
+			/>}
+
+			{storySlab == 4 && 
+			<StoryLoad 
+				stories={stories} 
+				setActiveStoryContent={setActiveStoryContent} 
 				setActiveStoryTitle={setActiveStoryTitle} 
 				setStorySlab={setStorySlab}
-				checkStoryPresent={checkStoryPresent}
-				saveStory={saveStory}
-				/>}
+			/>}
 
-				{storySlab == 2 && <>{charPanel}</>}
-
-				{storySlab == 3 && 
-				<CharLoad 
-					characters={characters} 
-					setActiveChars={setActiveChars} 
-					activeChars={activeChars} 
-					setStorySlab={setStorySlab}
-				/>}
-
-				{storySlab == 4 && 
-				<StoryLoad 
-					stories={stories} 
-					setActiveStoryContent={setActiveStoryContent} 
-					setActiveStoryTitle={setActiveStoryTitle} 
-					setStorySlab={setStorySlab}
-				/>}
-
-				{storySlab == 5 && 
-				<InitiativeTracker 
-					activeChars={activeChars} 
-					setStorySlab={setStorySlab}
-					setActiveChars={setActiveChars}
-					populateActiveCharacter={populateActiveCharacter}
-				/>}
-
-	  		</div>
-			
-			<div className={`${Flexstyle.characterwrap}`}>
-				<div className={`${Flexstyle.characterbox}`}>
-					{activeChars.map(activeChars => (
-					<CharButton key={activeChars.init} char={
-						{name:activeChars.name, 
-						hp:activeChars.hp,
-						temphp:activeChars.temphp, 
-						ac:activeChars.ac, 
-						str:activeChars.str,
-						dex:activeChars.dex,
-						con:activeChars.con,
-						intel:activeChars.intel,
-						wis: activeChars.wis,
-						cha: activeChars.cha,
-						_id: activeChars._id,
-						active: activeChars.active,
-						init: activeChars.init
-					}} 
-					charMenu = {switchToChar}
-					removeActiveChar = {removeActiveChar}
-					/>
-					))}
-				</div>
-				<div> 
-					<div className={`${StoryStyle.charactersavecolumn}`}>
-      					<div className={`${StoryStyle.charactersaverow}`}>
-        					<Link href={"/addchar"} className={`${StoryStyle.charactersavebutton}`}>Create Character</Link>
-        					<div onClick={()=>{setStorySlab(5)}} className={`${StoryStyle.charactersavebutton}`}>Roll Initiative</div>
-      					</div>
-						<div className={`${StoryStyle.charactersaverow}`}>
-							<div className={`${StoryStyle.charactersavebutton}`}>Save Group</div>
-							<div onClick={()=>{setStorySlab(3)}} className={`${StoryStyle.charactersavebutton}`}>Load Characters</div>
-						</div>
-					</div>			
-				</div>
-			</div>
+			{storySlab == 5 && 
+			<InitiativeTracker 
+				activeChars={activeChars} 
+				setStorySlab={setStorySlab}
+				setActiveChars={setActiveChars}
+				populateActiveCharacter={populateActiveCharacter}
+			/>}
 
 		</div>
 		
-		<Footer/>
+		<div className={`${Flexstyle.characterwrap}`}>
+			<div className={`${Flexstyle.characterbox}`}>
+				{activeChars.map(activeChars => (
+				<CharButton key={activeChars.uniquechar} char={
+					{name:activeChars.name, 
+					hp:activeChars.hp,
+					temphp:activeChars.temphp, 
+					ac:activeChars.ac, 
+					str:activeChars.str,
+					dex:activeChars.dex,
+					con:activeChars.con,
+					intel:activeChars.intel,
+					wis: activeChars.wis,
+					cha: activeChars.cha,
+					_id: activeChars._id,
+					active: activeChars.active,
+					uniquechar: activeChars.uniquechar
+				}} 
+				charMenu = {switchToChar}
+				removeActiveChar = {removeActiveChar}
+				moveCharUp = {moveCharUp}
+				moveCharDown = {moveCharDown}
+				/>
+				))}
+			</div>
+			<div> 
+				<div className={`${StoryStyle.charactersavecolumn}`}>
+					<div className={`${StoryStyle.charactersaverow}`}>
+						<Link href={"/addchar"} className={`${StoryStyle.charactersavebutton}`}>Create Character</Link>
+						<div onClick={()=>{setStorySlab(5)}} className={`${StoryStyle.charactersavebutton}`}>Roll Initiative</div>
+					</div>
+					<div className={`${StoryStyle.charactersaverow}`}>
+						<div className={`${StoryStyle.charactersavebutton}`} onClick={console.log(activePage)}>Save Group</div>
+						<div onClick={()=>{setStorySlab(3)}} className={`${StoryStyle.charactersavebutton}`}>Load Characters</div>
+					</div>
+				</div>			
+			</div>
+		</div>
+
 	</div>
 }
 
-export const getServerSideProps = async () => {
-
-	/**
-	 * @param {import("next").NextApiRequest} req 
-	 * @param {import("next").NextApiResponse} res 
-	 */
-	await connectMongoDB();
-	const characters = await Character.find();
-	const stories = await StoryDB.find();
-	
-	return{
-		props: {
-			characters: JSON.parse(JSON.stringify(characters)),
-			stories: JSON.parse(JSON.stringify(stories))
-		}
-	}
-	}

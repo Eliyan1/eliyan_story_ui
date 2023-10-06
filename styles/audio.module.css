@@ -4,15 +4,14 @@
     display: flex;
     justify-content:center;
     align-items: center;
-    font-size: 1.6vw;
+    font-size: 1.6cqw;
     color: rgba(219, 221, 229, 0.9);
-    margin: 0.2vw;
+    margin: 0.2cqw;
     opacity: 0.85;
-    height: 6vw;
-    width: 19.7vw;
+    height: 6cqw;
+    width: 19cqw;
     background-image: url("../image/Audio_Button_Block.png");
     background-size: 100% 100%;
-    transition: 200ms;
 }
 
 .audiobutton:hover{
@@ -26,15 +25,14 @@
     display: flex;
     justify-content:center;
     align-items: center;
-    font-size: 1.6vw;
+    font-size: 1.6cqw;
     color: rgba(219, 221, 229, 0.9);
-    margin-top: 0.2vw;
+    margin-top: 0.2cqw;
     opacity: 0.85;
-    height: 5vw;
-    width: 17vw;
+    height: 5cqw;
+    width: 17cqw;
     background-image: url("../image/Audio_Button.png");
     background-size: 100% 100%;
-    transition: 200ms;
 }
 
 .audiocontrolbutton:hover{
@@ -43,14 +41,14 @@
 }
 
 .audiocontrolspacer{
-    height: 3vw;
+    height: 3cqw;
 }
 
 /* Design of Playing-Line and Volume Control */
 
 .audiobar{
-    height: 3vw;
-    width: 100vw;
+    height: 3cqw;
+    width: 100cqw;
     background-image: url("../image/Mockup_Audiobar.png");
     background-size: 100% 100%;
 }
@@ -58,13 +56,12 @@
 /* Design of Play-, Pause-, and Stop-Buttons */
 
 .audioplay{
-    height: 7vw;
-    width: 7vw;
+    all:unset;
+    height: 6cqw;
+    width: 6cqw;
     background-image: url("../image/Play_Stone.png");
     background-size: 100% 100%;
-    Margin: 2vw;
     opacity: 0.75;
-    transition: 200ms;
 }
 
 .audioplay:hover{
@@ -73,13 +70,12 @@
 }
 
 .audiostop{
-    height: 7vw;
-    width: 7vw;
+    all:unset;
+    height: 6cqw;
+    width: 6cqw;
     background-image: url("../image/Stop_Stone.png");
     background-size: 100% 100%;
-    Margin: 2vw;
     opacity: 0.75;
-    transition: 200ms;
 }
 
 .audiostop:hover{
@@ -88,16 +84,217 @@
 }
 
 .audiopause{
-    height: 7vw;
-    width: 7vw;
+    all:unset;
+    height: 6cqw;
+    width: 6cqw;
     background-image: url("../image/Pause_Stone.png");
     background-size: 100% 100%;
-    Margin: 2vw;
     opacity: 0.75;
-    transition: 200ms;
 }
 
 .audiopause:hover{
     opacity: 0.9;
+    transition: 200ms;
+}
+
+.audionavigation{
+    width: 65.5cqw;
+}
+
+.audionavbar{
+    min-width: 100%;
+    background-color: rgba(219, 221, 229, 0.5);
+    height: 0.4cqw;
+    border-radius: 0.2cqw;
+    cursor: pointer;
+}
+
+.audioprog{
+    width:0;
+    height: 100%;
+    background-color: rgba(219, 221, 229, 1);
+    border-radius: 0.2cqw;
+}
+
+.audiovolume{
+    width: 11cqw;
+    margin-left: 1.5cqw;
+}
+
+.audiovolumebar{
+    min-width: 100%;
+    background-color: rgba(219, 221, 229, 0.5);
+    height: 1.2cqw;
+    border-radius: 0.6cqw;
+    cursor: pointer;
+}
+
+.audiocurrentvolume{
+    width:0;
+    height: 100%;
+    background-color: rgba(219, 221, 229, 1);
+    border-radius: 0.6cqw;
+}
+
+.playtime{
+    display: flex;
+    font-size: 2.5cqw;
+    width: 12cqw;
+    text-align: left;
+    margin-left: 0.7cqw;
+}
+
+.volumenumber{
+    font-size: 2.5cqw;
+    width: 3.5cqw;
+    text-align: left;
+    margin-left: 0.5cqw;
+}
+
+.playmin{
+    text-align: right;
+    width: 2.2cqw;
+    margin-right: 0.2cqw;
+}
+
+.playsec{
+    text-align: left;
+    width: 2.4cqw;
+    margin-left: 0.1cqw;
+}
+
+.newaudiolist{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    margin-top: 3cqw;
+}
+
+.newaudioentry{
+    display: flex;
+    justify-content: left;
+    margin-top: 2cqw;
+    margin-left: 5cqw;
+}
+
+.newaudioname{
+    font-size: 3cqw;
+    width: 14cqw;
+    text-align: right;
+}
+
+.newaudioinput{
+    all:unset;
+    margin-left: 0.5cqw;
+    width: 40cqw;
+    font-size: 3cqw;
+    height: 3cqw;
+    border-bottom: solid;
+    margin-left: 2cqw;
+    text-align: left;
+}
+
+.newaudiobutton{
+    all:unset;
+    width: 10cqw;
+    height: 5cqw;
+    margin-top: 4cqw;
+    font-size: 2.4cqw;
+    align-self: flex-end;
+    margin-right: 11cqw;
+    background-image: url("../image/Audio_Button.png");
+    background-size: 100% 100%;
+    color: rgba(219, 221, 229, 0.8);
+    opacity: 0.85;
+    transition: 200ms;
+}
+
+.newaudiobutton:hover{
+    opacity: 1;
+    transition: 200ms;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.audiooptionwrapper::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .audiooptionwrapper {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+.audiooptionwrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: scroll;
+    height: 27cqw;
+    margin-bottom: 3.6cqw;
+    width: 100%;
+}
+
+.audiooptionheaderwrapper{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.audiooptionheader{
+    font-size: 5cqw;
+    color: rgba(219, 221, 229, 0.45);
+    height: 5cqw;
+    width: 23cqw;
+    border-bottom: 0.15cqw solid rgba(219, 221, 229, 0.6);
+    margin-bottom: 0.5cqw;
+}
+
+.audiooptionvalues{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    margin-top:0.7cqw;
+    height: 2.5cqw;
+    width: 100%;
+    border-bottom: 0.1cqw solid rgba(219, 221, 229, 0.6);
+    color: rgba(219, 221, 229, 0.45);
+    font-size: 2cqw;
+}
+
+.audiooption{
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    font-size: 2cqw;
+    text-align: justify;
+    color: rgba(219, 221, 229, 0.45);
+    cursor: pointer;
+}
+
+.audiooptionartist{
+    width: 30cqw;
+    border-left: 0.1cqw solid rgba(219, 221, 229, 0.6);
+    padding: 0.5%;
+}
+
+.audiooptiontitle{
+    width: 40cqw;
+    margin-left: 1cqw;
+    border-left: 0.1cqw solid rgba(219, 221, 229, 0.6);
+    padding: 0.5%;
+}
+
+.audiooption::selection{
+    color: rgba(255, 255, 229, 0.6);
+    background: none;
+}
+
+.audiooption:hover{
+    color: rgba(219, 221, 229, 0.75);
+    background-color: rgba(219, 221, 229, 0.1);
     transition: 200ms;
 }

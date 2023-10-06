@@ -1,22 +1,20 @@
 /* Design of Visual Portraits */
 
 .visualmain{
-    margin: 1vw;
-    height: 43.5vw;
+    margin: 1cqw;
+    height: 43.5cqw;
     width: 100%;
     background-image: url("../image/Jungle_Thin_Frame.png");
     background-size: 100% 100%;
-    transition: 200ms;
 }
 
 .visualside1{
-    margin: 1.3vw;
-    height: 11.5vw;
+    margin: 1.3cqw;
+    height: 11.5cqw;
     width: 100%;
     background-image: url("../image/Bay_Frame.png");
     background-size: 100% 100%;
     opacity: 0.8;
-    transition: 200ms;
 }
 
 .visualside1:hover{
@@ -25,13 +23,12 @@
 }
 
 .visualside2{
-    margin: 1.3vw;
-    height: 11.5vw;
+    margin: 1.3cqw;
+    height: 11.5cqw;
     width: 100%;
     background-image: url("../image/Cavern_Frame.png");
     background-size: 100% 100%;
     opacity: 0.8;
-    transition: 200ms;
 }
 
 .visualside2:hover{
@@ -39,13 +36,12 @@
     transition: 200ms;
 }
 .visualside3{
-    margin: 1.3vw;
-    height: 11.5vw;
+    margin: 1.3cqw;
+    height: 11.5cqw;
     width: 100%;
     background-image: url("../image/Snow_Frame.png");
     background-size: 100% 100%;
     opacity: 0.8;
-    transition: 200ms;
 }
 
 .visualside3:hover{
@@ -54,14 +50,13 @@
 }
 
 .visualside4{
-    margin: 1.3vw;
-    margin-top: 0.15vw;
-    height: 11.5vw;
+    margin: 1.3cqw;
+    margin-top: 0.15cqw;
+    height: 11.5cqw;
     width: 100%;
     background-image: url("../image/Jungle_Frame.png");
     background-size: 100% 100%;
     opacity: 0.8;
-    transition: 200ms;
 }
 
 .visualside4:hover{
@@ -75,14 +70,13 @@
     display: flex;
     justify-content:center;
     align-items: center;
-    font-size: 2.6vw;
+    font-size: 2.3cqw;
     color: rgba(219, 221, 229, 0.9);
     opacity: 0.85;
-    height: 4.8vw;
-    width: 20vw;
+    height: 4.2cqw;
+    width: 16cqw;
     background-image: url("../image/Character_Button_Round.png");
     background-size: 100% 100%;
-    transition: 200ms;
 }
 
 .visualcontrolbutton:hover{

@@ -1,10 +1,10 @@
 import Flexstyle from '../styles/flexbox.module.css'
-import Link from'next/link';
 
-export default function Footer() {
+export default function Footer({setActivePage}) {
     return <div className={`${Flexstyle.footer}`}>
-        <div className={`${Flexstyle.footeritem}`}><Link href="/story">Story</Link></div>
-        <div className={`${Flexstyle.footeritem}`}><Link href="/audio">Audio</Link></div>
-        <div className={`${Flexstyle.footeritem}`}><Link href="/visual">Visual</Link></div>
+        <div className={`${Flexstyle.footeritem}`} onClick={() => {setActivePage(1)}}> Story </div>
+        <div className={`${Flexstyle.footeritem}`} onClick={() => {setActivePage(2)}}> Audio </div>
+        <div className={`${Flexstyle.footeritem}`} onClick={() => {setActivePage(3)}}> Visual </div>
     </div>
+
 }
