@@ -69,7 +69,7 @@ export default function Story({characters, stories, activePage})  {
 	
 	const switchToChar = async (e, char) => {
 	e.preventDefault();
-	const activeCharIndex = activeChars.findIndex((activeChars)=> activeChars.init == char.init)
+	const activeCharIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == char.uniquechar)
 	populateActiveCharacter(activeCharIndex)
 	await setStorySlab(0); //necessary to update the notes of the character
 	setStorySlab(2);
