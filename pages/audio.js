@@ -1,6 +1,10 @@
 import Flexstyle from '../styles/flexbox.module.css'
 import AudioStyle from '../styles/audio.module.css'
 import React, { useRef, useState } from'react';
+import connectMongoDB from "@/libs/mongodb";
+import Character from "@/models/character";
+import StoryDB from "@/models/story";
+import AudioDB from "@/models/audio"; 
 
 export default function Audio({activePage, audios}) {
 
@@ -239,3 +243,23 @@ export default function Audio({activePage, audios}) {
     </div>
     </div>;				
 }
+
+export const getServerSideProps = async () => {
+
+	/**
+	 * @param {import("next").NextApiRequest} req 
+	 * @param {import("next").NextApiResponse} res 
+	 */
+	await connectMongoDB();
+	const characters = await Character.find();
+	const stories = await StoryDB.find();
+	const audios = await AudioDB.find()
+	
+	return{
+		props: {
+			characters: JSON.parse(JSON.stringify(characters)),
+			stories: JSON.parse(JSON.stringify(stories)),
+			audios: JSON.parse(JSON.stringify(audios))
+		}
+	}
+	}
