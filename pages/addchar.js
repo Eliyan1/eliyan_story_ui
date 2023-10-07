@@ -81,7 +81,7 @@ export default function AddChar() {
         });
 
         if (res.ok) {
-            router.push('/story');
+            router.push('/');
         }else{
             throw new Error("Failed to create a Character")
         }
