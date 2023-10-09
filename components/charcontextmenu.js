@@ -1,6 +1,5 @@
 import { useClickAway } from "@uidotdev/usehooks"
 import CM from '../styles/charcontextmenu.module.css'
-import useRouter from "next/router";
 
 export default function CharContextMenu({x, y, closeContextMenu, uniquechar, removeActiveChar, moveCharUp, moveCharDown}) {
     

@@ -166,9 +166,22 @@
     flex-direction: row;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.visualcontrol::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .visualcontrol {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
 .visualcontrol{
     width: 20cqw;
+    height: 50cqw;
     margin-left: 1%;
+    overflow-y: scroll;
 }
 
 .visualbar{

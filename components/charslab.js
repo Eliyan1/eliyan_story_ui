@@ -22,19 +22,37 @@ export default function CharSlab(activeChars,  setStorySlab) {
     
 
     const populateActiveCharacter = (activeCharIndex) => {
-        setActiveIndex(activeCharIndex);
-        setName(activeChars[activeCharIndex].name);
-        setAC(activeChars[activeCharIndex].ac)
-        setHP(activeChars[activeCharIndex].hp)
-        setTHP(activeChars[activeCharIndex].temphp)
-        setMHP(activeChars[activeCharIndex].maxhp)
-        setStr(activeChars[activeCharIndex].str)
-        setDex(activeChars[activeCharIndex].dex)
-        setCon(activeChars[activeCharIndex].con)
-        setWis(activeChars[activeCharIndex].wis)
-        setInt(activeChars[activeCharIndex].intel)
-        setCha(activeChars[activeCharIndex].cha)
-        setNotes(activeChars[activeCharIndex].notes)
+        if(activeCharIndex < activeChars.length) {
+            setActiveIndex(activeCharIndex);
+            setName(activeChars[activeCharIndex].name);
+            setAC(activeChars[activeCharIndex].ac)
+            setHP(activeChars[activeCharIndex].hp)
+            setTHP(activeChars[activeCharIndex].temphp)
+            setMHP(activeChars[activeCharIndex].maxhp)
+            setStr(activeChars[activeCharIndex].str)
+            setDex(activeChars[activeCharIndex].dex)
+            setCon(activeChars[activeCharIndex].con)
+            setWis(activeChars[activeCharIndex].wis)
+            setInt(activeChars[activeCharIndex].intel)
+            setCha(activeChars[activeCharIndex].cha)
+            setNotes(activeChars[activeCharIndex].notes)
+        }else{
+            console.log(activeCharIndex);
+            setActiveIndex(activeCharIndex);
+            setName('New Char');
+            setAC(1)
+            setHP('1')
+            setTHP(0)
+            setMHP(1)
+            setStr(1)
+            setDex(1)
+            setCon(1)
+            setWis(1)
+            setInt(1)
+            setCha(1)
+            setNotes(1)
+        }
+
     }
 
     const handleKeyPress = (e) => {

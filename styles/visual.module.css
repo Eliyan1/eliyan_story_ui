@@ -1,67 +1,55 @@
 /* Design of Visual Portraits */
 
 .visualmain{
+    display: flex;
+    flex-direction: column;
     margin: 1cqw;
     height: 43.5cqw;
     width: 100%;
-    background-image: url("../image/Jungle_Thin_Frame.png");
-    background-size: 100% 100%;
 }
 
-.visualside1{
-    margin: 1.3cqw;
+.visualmainimage{
+    margin-top: 1cqw;
+    margin-left: 2cqw;
+    height: 41cqw;
+    width: 72.5cqw;
+}
+
+.visualmainborder{
+    margin-top: -42cqw;
+    background-image: url('../image/Empty_Thin_Frame.png');
+    background-size: 100% 100%; 
+    z-index: 1;
+    margin-left: 1cqw;
+    width: 74.5cqw;
+    height: 43cqw;
+}
+
+.visualside{
+    margin-top: 1.7cqw;
     height: 11.5cqw;
     width: 100%;
-    background-image: url("../image/Bay_Frame.png");
     background-size: 100% 100%;
     opacity: 0.8;
 }
 
-.visualside1:hover{
+.visualside:hover{
     opacity: 1;
     transition: 200ms;
 }
 
-.visualside2{
-    margin: 1.3cqw;
-    height: 11.5cqw;
-    width: 100%;
-    background-image: url("../image/Cavern_Frame.png");
-    background-size: 100% 100%;
-    opacity: 0.8;
+.visualsideimage{
+    margin-top: 1cqw;
+    margin-left: 1cqw;
+    height: 10.2cqw;
+    width: 18cqw;
 }
 
-.visualside2:hover{
-    opacity: 1;
-    transition: 200ms;
-}
-.visualside3{
-    margin: 1.3cqw;
-    height: 11.5cqw;
-    width: 100%;
-    background-image: url("../image/Snow_Frame.png");
-    background-size: 100% 100%;
-    opacity: 0.8;
-}
-
-.visualside3:hover{
-    opacity: 1;
-    transition: 200ms;
-}
-
-.visualside4{
-    margin: 1.3cqw;
-    margin-top: 0.15cqw;
-    height: 11.5cqw;
-    width: 100%;
-    background-image: url("../image/Jungle_Frame.png");
-    background-size: 100% 100%;
-    opacity: 0.8;
-}
-
-.visualside4:hover{
-    opacity: 1;
-    transition: 200ms;
+.visualsideborder{
+    margin-top: -11.2cqw;
+    z-index: 1;
+    width: 20cqw;
+    height: 12.2cqw;
 }
 
 /* Design of Visual Control Buttons */
@@ -81,5 +69,140 @@
 
 .visualcontrolbutton:hover{
     opacity: 1;
+    transition: 200ms;
+}
+
+.newvisuallist{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    margin-top: 3cqw;
+}
+
+.newvisualentry{
+    display: flex;
+    justify-content: left;
+    margin-top: 2cqw;
+    margin-left: 5cqw;
+}
+
+.newvisualname{
+    font-size: 3cqw;
+    width: 14cqw;
+    text-align: right;
+}
+
+.newvisualinput{
+    all:unset;
+    margin-left: 0.5cqw;
+    width: 40cqw;
+    font-size: 3cqw;
+    height: 3cqw;
+    border-bottom: solid;
+    margin-left: 2cqw;
+    text-align: left;
+}
+
+.newvisualbutton{
+    all:unset;
+    width: 10cqw;
+    height: 5cqw;
+    margin-top: 4cqw;
+    font-size: 2.4cqw;
+    align-self: flex-end;
+    margin-right: 11cqw;
+    background-image: url("../image/Audio_Button.png");
+    background-size: 100% 100%;
+    color: rgba(219, 221, 229, 0.8);
+    opacity: 0.85;
+    transition: 200ms;
+}
+
+.newvisualbutton:hover{
+    opacity: 1;
+    transition: 200ms;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.visualoptionwrapper::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .visualoptionwrapper {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+.visualoptionwrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: scroll;
+    height: 29cqw;
+    width: 100%;
+}
+
+.visualoptionheaderwrapper{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.visualoptionheader{
+    font-size: 5cqw;
+    color: rgba(219, 221, 229, 0.45);
+    height: 5cqw;
+    width: 26cqw;
+    border-bottom: 0.15cqw solid rgba(219, 221, 229, 0.6);
+    margin-bottom: 0.5cqw;
+}
+
+.visualoptionvalues{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    margin-top:0.7cqw;
+    height: 2.5cqw;
+    width: 100%;
+    border-bottom: 0.1cqw solid rgba(219, 221, 229, 0.6);
+    color: rgba(219, 221, 229, 0.45);
+    font-size: 2cqw;
+}
+
+.visualoption{
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    font-size: 2cqw;
+    text-align: justify;
+    color: rgba(219, 221, 229, 0.45);
+    cursor: pointer;
+}
+
+.visualoptiontitle{
+    width: 30cqw;
+    border-left: 0.1cqw solid rgba(219, 221, 229, 0.6);
+    padding: 0.5%;
+}
+
+.visualoptiontag{
+    width: 40cqw;
+    margin-left: 1cqw;
+    border-left: 0.1cqw solid rgba(219, 221, 229, 0.6);
+    padding: 0.5%;
+}
+
+.visualoption::selection{
+    color: rgba(255, 255, 229, 0.6);
+    background: none;
+}
+
+.visualoption:hover{
+    color: rgba(219, 221, 229, 0.75);
+    background-color: rgba(219, 221, 229, 0.1);
     transition: 200ms;
 }

@@ -8,6 +8,7 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
   newEntry[newEntry.length-1].uniquechar= uniqueChar;
   setUniqueChar(uniqueChar+1)
   setActiveChars(newEntry)
+  console.log(characters)
 }
 
     return <div spellCheck="false" className={`${UIcomp.charslab}`}>

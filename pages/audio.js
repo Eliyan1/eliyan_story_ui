@@ -111,11 +111,10 @@ export default function Audio({activePage, audios}) {
       }
     }
 
-    const buttonPlay =({e,audioButtons}) => {
+    const buttonPlay = async ({e,audioButtons}) => {
         e.preventDefault();
-        audioElem.current.pause();
-        setCurrentSong(audioButtons);
-        setTimeout(function () {audioElem.current.play()}, 1);
+        await setCurrentSong(audioButtons);
+        audioElem.current.play();
     }
 
 

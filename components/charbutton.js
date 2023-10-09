@@ -17,6 +17,7 @@ export default function CharacterButton({char, charMenu, removeActiveChar, moveC
   const rightClick = (e) => {
     e.preventDefault()
     const {pageX, pageY} = e
+    console.log(pageX, pageY)
     setContextMenu({show: true, x: pageX, y: pageY})
   }
 
@@ -24,7 +25,7 @@ export default function CharacterButton({char, charMenu, removeActiveChar, moveC
 
 
   return <div>
-    <button className={`${UIcomp.characterbutton}`} onClick={(e)=>charMenu(e, char)} onContextMenu={rightClick}>  
+    <button className={`${UIcomp.characterbutton}`} onClick={()=>charMenu(char)} onContextMenu={rightClick}>  
       <div className={`${UIcomp.characterbuttoncolumn}`}> 
       <div className={`${UIcomp.characterbuttonrow}`}>
           <div className={`${UIcomp.charactername}`}> {char.name} </div>

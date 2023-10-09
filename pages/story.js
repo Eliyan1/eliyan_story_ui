@@ -2,14 +2,15 @@ import Flexstyle from '../styles/flexbox.module.css'
 import StoryStyle from '../styles/story.module.css'
 import CharButton from '../components/charbutton'
 import StorySlab from '../components/storyslab'
-import Link from 'next/link';
 import { useState } from 'react';
 import CharSlab from '@/components/charslab';
 import CharLoad from '@/components/charload';
 import StoryLoad from '@/components/storyload';
 import InitiativeTracker from '@/components/initiativetracker'
-	
-export default function Story({characters, stories, activePage})  {
+
+export default function Story({dbCharacters, stories, activePage})  {
+
+	const [characters, setCharacters] = useState(dbCharacters)
 
 	const [storySlab, setStorySlab] = useState(1)
 
@@ -21,8 +22,6 @@ export default function Story({characters, stories, activePage})  {
 	const [uniqueChar, setUniqueChar] = useState(0) 
 
 	const {charPanel, populateActiveCharacter} = CharSlab(activeChars, setStorySlab)
-
-
 	
 	const checkStoryPresent = () => {
 		console.log(stories.findIndex((stories)=> stories.title == activeStoryTitle))
@@ -67,12 +66,55 @@ export default function Story({characters, stories, activePage})  {
 	}
 
 	
-	const switchToChar = async (e, char) => {
-	e.preventDefault();
+	const switchToChar = async (char) => {
 	const activeCharIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == char.uniquechar)
 	populateActiveCharacter(activeCharIndex)
 	await setStorySlab(0); //necessary to update the notes of the character
 	setStorySlab(2);
+	console.log(activeChars)
+	}
+
+	const createNewCharacter = async (e) =>{
+		e.preventDefault();
+		  const res = await fetch('/api/characters/create',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name:   "New Char",
+                hp:     1,
+                maxhp:  1,
+                temphp: 0,
+                ac:     1,
+                str:    1,
+                dex:    1,
+                con:    1,
+                intel:  1,
+                wis:    1,
+                cha:    1,
+            }),
+        });
+
+        if (res.ok) {
+			const response = await fetch('/api/characters/read',{
+				method: 'PUT'
+			}).then(response => response.json()).then(async (response) => {
+				setCharacters(response.characters);
+				const newEntry = JSON.parse(JSON.stringify([...activeChars, response.characters[response.characters.length-1]]));
+				newEntry[newEntry.length-1].uniquechar= uniqueChar;
+				setUniqueChar(uniqueChar+1)
+				setActiveChars(newEntry)
+				populateActiveCharacter(newEntry.length-1)
+				await setStorySlab(0); //necessary to update the notes of the character
+				setStorySlab(2);
+			});
+        }else{
+            throw new Error("Failed to create a Character")
+        }
+
+
+
 	}
 
 	return <div className={`${Flexstyle.storycontent}`} style={{display: activePage==1 ? "flex" : "none"}}>
@@ -145,11 +187,11 @@ export default function Story({characters, stories, activePage})  {
 			<div> 
 				<div className={`${StoryStyle.charactersavecolumn}`}>
 					<div className={`${StoryStyle.charactersaverow}`}>
-						<Link href={"/addchar"} className={`${StoryStyle.charactersavebutton}`}>Create Character</Link>
+						<div onClick={(e)=>{createNewCharacter(e)}} className={`${StoryStyle.charactersavebutton}`}>Create Character</div>
 						<div onClick={()=>{setStorySlab(5)}} className={`${StoryStyle.charactersavebutton}`}>Roll Initiative</div>
 					</div>
 					<div className={`${StoryStyle.charactersaverow}`}>
-						<div className={`${StoryStyle.charactersavebutton}`} onClick={console.log(activePage)}>Save Group</div>
+						<div className={`${StoryStyle.charactersavebutton}`} onClick={console.log(dbCharacters)}>Save Group</div>
 						<div onClick={()=>{setStorySlab(3)}} className={`${StoryStyle.charactersavebutton}`}>Load Characters</div>
 					</div>
 				</div>			

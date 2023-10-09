@@ -9,18 +9,17 @@ import connectMongoDB from "@/libs/mongodb";
 import Character from "@/models/character";
 import StoryDB from "@/models/story";
 import AudioDB from "@/models/audio"; 
+import VisualDB from "@/models/visual"
 	
-export default function IndexPage({characters, stories, audios}) {
-		const [activePage, setActivePage] = useState(1)
+export default function IndexPage({dbCharacters, stories, audios, visuals}) {
+	const [activePage, setActivePage] = useState(1)
 
-		return (<div className={`${Flexstyle.aspectwrapper}`}>
-		<Story activePage={activePage} characters={characters} stories={stories}/>
+	return <div className={`${Flexstyle.aspectwrapper}`}>
+		<Story activePage={activePage} dbCharacters={dbCharacters} stories={stories}/>
 		<Audio activePage={activePage} audios={audios}/>
-		<Visual activePage={activePage}/>
+		<Visual activePage={activePage} visuals={visuals}/>
 		<Footer setActivePage={setActivePage}/>	
-		</div>
-
-		)
+	</div>
 }
 
 
@@ -31,15 +30,18 @@ export const getServerSideProps = async () => {
 	 * @param {import("next").NextApiResponse} res 
 	 */
 	await connectMongoDB();
-	const characters = await Character.find();
+	const dbCharacters = await Character.find();
 	const stories = await StoryDB.find();
-	const audios = await AudioDB.find()
+	const audios = await AudioDB.find();
+	const visuals = await VisualDB.find();
+
 	
 	return{
 		props: {
-			characters: JSON.parse(JSON.stringify(characters)),
+			dbCharacters: JSON.parse(JSON.stringify(dbCharacters)),
 			stories: JSON.parse(JSON.stringify(stories)),
-			audios: JSON.parse(JSON.stringify(audios))
+			audios: JSON.parse(JSON.stringify(audios)),
+			visuals: JSON.parse(JSON.stringify(visuals))
 		}
 	}
 	}

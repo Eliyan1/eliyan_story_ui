@@ -1,5 +1,5 @@
 .contextmenu{
-    position: absolute;
+    position:absolute;
     transition: 200ms;
     z-index: 1;
     background-image: linear-gradient(to bottom right, #7D8897, #505864);
@@ -7,7 +7,6 @@
     border-radius: 0.2cqw;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .contextmenuitem{
