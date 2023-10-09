@@ -1,6 +1,8 @@
 import Flexstyle from '../styles/flexbox.module.css'
 import VisualStyle from '../styles/visual.module.css'
 import React, { useState } from'react';
+import connectMongoDB from "@/libs/mongodb";
+import VisualDB from "@/models/visual"
 
 export default function Visual({activePage, visuals}) {
 
@@ -115,3 +117,19 @@ export default function Visual({activePage, visuals}) {
         </div>
     </div>
 }
+
+export const getServerSideProps = async () => {
+
+	/**
+	 * @param {import("next").NextApiRequest} req 
+	 * @param {import("next").NextApiResponse} res 
+	 */
+	await connectMongoDB();
+	const visuals = await VisualDB.find()
+	
+	return{
+		props: {
+			visuals: JSON.parse(JSON.stringify(visuals))
+		}
+	}
+	}
