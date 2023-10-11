@@ -26,8 +26,8 @@
 }
 
 .visualside{
-    margin-top: 1.7cqw;
-    height: 11.5cqw;
+    margin-top: 1.5cqw;
+    height: 11.6cqw;
     width: 100%;
     background-size: 100% 100%;
     opacity: 0.8;
@@ -41,15 +41,15 @@
 .visualsideimage{
     margin-top: 1cqw;
     margin-left: 1cqw;
-    height: 10.2cqw;
-    width: 18cqw;
+    height: 9.6cqw;
+    width: 17cqw;
 }
 
 .visualsideborder{
-    margin-top: -11.2cqw;
+    margin-top: -10.6cqw;
     z-index: 1;
-    width: 20cqw;
-    height: 12.2cqw;
+    width: 19cqw;
+    height: 11.6cqw;
 }
 
 /* Design of Visual Control Buttons */

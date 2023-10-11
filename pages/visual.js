@@ -8,7 +8,7 @@ export default function Visual({activePage, visuals}) {
 
     const [visualButtons, setVisualButtons] = useState([])
     const [visualState, setVisualState] = useState(1)
-    const [visualMain, setVisualMain] = useState("https://storage.cloud.google.com/eliyan_multimedia/Images/Commissioned/Background%20BW.png")
+    const [visualMain, setVisualMain] = useState("https://storage.googleapis.com/eliyan_multimedia/Images/Commissioned/Background%20BW.png")
 
     const [visualTitle, setVisualTitle] = useState('')
     const [visualTag, setVisualTag] = useState('')
@@ -32,22 +32,23 @@ export default function Visual({activePage, visuals}) {
         setVisualState(1)
     };
 
-    const makeViewer = async (e) => {
-        e.preventDefault()
+    //In case a new object in the database needs to be made for the viewer to get its url from.
+    // const makeViewer = async (e) => {
+    //     e.preventDefault()
 
-        await fetch('/api/viewer/create',{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                title:    'DisplayImage',
-                url:      "https://storage.cloud.google.com/eliyan_multimedia/Images/Commissioned/Background%20BW.png",
-            }),
-        });
+    //     await fetch('/api/viewer/create',{
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //             title:    'DisplayImage',
+    //             url:      "https://storage.cloud.google.com/eliyan_multimedia/Images/Commissioned/Background%20BW.png",
+    //         }),
+    //     });
 
-        console.log('It is done')
-    };
+    //     console.log('It is done')
+    // };
 
     const addVisualButton = ({e,visuals}) => {
         e.preventDefault()
@@ -131,7 +132,7 @@ export default function Visual({activePage, visuals}) {
                 <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}} onClick={()=>{setVisualState(2)}}>Add Scene</div>
                 <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}} onClick={()=>{setVisualState(3)}}>Load Scene</div>
                 <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}}>Save Setup</div>
-                <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}} onClick={(e)=>{makeViewer(e)}}>Load Setup</div>
+                <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}}>Load Setup</div>
                 <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState!=1 ? "flex" : "none"}} onClick={()=>{setVisualState(1)}}>Return</div>
             </div>
         </div>
@@ -144,7 +145,7 @@ export default function Visual({activePage, visuals}) {
             onClick={() => {makeMainVisual({url: visualButtons.url})}}
             > 
                 <img className={`${VisualStyle.visualsideimage}`} src={visualButtons.url}></img>
-                <img className={`${VisualStyle.visualsideborder}`} src='https://storage.cloud.google.com/eliyan_multimedia/Images/Commissioned/Empty_Frame.png'/>
+                <img className={`${VisualStyle.visualsideborder}`} src='https://storage.googleapis.com/eliyan_multimedia/Images/Commissioned/Empty_Frame.png'/>
             </div>
             ))}
         </div>

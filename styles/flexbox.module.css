@@ -178,9 +178,9 @@
   }
 
 .visualcontrol{
-    width: 20cqw;
-    height: 50cqw;
-    margin-left: 1%;
+    width: 19cqw;
+    height: 52cqw;
+    margin-left: 1cqw;
     overflow-y: scroll;
 }
 

@@ -5,7 +5,7 @@ import ViewerDB from "@/models/viewer"
 
 export default function Viewer() {
     
-    const [displayImage, setDisplayImage] = useState('https://storage.cloud.google.com/eliyan_multimedia/Images/Commissioned/Background%20BW.png')
+    const [displayImage, setDisplayImage] = useState('https://storage.googleapis.com/eliyan_multimedia/Images/Commissioned/Background%20BW.png')
 
     const updateDisplayImage = async () => {
         const response = await fetch('api/viewer/get',{
@@ -14,14 +14,12 @@ export default function Viewer() {
     }
 
     useEffect(() => {
-        const interval = setInterval(() => {updateDisplayImage()}, 1500);
+        const interval = setInterval(() => {updateDisplayImage()}, 1000);
         return () => clearInterval(interval);
     }, [])
 
     return<img 
-    className={`${Visualstyle.viewer}`} 
-    src={displayImage} 
-    onClick={console.log(displayImage)}/>
+    className={`${Visualstyle.viewer}`} src={displayImage}/>
 }
 
 export const getServerSideProps = async () => {
