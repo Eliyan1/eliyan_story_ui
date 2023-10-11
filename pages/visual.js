@@ -32,6 +32,23 @@ export default function Visual({activePage, visuals}) {
         setVisualState(1)
     };
 
+    const makeViewer = async (e) => {
+        e.preventDefault()
+
+        await fetch('/api/viewer/create',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title:    'DisplayImage',
+                url:      "https://storage.cloud.google.com/eliyan_multimedia/Images/Commissioned/Background%20BW.png",
+            }),
+        });
+
+        console.log('It is done')
+    };
+
     const addVisualButton = ({e,visuals}) => {
         e.preventDefault()
         const checkIfAdded = visualButtons.findIndex((visualButtons)=> visualButtons._id == visuals._id)
@@ -42,6 +59,22 @@ export default function Visual({activePage, visuals}) {
           alert("Scene is already added")
         }
       }
+
+
+      const makeMainVisual = async ({url}) => {
+        setVisualMain(url)
+
+        await fetch('/api/viewer/update',{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                url: url
+            }),
+        });
+      }
+  
   
 
     return <div className={`${Flexstyle.visualcontainer}`} style={{display: activePage==3 ? "flex" : "none"}}> 
@@ -98,7 +131,7 @@ export default function Visual({activePage, visuals}) {
                 <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}} onClick={()=>{setVisualState(2)}}>Add Scene</div>
                 <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}} onClick={()=>{setVisualState(3)}}>Load Scene</div>
                 <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}}>Save Setup</div>
-                <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}}>Load Setup</div>
+                <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}} onClick={(e)=>{makeViewer(e)}}>Load Setup</div>
                 <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState!=1 ? "flex" : "none"}} onClick={()=>{setVisualState(1)}}>Return</div>
             </div>
         </div>
@@ -108,7 +141,7 @@ export default function Visual({activePage, visuals}) {
             <div 
             className={`${VisualStyle.visualside}`} 
             key={visualButtons._id} 
-            onClick={() => {setVisualMain(visualButtons.url)}}
+            onClick={() => {makeMainVisual({url: visualButtons.url})}}
             > 
                 <img className={`${VisualStyle.visualsideimage}`} src={visualButtons.url}></img>
                 <img className={`${VisualStyle.visualsideborder}`} src='https://storage.cloud.google.com/eliyan_multimedia/Images/Commissioned/Empty_Frame.png'/>
