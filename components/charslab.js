@@ -2,7 +2,7 @@ import UIcomp from '../styles/story.module.css'
 import CharNotes from './charnotes'
 import { useState } from "react";
 
-export default function CharSlab(activeChars,  setStorySlab) {
+export default function CharSlab(activeChars, setStorySlab) {
 
     const [activeIndex, setActiveIndex] = useState(0)
     const [charName, setName] = useState("Character Name");
@@ -19,6 +19,10 @@ export default function CharSlab(activeChars,  setStorySlab) {
     const [charNotes, setNotes] = useState("Character Notes")
     const [charCurHP, setCurHP] = useState(0)
     const [charCurTHP, setCurTHP] = useState(0)
+    const [charURL, setURL] = useState("");
+
+    const [charSlab, setCharSlab] = useState(1)
+    const [extButtonText, setExtButtonText] = useState("External Info")
     
 
     const populateActiveCharacter = (activeCharIndex) => {
@@ -36,6 +40,9 @@ export default function CharSlab(activeChars,  setStorySlab) {
             setInt(activeChars[activeCharIndex].intel)
             setCha(activeChars[activeCharIndex].cha)
             setNotes(activeChars[activeCharIndex].notes)
+            setCharSlab(1)
+            setExtButtonText("External Info")
+            setURL(activeChars[activeCharIndex].url)
         }else{
             console.log(activeCharIndex);
             setActiveIndex(activeCharIndex);
@@ -51,6 +58,9 @@ export default function CharSlab(activeChars,  setStorySlab) {
             setInt(1)
             setCha(1)
             setNotes(1)
+            setCharSlab(1)
+            setExtButtonText("External Info")
+            setURL("")
         }
 
     }
@@ -158,6 +168,44 @@ export default function CharSlab(activeChars,  setStorySlab) {
         }
 	}
 
+    const urlUpdate = (e) => {
+        setURL(e.target.value)
+        activeChars[activeIndex].url=e.target.value;
+    }
+
+
+    const noteButtonClick = () => {
+    setCharSlab(1);
+    setExtButtonText("External Info");
+    }
+
+    const externalButtonClick = () => {
+        if(extButtonText == "External Info" && activeChars[activeIndex].url)
+        {
+            setCharSlab(2);
+            setExtButtonText("Edit URL")
+        }
+    
+        if(extButtonText == "External Info" && !activeChars[activeIndex].url)
+        {
+            setCharSlab(3);
+            setExtButtonText("Accept")
+        }
+
+        if(extButtonText == "Accept")
+        {
+            setCharSlab(2);
+            setExtButtonText("Edit URL")
+        }
+
+        if(extButtonText == "Edit URL")
+        {
+            setCharSlab(3);
+            setExtButtonText("Accept")
+        }
+    
+    }
+
     const updateCharDatabase = async (e) => {
         e.preventDefault();
         if(activeChars[activeIndex].hp<0) {activeChars[activeIndex].hp=0};
@@ -197,9 +245,12 @@ export default function CharSlab(activeChars,  setStorySlab) {
                 con:    activeChars[activeIndex].con,
                 intel:  activeChars[activeIndex].intel,
                 wis:    activeChars[activeIndex].wis,
-                cha:    activeChars[activeIndex].cha
+                cha:    activeChars[activeIndex].cha,
+                url:    activeChars[activeIndex].url
             }),
         });
+
+        console.log(activeChars[activeIndex].url)
 
         if (!res.ok) {
             throw new Error("Failed to edit the Character")
@@ -209,7 +260,7 @@ export default function CharSlab(activeChars,  setStorySlab) {
 
     return {populateActiveCharacter,
         charPanel:(<>
-        <div spellCheck="false" className={`${UIcomp.charslab}`}>
+        {charSlab == 1 && <div spellCheck="false" className={`${UIcomp.charslab}`}>
         <div className={`${UIcomp.frontslabshort}`}/>
         <div className={`${UIcomp.namewrapper}`}> 
             <input 
@@ -354,11 +405,27 @@ export default function CharSlab(activeChars,  setStorySlab) {
             charNotes={charNotes}
             setNotes={setNotes} 
         />
+    </div>}
+
+    {charSlab == 2 && <div className={`${UIcomp.charexternal}`}>
+        <iframe className={`${UIcomp.charexternalframe}`} src={charURL}  width="100%" height="100%"></iframe>
+        <div className={`${UIcomp.charexternalframeborder}`}/>    
+    </div>}
+
+    <div className={`${UIcomp.charexternal}`} style={{display: charSlab == 3 ? "flex" : "none"}}>
+        <div className={`${UIcomp.charexternaltext}`}>
+        Please enter external URL:
+        </div>
+        <input 
+        className={`${UIcomp.charexternalinput}`} 
+        onChange={(e) => urlUpdate(e)} 
+        value={charURL}
+        onBlur={(e) => updateCharDatabase(e)}/>
     </div>
 
     <div className={`${UIcomp.charslabbuttonwrapper}`}>
-        <div onClick={()=>{setStorySlab(2)}} className={`${UIcomp.charslabbutton}`}>Character Notes</div>
-        <div className={`${UIcomp.charslabbutton}`}>External Info</div>
+        <div onClick={noteButtonClick} className={`${UIcomp.charslabbutton}`}>Character Notes</div>
+        <div onClick={externalButtonClick} className={`${UIcomp.charslabbutton}`}>{extButtonText} </div>
         <div onClick={()=>{setStorySlab(1)}} className={`${UIcomp.charslabbutton}`}>Return to Story</div>
     </div>
 

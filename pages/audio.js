@@ -189,7 +189,7 @@ export default function Audio({activePage, audios}) {
             <div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setAudioState(2)}}>Add Song</div>
             <div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setAudioState(3)}}>Load Song</div>
             <div className={`${AudioStyle.audiocontrolspacer}`}></div>
-            <div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setAudioState(1)}}>Open Youtube</div>
+            <div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setAudioState(1)}}>Return to Player</div>
         </div>
     </div>
 

@@ -15,7 +15,9 @@ const characterSchema = new Schema(
         wis: Number,
         cha: Number,
         active: Boolean,
-        notes: JSON 
+        notes: JSON,
+        url: String,
+        group: Number
     }
 );
 

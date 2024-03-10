@@ -93,6 +93,8 @@ export default function Story({dbCharacters, stories, activePage})  {
                 intel:  1,
                 wis:    1,
                 cha:    1,
+				url:	"",
+				group:	1
             }),
         });
 
@@ -119,15 +121,15 @@ export default function Story({dbCharacters, stories, activePage})  {
 
 	return <div className={`${Flexstyle.storycontent}`} style={{display: activePage==1 ? "flex" : "none"}}>
 		<div className={`${Flexstyle.storybox}`}>
-			{storySlab == 1 && 
 			<StorySlab 
+			storySlab={storySlab}
 			activeStoryTitle={activeStoryTitle} 
 			activeStoryContent={activeStoryContent} 
 			setActiveStoryTitle={setActiveStoryTitle} 
 			setStorySlab={setStorySlab}
 			checkStoryPresent={checkStoryPresent}
 			saveStory={saveStory}
-			/>}
+			/>
 
 			{storySlab == 2 && <>{charPanel}</>}
 
@@ -175,7 +177,9 @@ export default function Story({dbCharacters, stories, activePage})  {
 					cha: activeChars.cha,
 					_id: activeChars._id,
 					active: activeChars.active,
-					uniquechar: activeChars.uniquechar
+					uniquechar: activeChars.uniquechar,
+					group: activeChars.group,
+					url: activeChars.url
 				}} 
 				charMenu = {switchToChar}
 				removeActiveChar = {removeActiveChar}
@@ -197,7 +201,6 @@ export default function Story({dbCharacters, stories, activePage})  {
 				</div>			
 			</div>
 		</div>
-
 	</div>
 }
 
