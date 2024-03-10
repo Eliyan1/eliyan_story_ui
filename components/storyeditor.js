@@ -5,7 +5,7 @@ import EditStyle from '../styles/storyeditor.module.css'
 import Flexstyle from '../styles/flexbox.module.css'
 import StoryStyle from '../styles/story.module.css'
 
-const StoryEditor = ({activeStoryTitle, activeStoryContent, setStorySlab, checkStoryPresent, saveStory}) => {
+const StoryEditor = ({activeStoryTitle, activeStoryContent, setActiveStoryContent, setStorySlab, checkStoryPresent, saveStory}) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -19,6 +19,7 @@ const StoryEditor = ({activeStoryTitle, activeStoryContent, setStorySlab, checkS
     const content = await editor.getJSON()
     const storyNumber = checkStoryPresent()
     console.log(storyNumber)
+    setActiveStoryContent(content)
 
     if (storyNumber==-1){
     await fetch('/api/story/create',{
@@ -38,7 +39,7 @@ const StoryEditor = ({activeStoryTitle, activeStoryContent, setStorySlab, checkS
 
   return (
     <div className={EditStyle.editor}>
-        <EditorContent spellCheck="false" editor={editor} />
+        <EditorContent spellCheck="false" editor={editor} onBlur={saveClick}/>
         <div className={`${Flexstyle.storysaveload}`}>
 					<div onClick={saveClick} className={`${StoryStyle.storysave}`}>Save</div>
 					<div onClick={()=>{setStorySlab(4)}} className={`${StoryStyle.storyload}`}>Load</div>

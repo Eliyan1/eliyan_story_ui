@@ -1,9 +1,9 @@
 import UIcomp from '../styles/story.module.css'
 import StoryEditor from './storyeditor'
 
-export default function StorySlab({storySlab, activeStoryTitle, activeStoryContent, setActiveStoryTitle, setStorySlab, checkStoryPresent, saveStory}) {
+export default function StorySlab({setActiveStoryContent, activeStoryTitle, activeStoryContent, setActiveStoryTitle, setStorySlab, checkStoryPresent, saveStory}) {
 
-    return <div spellCheck="false" className={`${UIcomp.storyslab}`} style={{display: storySlab==1 ? "block" : "none"}}>
+    return <div spellCheck="false" className={`${UIcomp.storyslab}`}>
       <div className={`${UIcomp.frontslab}`}/>
       <div className={`${UIcomp.titlewrapper}`}>
         <input 
@@ -14,6 +14,7 @@ export default function StorySlab({storySlab, activeStoryTitle, activeStoryConte
         />
       </div>
         <StoryEditor 
+        setActiveStoryContent={setActiveStoryContent}
         activeStoryTitle={activeStoryTitle} 
         activeStoryContent={activeStoryContent} 
         setStorySlab={setStorySlab}

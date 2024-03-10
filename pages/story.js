@@ -121,15 +121,16 @@ export default function Story({dbCharacters, stories, activePage})  {
 
 	return <div className={`${Flexstyle.storycontent}`} style={{display: activePage==1 ? "flex" : "none"}}>
 		<div className={`${Flexstyle.storybox}`}>
+			{storySlab ==1 &&
 			<StorySlab 
-			storySlab={storySlab}
 			activeStoryTitle={activeStoryTitle} 
 			activeStoryContent={activeStoryContent} 
 			setActiveStoryTitle={setActiveStoryTitle} 
+			setActiveStoryContent={setActiveStoryContent}
 			setStorySlab={setStorySlab}
 			checkStoryPresent={checkStoryPresent}
 			saveStory={saveStory}
-			/>
+			/>}
 
 			{storySlab == 2 && <>{charPanel}</>}
 
