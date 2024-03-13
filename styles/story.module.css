@@ -138,23 +138,13 @@
 
 .charexternalframe{
 
-    margin-top: 2.8cqw;
-    margin-left: 2.5cqw;
-    width: 63.4cqw;
-    height: 40.0cqw;
-    border: none;
+    margin-top: 1.8cqw;
+    margin-left: 1.5cqw;
+    width: 64.4cqw;
+    height: 42.0cqw;
+    border: solid;
 }
 
-.charexternalframeborder{
-    margin-top: -42.8cqw;
-    background-image: url('../image/Empty_Thin_Frame.png');
-    background-size: 100% 100%; 
-    z-index: 1;
-    margin-left: 0cqw;
-    width: 67cqw;
-    height: 45cqw;
-    pointer-events: none;
-}
 
 .namewrapper{
     position: relative;

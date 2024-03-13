@@ -94,7 +94,7 @@ export default function CharSlab(activeChars, setStorySlab) {
                     console.log(charCurHP - e.target.value.substring(1))
                 }
             setTHP(activeChars[activeIndex].temphp)
-        }else if (e.target.value.startsWith("=") && !isNaN(e.target.value.substring(1))) {
+        }else if (e.target.value.startsWith("+") && !isNaN(e.target.value.substring(1))) {
             setHP(e.target.value)
             activeChars[activeIndex].hp=charCurHP + Number(e.target.value.substring(1))
             console.log(charCurHP + Number(e.target.value.substring(1)))
@@ -409,7 +409,7 @@ export default function CharSlab(activeChars, setStorySlab) {
 
     {charSlab == 2 && <div className={`${UIcomp.charexternal}`}>
         <iframe className={`${UIcomp.charexternalframe}`} src={charURL}  width="100%" height="100%"></iframe>
-        <div className={`${UIcomp.charexternalframeborder}`}/>    
+    
     </div>}
 
     <div className={`${UIcomp.charexternal}`} style={{display: charSlab == 3 ? "flex" : "none"}}>

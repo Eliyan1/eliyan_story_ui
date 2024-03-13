@@ -10,8 +10,10 @@ export default function Audio({activePage, audios}) {
 
     const [currentSong, setCurrentSong] = useState([])
     const [volume, setVolume] = useState(100)
+    const [playHour, setPlayHour] =useState('00')
     const [playMin, setPlayMin] = useState('00')
     const [playSec, setPlaySec] = useState('00')
+    const [totalHour, setTotalHour] = useState('00')
     const [totalMin, setTotalMin] = useState('00')
     const [TotalSec, setTotalSec] = useState('00')
     const [audioState, setAudioState] = useState(1)
@@ -45,10 +47,19 @@ export default function Audio({activePage, audios}) {
         const duration = audioElem.current.duration;
         const ct = audioElem.current.currentTime;
         var songPlaySec = ct;
+        var songPlayMin = ct/60;
+
+        while (songPlaySec >= 3600) {
+            songPlaySec = songPlaySec-3600;
+            songPlayMin = songPlayMin-60;
+        }
+
+        Math.floor(songPlayMin)<10 ? setPlayMin('0'+ Math.floor(songPlayMin)) : setPlayMin(Math.floor(songPlayMin));
+        Math.floor(ct/3600)<10 ? setPlayHour('0'+ Math.floor(ct/3600)) : setPlayHour(Math.floor(ct/60));
 
         while (songPlaySec >= 60) {songPlaySec = songPlaySec-60}
+
         Math.floor(songPlaySec)<10 ? setPlaySec('0'+ Math.floor(songPlaySec)) : setPlaySec(Math.floor(songPlaySec));
-        Math.floor(ct/60)<10 ? setPlayMin('0'+ Math.floor(ct/60)) : setPlayMin(Math.floor(ct/60));
 
         setCurrentSong({...currentSong, "progress": ct / duration * 100, "length": duration})
     }
@@ -56,10 +67,18 @@ export default function Audio({activePage, audios}) {
     const onPlay = () => {
         const duration = audioElem.current.duration;
         var songTotalSec = duration;
+        var songTotalMin = duration/60;
+
+        while (songTotalSec >=3600) {
+            songTotalSec= songTotalSec-3600;
+            songTotalMin = songTotalMin-60;
+        }
+        Math.floor(duration/3600)<10 ? setTotalHour('0'+ Math.floor(duration/3600)) : setTotalMin(Math.floor(duration/3600));
+        Math.floor(songTotalMin)<10 ? setTotalMin('0'+ Math.floor(songTotalMin)) : setTotalMin(Math.floor(songTotalMin));
 
         while (songTotalSec >= 60) {songTotalSec = songTotalSec-60}
         Math.floor(songTotalSec)<10 ? setTotalSec('0'+ Math.floor(songTotalSec)) : setTotalSec(Math.floor(songTotalSec));        
-        Math.floor(duration/60)<10 ? setTotalMin('0'+ Math.floor(duration/60)) : setTotalMin(Math.floor(duration/60));
+        
     }
 
     const setAudioPosition = (e) => {
@@ -189,7 +208,7 @@ export default function Audio({activePage, audios}) {
             <div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setAudioState(2)}}>Add Song</div>
             <div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setAudioState(3)}}>Load Song</div>
             <div className={`${AudioStyle.audiocontrolspacer}`}></div>
-            <div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setAudioState(1)}}>Return to Player</div>
+            <div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setAudioState(1)}}>Return to Overview</div>
         </div>
     </div>
 
@@ -203,10 +222,14 @@ export default function Audio({activePage, audios}) {
             </div>
         </div>
         <div className={`${AudioStyle.playtime}`}>
+            <div className={`${AudioStyle.playhour}`}>{playHour}</div>
+            :
             <div className={`${AudioStyle.playmin}`}>{playMin}</div>
             :
             <div className={`${AudioStyle.playsec}`}>{playSec}</div>
             /
+            <div className={`${AudioStyle.playhour}`}>{totalHour}</div>
+            :
             <div className={`${AudioStyle.playmin}`}>{totalMin}</div>
             :
             <div className={`${AudioStyle.playsec}`}>{TotalSec}</div>

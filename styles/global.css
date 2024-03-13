@@ -1,8 +1,7 @@
 @font-face {
     font-family: "Etrylian";
-    src: url('../font/Etrylian.eot');
-    src: url('../font/Etrylian.eot') format('embedded-opentype'),
-         url('../font/Etrylian.woff2') format('woff2'),
+    src: url('../font/Etrylian.otf');
+    src: url('../font/Etrylian.woff2') format('woff2'),
          url('../font/Etrylian.woff') format('woff'),
          url('../font/Etrylian.ttf') format('truetype');
   }

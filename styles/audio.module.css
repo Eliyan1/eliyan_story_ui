@@ -98,7 +98,7 @@
 }
 
 .audionavigation{
-    width: 65.5cqw;
+    width: 58cqw;
 }
 
 .audionavbar{
@@ -118,7 +118,7 @@
 
 .audiovolume{
     width: 11cqw;
-    margin-left: 1.5cqw;
+    margin-left: 1cqw;
 }
 
 .audiovolumebar{
@@ -139,7 +139,7 @@
 .playtime{
     display: flex;
     font-size: 2.5cqw;
-    width: 12cqw;
+    width: 17.7cqw;
     text-align: left;
     margin-left: 0.7cqw;
 }
@@ -151,10 +151,15 @@
     margin-left: 0.5cqw;
 }
 
-.playmin{
+.playhour{
     text-align: right;
     width: 2.2cqw;
     margin-right: 0.2cqw;
+}
+
+.playmin{
+    text-align: center;
+    width: 2.4cqw;
 }
 
 .playsec{
