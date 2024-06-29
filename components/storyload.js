@@ -1,7 +1,7 @@
 import { set } from 'mongoose';
 import UIcomp from '../styles/story.module.css'
 
-export default function StoryLoad({stories, setActiveStoryContent, setActiveStoryTitle, setStorySlab}) {
+export default function StoryLoad({storyList, setActiveStoryContent, setActiveStoryTitle, setStorySlab}) {
 
 //   const addChar = async ({e, char}) => {
 //     e.preventDefault();
@@ -28,13 +28,13 @@ export default function StoryLoad({stories, setActiveStoryContent, setActiveStor
 
 // }
 
-  const loadStory = async({e, stories}) => {
+  const loadStory = async({e, storyList}) => {
     e.preventDefault();
 
-    console.log(stories.content)
-    const res = await fetch(`/api/story/get?id=${stories._id}`);
+    console.log(storyList.content)
+    const res = await fetch(`/api/story/get?title=${storyList.title}`);
 
-    const activeStory = JSON.parse(JSON.stringify(stories));
+    const activeStory = JSON.parse(JSON.stringify(storyList));
 
     setActiveStoryContent(activeStory.content)
     setActiveStoryTitle(activeStory.title)
@@ -46,13 +46,13 @@ export default function StoryLoad({stories, setActiveStoryContent, setActiveStor
     <div className={`${UIcomp.frontslabshort}`}/>
     <div type="text" className={`${UIcomp.loadtitle}`}>Select your Story</div>
     <div className={`${UIcomp.charoptionwrapper}`}>
-    {stories.map(stories => (
+    {storyList.map(storyList => (
       <div 
       className={`${UIcomp.charoption}`} 
-      key={stories._id} 
-      onClick={(e)=>(loadStory({e, stories}))}> 
+      key={storyList.title} 
+      onClick={(e)=>(loadStory({e, storyList}))}> 
       
-      - {stories.title}
+      - {storyList.title}
       
       </div>
       ))}

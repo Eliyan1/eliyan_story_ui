@@ -8,7 +8,6 @@ import Character from "@/models/character";
 
 export default async function POST(req,res) {
     await connectMongoDB();
-    console.log(req.body)
     await Character.create(req.body);
     res.status(201).json({message:"Character Created"});
 }

@@ -6,7 +6,7 @@ import Flexstyle from '../styles/flexbox.module.css'
 import StoryStyle from '../styles/story.module.css'
 import { useState } from 'react';
 
-const StoryEditor = ({activeStoryTitle, activeStoryContent, setActiveStoryContent, setStorySlab, checkStoryPresent, saveStory}) => {
+const StoryEditor = ({activeStoryTitle, activeStoryContent, setActiveStoryContent, setStorySlab, checkStoryPresent, saveStory, setStoryList, storyList}) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -14,29 +14,14 @@ const StoryEditor = ({activeStoryTitle, activeStoryContent, setActiveStoryConten
     content: activeStoryContent,
   });
 
-  const [newStoryList, setNewStoryList] = useState([])
-
   const saveClick = async (e) => {
     e.preventDefault()
     
     const content = await editor.getJSON()
     const storyNumber = checkStoryPresent()
-    console.log(storyNumber)
     setActiveStoryContent(content)
 
     if (storyNumber==-1){
-      if (newStoryList.includes(activeStoryTitle)){
-        await fetch(`/api/story/updatebytitle?title=${activeStoryTitle}`,{ 
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            title:		activeStoryTitle,
-            content:	content
-          }),
-        });
-      }else{
         await fetch('/api/story/create',{
           method: 'POST',
           headers: {
@@ -47,10 +32,10 @@ const StoryEditor = ({activeStoryTitle, activeStoryContent, setActiveStoryConten
               content:  content,
           }),
         });
-        setNewStoryList([...newStoryList, activeStoryTitle])
+        setStoryList([...storyList, {title: activeStoryTitle, content: content}])
+        console.log(storyList)
       }
-
-    }else{
+    else{
       saveStory(storyNumber, content)
     }
   };

@@ -1,7 +1,7 @@
 import UIcomp from '../styles/story.module.css'
 import StoryEditor from './storyeditor'
 
-export default function StorySlab({setActiveStoryContent, activeStoryTitle, activeStoryContent, setActiveStoryTitle, setStorySlab, checkStoryPresent, saveStory}) {
+export default function StorySlab({setActiveStoryContent, activeStoryTitle, activeStoryContent, setActiveStoryTitle, setStorySlab, checkStoryPresent, saveStory, setStoryList, storyList}) {
 
     return <div spellCheck="false" className={`${UIcomp.storyslab}`}>
       <div className={`${UIcomp.frontslab}`}/>
@@ -20,6 +20,8 @@ export default function StorySlab({setActiveStoryContent, activeStoryTitle, acti
         setStorySlab={setStorySlab}
         checkStoryPresent={checkStoryPresent}
         saveStory={saveStory}
+        setStoryList={setStoryList}
+        storyList={storyList}
         />
     </div>
   }

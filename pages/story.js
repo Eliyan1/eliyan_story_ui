@@ -12,6 +12,8 @@ export default function Story({dbCharacters, stories, activePage})  {
 
 	const [characters, setCharacters] = useState(dbCharacters)
 
+	const [storyList, setStoryList] = useState(stories)
+
 	const [storySlab, setStorySlab] = useState(1)
 
 	const [activeStoryContent, setActiveStoryContent] = useState("") 
@@ -24,12 +26,11 @@ export default function Story({dbCharacters, stories, activePage})  {
 	const {charPanel, populateActiveCharacter} = CharSlab(activeChars, setStorySlab)
 	
 	const checkStoryPresent = () => {
-		console.log(stories.findIndex((stories)=> stories.title == activeStoryTitle))
-		return stories.findIndex((stories)=> stories.title == activeStoryTitle)
+		return storyList.findIndex((storyList)=> storyList.title == activeStoryTitle)
 	}
 
 	const saveStory = async (storyIndex, content) => {
-		await fetch(`/api/story/update?id=${stories[storyIndex]._id}`,{
+		await fetch(`/api/story/updatebytitle?title=${storyList[storyIndex].title}`,{
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
@@ -39,7 +40,7 @@ export default function Story({dbCharacters, stories, activePage})  {
 				content:	content
 			}),
 		});
-		stories[storyIndex].content=content;
+		storyList[storyIndex].content=content;
 	}
 
 	const removeActiveChar =  (uniquechar) => {
@@ -71,7 +72,6 @@ export default function Story({dbCharacters, stories, activePage})  {
 	populateActiveCharacter(activeCharIndex)
 	await setStorySlab(0); //necessary to update the notes of the character
 	setStorySlab(2);
-	console.log(activeChars)
 	}
 
 	const createNewCharacter = async (e) =>{
@@ -129,7 +129,9 @@ export default function Story({dbCharacters, stories, activePage})  {
 			setActiveStoryContent={setActiveStoryContent}
 			setStorySlab={setStorySlab}
 			checkStoryPresent={checkStoryPresent}
+			storyList={storyList}
 			saveStory={saveStory}
+			setStoryList={setStoryList}
 			/>}
 
 			{storySlab == 2 && <>{charPanel}</>}
@@ -146,7 +148,7 @@ export default function Story({dbCharacters, stories, activePage})  {
 
 			{storySlab == 4 && 
 			<StoryLoad 
-				stories={stories} 
+				storyList={storyList} 
 				setActiveStoryContent={setActiveStoryContent} 
 				setActiveStoryTitle={setActiveStoryTitle} 
 				setStorySlab={setStorySlab}
@@ -196,7 +198,7 @@ export default function Story({dbCharacters, stories, activePage})  {
 						<div onClick={()=>{setStorySlab(5)}} className={`${StoryStyle.charactersavebutton}`}>Roll Initiative</div>
 					</div>
 					<div className={`${StoryStyle.charactersaverow}`}>
-						<div className={`${StoryStyle.charactersavebutton}`} onClick={console.log(dbCharacters)}>Save Group</div>
+						<div className={`${StoryStyle.charactersavebutton}`}>Save Group</div>
 						<div onClick={()=>{setStorySlab(3)}} className={`${StoryStyle.charactersavebutton}`}>Load Characters</div>
 					</div>
 				</div>			

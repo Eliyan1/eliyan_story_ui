@@ -14,6 +14,7 @@ import VisualDB from "@/models/visual"
 export default function IndexPage({dbCharacters, stories, audios, visuals}) {
 	const [activePage, setActivePage] = useState(1)
 
+
 	return <div className={`${Flexstyle.aspectwrapper}`}>
 		<Story activePage={activePage} dbCharacters={dbCharacters} stories={stories}/>
 		<Audio activePage={activePage} audios={audios}/>
