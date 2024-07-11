@@ -10,9 +10,8 @@ import Character from "@/models/character";
 import StoryDB from "@/models/story";
 import AudioDB from "@/models/audio"; 
 import VisualDB from "@/models/visual";
-import AudioLayoutDB from '@/models/audioLayout';
-import VisualLayoutDB from '@/models/visualLayout';
-	
+import AudioLayoutDB from '@/models/audiolayout';
+import VisualLayoutDB from '@/models/visuallayout';
 export default function IndexPage({dbCharacters, stories, audios, visuals, audioLayouts, visualLayouts}) {
 
 	const [activePage, setActivePage] = useState(1)
