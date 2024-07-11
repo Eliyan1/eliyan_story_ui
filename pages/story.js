@@ -17,6 +17,7 @@ export default function Story({dbCharacters, stories, activePage})  {
 	const [storySlab, setStorySlab] = useState(1)
 
 	const [activeStoryContent, setActiveStoryContent] = useState("") 
+	
 	const [activeStoryTitle, setActiveStoryTitle] = useState("Title of Adventure")
 	
 	const [activeChars, setActiveChars] = useState([])

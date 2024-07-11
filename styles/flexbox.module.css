@@ -8,6 +8,7 @@
     aspect-ratio: 16/9;
     margin: auto;
     container-type: size;
+    caret-color: transparent;
     }
 
 .container {
@@ -106,6 +107,7 @@
     overflow-y: scroll;
 }
 
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 .audiobox::-webkit-scrollbar {
     display: none;
@@ -127,6 +129,7 @@
 .audiocontrol{
     width: 15cqw;
     margin-left: 1%;
+    font-size: 4cqw;
 }
 
 .audiobar{

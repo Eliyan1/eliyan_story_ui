@@ -1,12 +1,9 @@
 import Flexstyle from '../styles/flexbox.module.css'
 import AudioStyle from '../styles/audio.module.css'
 import React, { useRef, useState } from'react';
-import connectMongoDB from "@/libs/mongodb";
-import Character from "@/models/character";
-import StoryDB from "@/models/story";
-import AudioDB from "@/models/audio"; 
 
-export default function Audio({activePage, audios}) {
+
+export default function Audio({activePage, audios, audiolayouts}) {
 
     const [currentSong, setCurrentSong] = useState([])
     const [volume, setVolume] = useState(100)
@@ -24,9 +21,65 @@ export default function Audio({activePage, audios}) {
     const [audioTag, setAudioTag] = useState('')
     const [audioURL, setAudioURL] = useState('')
 
+    const [currentLayout, setCurrentLayout] = useState('Name Layout')
+
+    const [saveState, setSaveState] = useState(0)
+
+    const [audioLayoutList, setAudioLayoutList] = useState(audiolayouts)
+
     const audioElem = useRef();
     const navRef = useRef();
     const volRef = useRef();
+
+    const returnMusic = () =>{
+        setAudioState(1)
+        setSaveState(0)
+    }
+
+    const saveLayout = async () =>{
+
+        const currentLayoutTitles = audioLayoutList.map(({title}) => title)
+        console.log(currentLayoutTitles)
+
+        if(document.getElementById('layoutName').value == 'Name Layout'){
+            alert('Please name the Layout')
+        }else{
+            if(currentLayoutTitles.includes(document.getElementById('layoutName').value)){
+                await fetch(`/api/audio/updatelayouttitle?title=${document.getElementById('layoutName').value}`,{
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        title:		document.getElementById('layoutName').value,
+                        layout:     audioButtons,
+                    }),
+                });
+                const changedLayoutEntry = audioLayoutList.findIndex((audioLayoutList)=> audioLayoutList.title == document.getElementById('layoutName').value)
+                audioLayoutList[changedLayoutEntry].layout = audioButtons
+            }else{ 
+                await fetch('/api/audio/createlayout',{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        title:    document.getElementById('layoutName').value,
+                        layout:   audioButtons,
+                    }),
+                });
+                setAudioLayoutList([...audioLayoutList, {title: document.getElementById('layoutName').value, layout:audioButtons}])
+            }
+            setCurrentLayout( document.getElementById('layoutName').value);
+            setSaveState(0);
+        }
+    }
+
+    const loadLayout = async (newLayout) => {
+        setAudioButtons(newLayout.layout)
+        setAudioState(1)
+        setCurrentLayout(newLayout.title);
+    }
 
 
     const playMusic = () =>{
@@ -199,16 +252,36 @@ export default function Audio({activePage, audios}) {
             </div>
         </div>
 
+        <div className={`${Flexstyle.audiobox}`} style={{display: audioState==4 ? "flex" : "none"}}>
+        <div className={`${AudioStyle.audiooptionheaderwrapper}`}>
+            <div className={`${AudioStyle.layoutoptionheader}`}> Select Layout </div>
+        </div>
+            <div className={`${AudioStyle.layoutoptionwrapper}`}>
+                {audioLayoutList.map(audioLayoutList => (
+                    <div 
+                        className={`${AudioStyle.audiooption}`}
+                        key={audioLayoutList.title} 
+                        onClick={() => {loadLayout(audioLayoutList)}}
+                        >
+                        <div className={`${AudioStyle.layoutoptiontitle}`}> - {audioLayoutList.title}</div>
+                    </div> 
+                ))}
+
+            </div>
+        </div>
+
         <div className={`${Flexstyle.audioline}`}/>
 
         <div className={`${Flexstyle.audiocontrol}`}>
-            <div className={`${AudioStyle.audiocontrolbutton}`}>Save Layout</div>
-            <div className={`${AudioStyle.audiocontrolbutton}`}>Load Layout</div>
+            {saveState == 0 &&<div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setSaveState(1)}}>Save Layout</div>}
+            {saveState == 0 && <div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setAudioState(4)}}>Load Layout</div>}
+            {saveState == 1 && <input className={`${AudioStyle.newaudiolayout}`} defaultValue={currentLayout} id='layoutName' spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
+            {saveState == 1 && <div className={`${AudioStyle.audiocontrolbutton}`} onClick={saveLayout}> Accept</div>}
             <div className={`${AudioStyle.audiocontrolspacer}`}></div>
             <div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setAudioState(2)}}>Add Song</div>
             <div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setAudioState(3)}}>Load Song</div>
             <div className={`${AudioStyle.audiocontrolspacer}`}></div>
-            <div className={`${AudioStyle.audiocontrolbutton}`} onClick={()=>{setAudioState(1)}}>Return to Overview</div>
+            <div className={`${AudioStyle.audiocontrolbutton}`} onClick={returnMusic}>Return</div>
         </div>
     </div>
 
@@ -266,22 +339,3 @@ export default function Audio({activePage, audios}) {
     </div>;				
 }
 
-export const getServerSideProps = async () => {
-
-	/**
-	 * @param {import("next").NextApiRequest} req 
-	 * @param {import("next").NextApiResponse} res 
-	 */
-	await connectMongoDB();
-	const characters = await Character.find();
-	const stories = await StoryDB.find();
-	const audios = await AudioDB.find()
-	
-	return{
-		props: {
-			characters: JSON.parse(JSON.stringify(characters)),
-			stories: JSON.parse(JSON.stringify(stories)),
-			audios: JSON.parse(JSON.stringify(audios))
-		}
-	}
-	}

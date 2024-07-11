@@ -4,7 +4,7 @@ import React, { useState } from'react';
 import connectMongoDB from "@/libs/mongodb";
 import VisualDB from "@/models/visual"
 
-export default function Visual({activePage, visuals}) {
+export default function Visual({activePage, visuals, visuallayouts}) {
 
     const [visualButtons, setVisualButtons] = useState([])
     const [visualState, setVisualState] = useState(1)
@@ -13,6 +13,11 @@ export default function Visual({activePage, visuals}) {
     const [visualTitle, setVisualTitle] = useState('')
     const [visualTag, setVisualTag] = useState('')
     const [visualURL, setVisualURL] = useState('')
+
+    const [currentLayout, setCurrentLayout] = useState ('Name Layout')
+    const [visualLayoutList, setVisualLayoutList] = useState(visuallayouts)
+
+    const [layoutState, setLayoutState] = useState(1)
 
     const makeVisual = async (e) => {
         e.preventDefault()
@@ -31,6 +36,52 @@ export default function Visual({activePage, visuals}) {
 
         setVisualState(1)
     };
+
+    const saveLayout = async () =>{
+
+        const currentLayoutTitles = visualLayoutList.map(({title}) => title)
+        console.log(currentLayoutTitles)
+        console.log(document.getElementById('layoutName'))
+
+        if(document.getElementById('layoutName').value == 'Name Layout'){
+            alert('Please name the Layout')
+        }else{
+            if(currentLayoutTitles.includes(document.getElementById('layoutName').value)){
+                await fetch(`/api/visual/updatelayouttitle?title=${document.getElementById('layoutName').value}`,{
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        title:		document.getElementById('layoutName').value,
+                        layout:     visualButtons,
+                    }),
+                });
+                const changedLayoutEntry = visualLayoutList.findIndex((visualLayoutList)=> visualLayoutList.title == document.getElementById('layoutName').value)
+                visualLayoutList[changedLayoutEntry].layout = visualButtons
+            }else{ 
+                await fetch('/api/visual/createlayout',{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        title:    document.getElementById('layoutName').value,
+                        layout:   visualButtons,
+                    }),
+                });
+                setVisualLayoutList([...visualLayoutList, {title: document.getElementById('layoutName').value, layout:visualButtons}])
+            }
+            setCurrentLayout( document.getElementById('layoutName').value);
+            setLayoutState(1);
+        }
+    }
+
+    const loadLayout = async (newLayout) => {
+        setVisualButtons(newLayout.layout)
+        setVisualState(1)
+        setCurrentLayout(newLayout.title);
+    }
 
     //In case a new object in the database needs to be made for the viewer to get its url from.
     // const makeViewer = async (e) => {
@@ -127,13 +178,33 @@ export default function Visual({activePage, visuals}) {
                 </div>
             </div>
 
+            <div className={`${VisualStyle.visualmain}`} style={{display: visualState==4 ? "flex" : "none"}}>
+                <div className={`${VisualStyle.visualoptionheaderwrapper}`}>
+                <div className={`${VisualStyle.layoutoptionheader}`}> Select Layout </div>
+                </div>
+                <div className={`${VisualStyle.layoutoptionwrapper}`}>
+                    {visualLayoutList.map(visualLayoutList => (
+                        <div 
+                            className={`${VisualStyle.visualoption}`}
+                            key={visualLayoutList.title} 
+                            onClick={() => {loadLayout(visualLayoutList)}}
+                            >
+                            <div className={`${VisualStyle.layoutoptiontitle}`}> - {visualLayoutList.title}</div>
+                        </div> 
+                    ))}
+                </div>
+            </div>
 
             <div className={`${Flexstyle.visualbar}`}>
-                <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}} onClick={()=>{setVisualState(2)}}>Add Scene</div>
-                <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}} onClick={()=>{setVisualState(3)}}>Load Scene</div>
-                <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}}>Save Setup</div>
-                <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState==1 ? "flex" : "none"}}>Load Setup</div>
-                <div className={`${VisualStyle.visualcontrolbutton}`} style={{display: visualState!=1 ? "flex" : "none"}} onClick={()=>{setVisualState(1)}}>Return</div>
+                {layoutState == 1 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>{setVisualState(2)}}>Add Scene</div>}
+                {layoutState == 1 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>{setVisualState(3)}}>Load Scene</div>}
+                {layoutState == 1 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>setLayoutState(2)}>Save Setup</div>}
+                {layoutState == 1 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>{setVisualState(4)}}>Load Setup</div>}
+
+                {layoutState == 2 && visualState==1 && <input className={`${VisualStyle.newvisuallayout}`} defaultValue={currentLayout} id="layoutName" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
+                {layoutState == 2 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={() => {saveLayout()}}>Accept</div>}
+                {layoutState == 2 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>setLayoutState(1)}>Return</div>}
+                {visualState!=1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>{setVisualState(1)}}>Return</div>}
             </div>
         </div>
 
