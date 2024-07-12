@@ -10,8 +10,8 @@ import Character from "@/models/character";
 import StoryDB from "@/models/story";
 import AudioDB from "@/models/audio"; 
 import VisualDB from "@/models/visual";
-import AudioLayoutDB from "@/models/audiolayout";
-import VisualLayoutDB from "@/models/visuallayout";
+import AudioLayout from "@/models/audiolayout";
+import VisualLayout from "@/models/visuallayout";
 
 export default function IndexPage({dbCharacters, stories, audios, visuals, audiolayouts, visuallayouts}) {
 
@@ -37,8 +37,8 @@ export const getServerSideProps = async () => {
 	const stories = await StoryDB.find();
 	const audios = await AudioDB.find();
 	const visuals = await VisualDB.find();
-	const audiolayouts = await AudioLayoutDB.find();
-	const visuallayouts = await VisualLayoutDB.find();
+	const audiolayouts = await AudioLayout.find();
+	const visuallayouts = await VisualLayout.find();
 
 	
 	return{
