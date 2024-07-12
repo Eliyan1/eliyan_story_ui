@@ -37,42 +37,6 @@ export default function Audio({activePage, audios, audiolayouts}) {
     }
 
     const saveLayout = async () =>{
-
-        const currentLayoutTitles = audioLayoutList.map(({title}) => title)
-        console.log(currentLayoutTitles)
-
-        if(document.getElementById('layoutName').value == 'Name Layout'){
-            alert('Please name the Layout')
-        }else{
-            if(currentLayoutTitles.includes(document.getElementById('layoutName').value)){
-                await fetch(`/api/audio/updatelayouttitle?title=${document.getElementById('layoutName').value}`,{
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        title:		document.getElementById('layoutName').value,
-                        layout:     audioButtons,
-                    }),
-                });
-                const changedLayoutEntry = audioLayoutList.findIndex((audioLayoutList)=> audioLayoutList.title == document.getElementById('layoutName').value)
-                audioLayoutList[changedLayoutEntry].layout = audioButtons
-            }else{ 
-                await fetch('/api/audio/createlayout',{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        title:    document.getElementById('layoutName').value,
-                        layout:   audioButtons,
-                    }),
-                });
-                setAudioLayoutList([...audioLayoutList, {title: document.getElementById('layoutName').value, layout:audioButtons}])
-            }
-            setCurrentLayout( document.getElementById('layoutName').value);
-            setSaveState(0);
-        }
     }
 
     const loadLayout = async (newLayout) => {
@@ -195,15 +159,7 @@ export default function Audio({activePage, audios, audiolayouts}) {
         <div 
         className={`${Flexstyle.audiobox}`} 
         style={{display: audioState==1 ? "flex" : "none"}}>
-            {audioButtons.map(audioButtons => (
-            <div 
-            className={`${AudioStyle.audiobutton}`} 
-            key={audioButtons._id} 
-            onClick={(e) => {buttonPlay({e, audioButtons})}}
-            > 
-                {audioButtons.tag}
-            </div>
-            ))}
+
         </div>
 
         <div className={`${Flexstyle.audiobox}`} style={{display: audioState==2 ? "flex" : "none"}}>
@@ -238,17 +194,6 @@ export default function Audio({activePage, audios, audiolayouts}) {
             </div>
             <div className={`${AudioStyle.audiooptionwrapper}`}>
 
-
-                {audios.map(audios => (
-                    <div 
-                        className={`${AudioStyle.audiooption}`}
-                        key={audios._id} 
-                        onClick={(e) => {addAudioButton({e, audios})}}
-                        >
-                        <div className={`${AudioStyle.audiooptionartist}`}> {audios.artist}</div>
-                        <div className={`${AudioStyle.audiooptiontitle}`}> {audios.title}</div>
-                    </div>
-                ))}
             </div>
         </div>
 
@@ -257,15 +202,7 @@ export default function Audio({activePage, audios, audiolayouts}) {
             <div className={`${AudioStyle.layoutoptionheader}`}> Select Layout </div>
         </div>
             <div className={`${AudioStyle.layoutoptionwrapper}`}>
-                {audioLayoutList.map(audioLayoutList => (
-                    <div 
-                        className={`${AudioStyle.audiooption}`}
-                        key={audioLayoutList.title} 
-                        onClick={() => {loadLayout(audioLayoutList)}}
-                        >
-                        <div className={`${AudioStyle.layoutoptiontitle}`}> - {audioLayoutList.title}</div>
-                    </div> 
-                ))}
+
 
             </div>
         </div>
