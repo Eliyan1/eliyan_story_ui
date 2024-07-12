@@ -12,16 +12,15 @@ import AudioDB from "@/models/audio";
 import VisualDB from "@/models/visual";
 import AudioLayoutDB from '@/models/audiolayout';
 import VisualLayoutDB from '@/models/visuallayout';
-export default function IndexPage({dbCharacters, stories, audios, visuals, audioLayouts, visualLayouts}) {
+
+export default function IndexPage({dbCharacters, stories, audios, visuals, audiolayouts, visuallayouts}) {
 
 	const [activePage, setActivePage] = useState(1)
 	
-
-
 	return <div className={`${Flexstyle.aspectwrapper}`}>
 		<Story activePage={activePage} dbCharacters={dbCharacters} stories={stories}/>
-		<Audio activePage={activePage} audios={audios} audiolayouts={audioLayouts}/>
-		<Visual activePage={activePage} visuals={visuals} visuallayouts={visualLayouts}/>
+		<Audio activePage={activePage} audios={audios} audiolayouts={audiolayouts}/>
+		<Visual activePage={activePage} visuals={visuals} visuallayouts={visuallayouts}/>
 		<Footer setActivePage={setActivePage}/>	
 	</div>
 }
@@ -38,8 +37,8 @@ export const getServerSideProps = async () => {
 	const stories = await StoryDB.find();
 	const audios = await AudioDB.find();
 	const visuals = await VisualDB.find();
-	const audioLayouts = await AudioLayoutDB.find();
-	const visualLayouts = await VisualLayoutDB.find();
+	const audiolayouts = await AudioLayoutDB.find();
+	const visuallayouts = await VisualLayoutDB.find();
 
 	
 	return{
@@ -48,8 +47,8 @@ export const getServerSideProps = async () => {
 			stories: JSON.parse(JSON.stringify(stories)),
 			audios: JSON.parse(JSON.stringify(audios)),
 			visuals: JSON.parse(JSON.stringify(visuals)),
-			audioLayouts: JSON.parse(JSON.stringify(audioLayouts)),
-			visualLayouts: JSON.parse(JSON.stringify(visualLayouts)),
+			audiolayouts: JSON.parse(JSON.stringify(audiolayouts)),
+			visuallayouts: JSON.parse(JSON.stringify(visuallayouts)),
 		}
 	}
 	}
