@@ -2,7 +2,7 @@ import React from'react';
 import Footer from '../components/footer'
 import Story from './story';
 import { useState } from 'react';
-import Audio from './audiotab';
+import Audio from './audio';
 import Visual from './visual'
 import Flexstyle from '../styles/flexbox.module.css'
 import connectMongoDB from "@/libs/mongodb";

@@ -192,19 +192,7 @@ export default function Audio({activePage, audios, audiolayouts}) {
 
     return <div className={`${Flexstyle.audiocontent}`} style={{display: activePage==2 ? "flex" : "none"}}>
     <div className={`${Flexstyle.container}`}>
-        <div 
-        className={`${Flexstyle.audiobox}`} 
-        style={{display: audioState==1 ? "flex" : "none"}}>
-            {audioButtons.map(audioButtons => (
-            <div 
-            className={`${AudioStyle.audiobutton}`} 
-            key={audioButtons._id} 
-            onClick={(e) => {buttonPlay({e, audioButtons})}}
-            > 
-                {audioButtons.tag}
-            </div>
-            ))}
-        </div>
+
 
         <div className={`${Flexstyle.audiobox}`} style={{display: audioState==2 ? "flex" : "none"}}>
             <div className={`${AudioStyle.newaudiolist}`}>
@@ -236,20 +224,7 @@ export default function Audio({activePage, audios, audiolayouts}) {
                 <div className={`${AudioStyle.audiooptionartist}`}> Artist</div>
                 <div className={`${AudioStyle.audiooptiontitle}`}> Title</div>
             </div>
-            <div className={`${AudioStyle.audiooptionwrapper}`}>
 
-
-                {audios.map(audios => (
-                    <div 
-                        className={`${AudioStyle.audiooption}`}
-                        key={audios._id} 
-                        onClick={(e) => {addAudioButton({e, audios})}}
-                        >
-                        <div className={`${AudioStyle.audiooptionartist}`}> {audios.artist}</div>
-                        <div className={`${AudioStyle.audiooptiontitle}`}> {audios.title}</div>
-                    </div>
-                ))}
-            </div>
         </div>
 
         <div className={`${Flexstyle.audiobox}`} style={{display: audioState==4 ? "flex" : "none"}}>
