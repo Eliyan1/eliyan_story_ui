@@ -10,8 +10,8 @@ import Character from "@/models/character";
 import StoryDB from "@/models/story";
 import AudioDB from "@/models/audio"; 
 import VisualDB from "@/models/visual";
-import AudioLayout from "@/models/audiolayout";
-import VisualLayout from "@/models/visuallayout";
+import AudioLayout from '@/models/audiolay';
+import VisualLayout from '@/models/visuallay';
 
 export default function IndexPage({dbCharacters, stories, audios, visuals, audiolayouts, visuallayouts}) {
 

@@ -1,5 +1,5 @@
 import connectMongoDB from "@/libs/mongodb";
-import VisualLayout from "@/models/visuallayout";
+import VisualLayout from "@/models/visuallay";
 
 /**
  * @param {import("next").NextApiRequest} req 

@@ -1,5 +1,5 @@
 import connectMongoDB from "@/libs/mongodb";
-import AudioLayout from "@/models/audiolayout";
+import AudioLayout from "@/models/audiolay";
 
 /**
  * @param {import("next").NextApiRequest} req 
