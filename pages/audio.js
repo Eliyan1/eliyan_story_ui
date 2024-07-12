@@ -219,18 +219,7 @@ export default function Audio({activePage, audios, audiolayouts}) {
         <div className={`${AudioStyle.audiooptionheaderwrapper}`}>
             <div className={`${AudioStyle.layoutoptionheader}`}> Select Layout </div>
         </div>
-            <div className={`${AudioStyle.layoutoptionwrapper}`}>
-                {audioLayoutList.map(audioLayoutList => (
-                    <div 
-                        className={`${AudioStyle.audiooption}`}
-                        key={audioLayoutList.title} 
-                        onClick={() => {loadLayout(audioLayoutList)}}
-                        >
-                        <div className={`${AudioStyle.layoutoptiontitle}`}> - {audioLayoutList.title}</div>
-                    </div> 
-                ))}
 
-            </div>
         </div>
 
         <div className={`${Flexstyle.audioline}`}/>
