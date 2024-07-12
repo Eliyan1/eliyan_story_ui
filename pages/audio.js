@@ -25,7 +25,7 @@ export default function Audio({activePage, audios, audiolayouts}) {
 
     const [saveState, setSaveState] = useState(0)
 
-    const [audioLayoutList, setAudioLayoutList] = useState(audiolayouts)
+    const [audioLayoutList, setAudioLayoutList] = useState([])
 
     const audioElem = useRef();
     const navRef = useRef();
