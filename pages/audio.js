@@ -194,6 +194,17 @@ export default function Audio({activePage, audios, audiolayouts}) {
             </div>
             <div className={`${AudioStyle.audiooptionwrapper}`}>
 
+
+                {audios.map(audios => (
+                    <div 
+                        className={`${AudioStyle.audiooption}`}
+                        key={audios._id} 
+                        onClick={(e) => {addAudioButton({e, audios})}}
+                        >
+                        <div className={`${AudioStyle.audiooptionartist}`}> {audios.artist}</div>
+                        <div className={`${AudioStyle.audiooptiontitle}`}> {audios.title}</div>
+                    </div>
+                ))}
             </div>
         </div>
 
