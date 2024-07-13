@@ -1,10 +1,10 @@
 import React from'react';
-import Footer from '../components/footer'
-import Story from './story';
+import Footer from '@/components/footer'
+import Story from '@/components/story/story';
 import { useState } from 'react';
-import Audio from './audio';
-import Visual from './visual'
-import Flexstyle from '../styles/flexbox.module.css'
+import Audio from '@/components/audio/audio';
+import Visual from '@/components/visual/visual'
+import StyleCSS from '@/styles/general.module.css'
 import connectMongoDB from "@/libs/mongodb";
 import Character from "@/models/character";
 import StoryDB from "@/models/story";
@@ -39,7 +39,7 @@ export default function IndexPage({dbCharacters, stories, audios, visuals, audio
 		<link rel="icon" type="image/png" href="/favicon.png"></link>
     </Head>
 
-	<div className={`${Flexstyle.aspectwrapper}`}>
+	<div className={`${StyleCSS.aspectwrapper}`}>
 		<Story activePage={activePage} dbCharacters={sortedCharacters} stories={stories} chargroups={sortedGroups}/>
 		<Audio activePage={activePage} audios={audios} audiolayouts={audiolayouts}/>
 		<Visual activePage={activePage} visuals={visuals} visuallayouts={visuallayouts}/>

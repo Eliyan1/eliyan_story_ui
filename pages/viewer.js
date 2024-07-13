@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import Visualstyle from '../styles/visual.module.css'
+import StyleCSS from '@/styles/general.module.css'
 import connectMongoDB from "@/libs/mongodb";
 import ViewerDB from "@/models/viewer"
+import Head from "next/head";
 
 export default function Viewer() {
     
@@ -18,8 +19,15 @@ export default function Viewer() {
         return () => clearInterval(interval);
     }, [])
 
-    return<img 
-    className={`${Visualstyle.viewer}`} src={displayImage}/>
+    return<>
+    	<Head>
+            <title>Chronicle-Viewer</title>
+            <meta name="description" content="To assist in showing the perfect story" />
+            <link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
+            <link rel="icon" type="image/png" href="/favicon.png"></link>
+        </Head>
+        <img className={`${StyleCSS.viewer}`} src={displayImage}/>
+    </>
 }
 
 export const getServerSideProps = async () => {
