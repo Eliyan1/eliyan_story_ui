@@ -36,9 +36,9 @@ return <div spellCheck="false" className={`${UIcomp.charslab}`}>
         </div>
     ))}
 </div>
-<div className={`${UIcomp.loadslabbuttonwrapper}`}>
-<div onClick={setInitiative} className={`${UIcomp.charslabbutton}`}>Initiate Combat</div>
+<div className={`${UIcomp.loadstorybuttonwrapper}`}>
   <div onClick={()=>{setStorySlab(1)}} className={`${UIcomp.charslabbutton}`}>Return to Story</div>
+  <div onClick={setInitiative} className={`${UIcomp.charslabbutton}`}>Initiate Combat</div>
 </div>           
 </div>
 }

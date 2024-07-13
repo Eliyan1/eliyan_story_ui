@@ -8,7 +8,7 @@ import CharLoad from '@/components/charload';
 import StoryLoad from '@/components/storyload';
 import InitiativeTracker from '@/components/initiativetracker'
 
-export default function Story({dbCharacters, stories, activePage})  {
+export default function Story({dbCharacters, stories, activePage, chargroups})  {
 
 	const [characters, setCharacters] = useState(dbCharacters)
 
@@ -24,7 +24,13 @@ export default function Story({dbCharacters, stories, activePage})  {
 
 	const [uniqueChar, setUniqueChar] = useState(0) 
 
-	const {charPanel, populateActiveCharacter} = CharSlab(activeChars, setStorySlab)
+	const [characterState, setCharacterState] = useState(0) 
+
+	const [characterName, setCharacterName] = useState('Character Name') 
+
+	const [groupList, setGroupList] = useState(chargroups)
+
+	const {charPanel, populateActiveCharacter} = CharSlab(activeChars, setStorySlab, characterName)
 	
 	const checkStoryPresent = () => {
 		return storyList.findIndex((storyList)=> storyList.title == activeStoryTitle)
@@ -43,6 +49,43 @@ export default function Story({dbCharacters, stories, activePage})  {
 		});
 		storyList[storyIndex].content=content;
 	}
+
+	const saveGroup = async () =>{
+
+        const currentGroupNames = groupList.map(({name}) => name)
+
+		if(document.getElementById('namedGroup').value == 'Group Name'){
+            alert('Please name the Group')
+        }else{
+            if(currentGroupNames.includes(document.getElementById('namedGroup').value)){
+                await fetch(`/api/characters/updategroupname?name=${document.getElementById('namedGroup').value}`,{
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name:		document.getElementById('namedGroup').value,
+                        group:     activeChars,
+                    }),
+                });
+                const changedGroupEntry = groupList.findIndex((groupList)=> groupList.name == document.getElementById('namedGroup').value)
+                groupList[changedGroupEntry].group = activeChars
+            }else{ 
+                await fetch('/api/characters/creategroup',{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name:    document.getElementById('namedGroup').value,
+                        group:   activeChars,
+                    }),
+                });
+                setGroupList([...groupList, {name: document.getElementById('namedGroup').value, group:activeChars}])
+            }
+            setCharacterState(0);
+        }
+    }
 
 	const removeActiveChar =  (uniquechar) => {
 		const removeIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == uniquechar);
@@ -75,15 +118,18 @@ export default function Story({dbCharacters, stories, activePage})  {
 	setStorySlab(2);
 	}
 
-	const createNewCharacter = async (e) =>{
+	const createNewCharacter = async ([e,playerstatus]) =>{
 		e.preventDefault();
+		if(document.getElementById('namedChar').value == 'Character Name'){
+			alert('Please name the new character')
+		}else{
 		  const res = await fetch('/api/characters/create',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name:   "New Char",
+                name:   document.getElementById('namedChar').value,
                 hp:     1,
                 maxhp:  1,
                 temphp: 0,
@@ -95,7 +141,7 @@ export default function Story({dbCharacters, stories, activePage})  {
                 wis:    1,
                 cha:    1,
 				url:	"",
-				group:	1
+				player:	playerstatus
             }),
         });
 
@@ -111,12 +157,13 @@ export default function Story({dbCharacters, stories, activePage})  {
 				populateActiveCharacter(newEntry.length-1)
 				await setStorySlab(0); //necessary to update the notes of the character
 				setStorySlab(2);
+				setCharacterState(0)
 			});
         }else{
             throw new Error("Failed to create a Character")
         }
 
-
+	}
 
 	}
 
@@ -145,6 +192,7 @@ export default function Story({dbCharacters, stories, activePage})  {
 				setStorySlab={setStorySlab}
 				uniqueChar = {uniqueChar}
 				setUniqueChar = {setUniqueChar}
+				groupList = {groupList}
 			/>}
 
 			{storySlab == 4 && 
@@ -195,12 +243,19 @@ export default function Story({dbCharacters, stories, activePage})  {
 			<div> 
 				<div className={`${StoryStyle.charactersavecolumn}`}>
 					<div className={`${StoryStyle.charactersaverow}`}>
-						<div onClick={(e)=>{createNewCharacter(e)}} className={`${StoryStyle.charactersavebutton}`}>Create Character</div>
-						<div onClick={()=>{setStorySlab(5)}} className={`${StoryStyle.charactersavebutton}`}>Roll Initiative</div>
+						{characterState == 0 && <div onClick={()=>{setCharacterState(1)}} className={`${StoryStyle.characteroptionbutton}`}>Create Character</div>}
+						{characterState == 0 && <div className={`${StoryStyle.characteroptionbutton}`} onClick={()=>{setCharacterState(2)}}>Save Group</div>}
+						{characterState == 1 && <input className={`${StoryStyle.newcharname}`} defaultValue='Character Name' maxLength={12} onChange={(e)=>{setCharacterName(e.target.value)}} id="namedChar" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
+						{characterState == 2 && <input className={`${StoryStyle.newcharname}`} defaultValue='Group Name' id="namedGroup" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
 					</div>
 					<div className={`${StoryStyle.charactersaverow}`}>
-						<div className={`${StoryStyle.charactersavebutton}`}>Save Group</div>
-						<div onClick={()=>{setStorySlab(3)}} className={`${StoryStyle.charactersavebutton}`}>Load Characters</div>
+						{characterState == 0 && <div onClick={()=>{setStorySlab(3)}} className={`${StoryStyle.characteroptionbutton}`}>Load Characters</div>}
+						{characterState == 0 && <div onClick={()=>{setStorySlab(5)}} className={`${StoryStyle.characteroptionbutton}`}>Roll Initiative</div>}
+						{characterState == 1 && <div onClick={(e)=>{setCharacterState(0)}} className={`${StoryStyle.characteroptionbutton}`}>Cancel</div>}
+						{characterState == 1 && <div onClick={(e)=>{createNewCharacter([e,true])}} className={`${StoryStyle.characteroptionbutton}`}>Player</div>}
+						{characterState == 1 && <div onClick={(e)=>{createNewCharacter([e,false])}} className={`${StoryStyle.characteroptionbutton}`}>Mob</div>}
+						{characterState == 2 && <div onClick={(e)=>{setCharacterState(0)}} className={`${StoryStyle.characteroptionbutton}`}>Cancel</div>}
+						{characterState == 2 && <div onClick={(e)=>{saveGroup()}} className={`${StoryStyle.characteroptionbutton}`}>Accept</div>}
 					</div>
 				</div>			
 			</div>

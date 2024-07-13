@@ -12,13 +12,26 @@ import AudioDB from "@/models/audio";
 import VisualDB from "@/models/visual";
 import AudioLayout from '@/models/audiolay';
 import VisualLayout from '@/models/visuallay';
+import CharGroup from '@/models/chargroup';
 
-export default function IndexPage({dbCharacters, stories, audios, visuals, audiolayouts, visuallayouts}) {
+export default function IndexPage({dbCharacters, stories, audios, visuals, audiolayouts, visuallayouts, chargroups}) {
 
 	const [activePage, setActivePage] = useState(1)
+
+	const sortedCharacters = dbCharacters.sort(function(a,b) {
+		var textA = a.name.toUpperCase();
+		var textB = b.name.toUpperCase();
+		return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+	});
+
+	const sortedGroups = chargroups.sort(function(a,b) {
+		var textA = a.name.toUpperCase();
+		var textB = b.name.toUpperCase();
+		return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+	});
 	
 	return <div className={`${Flexstyle.aspectwrapper}`}>
-		<Story activePage={activePage} dbCharacters={dbCharacters} stories={stories}/>
+		<Story activePage={activePage} dbCharacters={sortedCharacters} stories={stories} chargroups={sortedGroups}/>
 		<Audio activePage={activePage} audios={audios} audiolayouts={audiolayouts}/>
 		<Visual activePage={activePage} visuals={visuals} visuallayouts={visuallayouts}/>
 		<Footer setActivePage={setActivePage}/>	
@@ -39,6 +52,7 @@ export const getServerSideProps = async () => {
 	const visuals = await VisualDB.find();
 	const audiolayouts = await AudioLayout.find();
 	const visuallayouts = await VisualLayout.find();
+	const chargroups = await CharGroup.find();
 
 	
 	return{
@@ -49,6 +63,7 @@ export const getServerSideProps = async () => {
 			visuals: JSON.parse(JSON.stringify(visuals)),
 			audiolayouts: JSON.parse(JSON.stringify(audiolayouts)),
 			visuallayouts: JSON.parse(JSON.stringify(visuallayouts)),
+			chargroups: JSON.parse(JSON.stringify(chargroups))
 		}
 	}
 	}

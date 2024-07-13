@@ -14,10 +14,10 @@ const characterSchema = new Schema(
         intel: Number,
         wis: Number,
         cha: Number,
-        active: Boolean,
+        player: Boolean,
         notes: JSON,
         url: String,
-        group: Number
+        comment: String
     }
 );
 

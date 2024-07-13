@@ -198,12 +198,12 @@ export default function Visual({activePage, visuals, visuallayouts}) {
             <div className={`${Flexstyle.visualbar}`}>
                 {layoutState == 1 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>{setVisualState(2)}}>Add Scene</div>}
                 {layoutState == 1 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>{setVisualState(3)}}>Load Scene</div>}
-                {layoutState == 1 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>setLayoutState(2)}>Save Setup</div>}
-                {layoutState == 1 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>{setVisualState(4)}}>Load Setup</div>}
+                {layoutState == 1 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>{setLayoutState(2)}}>Save Layout</div>}
+                {layoutState == 1 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>{setVisualState(4)}}>Load Layout</div>}
 
                 {layoutState == 2 && visualState==1 && <input className={`${VisualStyle.newvisuallayout}`} defaultValue={currentLayout} id="layoutName" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
                 {layoutState == 2 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={() => {saveLayout()}}>Accept</div>}
-                {layoutState == 2 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>setLayoutState(1)}>Return</div>}
+                {layoutState == 2 && visualState==1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=> {setLayoutState(1)}}>Return</div>}
                 {visualState!=1 && <div className={`${VisualStyle.visualcontrolbutton}`} onClick={()=>{setVisualState(1)}}>Return</div>}
             </div>
         </div>

@@ -87,6 +87,42 @@
     transition: 200ms;
 }
 
+.charpcbutton{
+    font-size: 1.5cqw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.65);
+    margin-left: 26%;
+    cursor: pointer;
+}
+
+.charpcbutton::selection{
+    background: none;
+    color: rgba(255, 255, 229, 0.8);
+}
+
+.charpcbutton:hover{
+    color: rgba(219, 221, 229, 0.8);
+    transition: 200ms;
+}
+
+.charnpcbutton{
+    font-size: 1.5cqw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.65);
+    margin-left: 17%;
+    cursor: pointer;
+}
+
+.charnpcbutton::selection{
+    background: none;
+    color: rgba(255, 255, 229, 0.8);
+}
+
+.charnpcbutton:hover{
+    color: rgba(219, 221, 229, 0.8);
+    transition: 200ms;
+}
+
 .storyload{
     font-size: 1.9cqw;
     text-align: center;
@@ -145,6 +181,11 @@
     border: solid;
 }
 
+.charactergroupwrapper{
+    display: flex;
+    position: relative;
+    margin-top: 0.5cqw;
+}
 
 .namewrapper{
     position: relative;
@@ -393,7 +434,7 @@
     overflow-y: scroll;
     margin-top:2.4cqw;
     height: 36.9cqw;
-    margin-bottom: 3.6cqw;
+    margin-bottom: 0.3cqw;
 }
 
 .charoption{
@@ -423,13 +464,24 @@
 
 /* Design of Load Slab */
 
-.loadslabbuttonwrapper{
+.loadcharbuttonwrapper{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     justify-self: flex-end;
     width: 61cqw;
     margin-left: 3cqw;
+    margin-top: 1.5cqw;
+}
+
+.loadstorybuttonwrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    justify-self: flex-end;
+    width: 61cqw;
+    margin-left: 3cqw;
+    margin-top: 3.8cqw;
 }
 
 .loadslabbutton{
@@ -646,6 +698,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 9.5cqw;
 }
 
 .charactersaverow{
@@ -654,7 +707,7 @@
     justify-content: space-between;
 }
 
-.charactersavebutton{
+.characteroptionbutton{
     font-size: 1.8cqw;
     text-align: center;
     color: rgba(219, 221, 229, 1.0);
@@ -663,17 +716,34 @@
     opacity: 0.75;
     margin-top: 3.5%;
     width: 49%;
-    aspect-ratio: 15/4;
+    height: 3.7cqw;
     padding-top:3%;
     cursor: pointer;
 }
 
-.charactersavebutton::selection{
+.characteroptionbutton::selection{
     color: rgba(255, 255, 229, 1);
     background: none;
 }
 
-.charactersavebutton:hover{
+.characteroptionbutton:hover{
     opacity: 0.9;
     transition: 200ms;
+}
+
+.newcharname{
+    all:unset;
+    width: 26cqw;
+    font-size: 2cqw;
+    height: 3cqw;
+    border-bottom: solid;
+    margin-top: 0.8cqw;
+    margin-left: 1.5cqw;
+    text-align: center;
+    caret-color: rgba(211, 212, 235, 0.6);
+}
+
+.newcharname::selection{
+    color: rgba(255, 255, 229, 0.9);
+    background: none;
 }

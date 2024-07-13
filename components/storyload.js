@@ -57,7 +57,7 @@ export default function StoryLoad({storyList, setActiveStoryContent, setActiveSt
       </div>
       ))}
     </div>
-    <div className={`${UIcomp.loadslabbuttonwrapper}`}>
+    <div className={`${UIcomp.loadstorybuttonwrapper}`}>
         <div onClick={()=>{setStorySlab(1)}} className={`${UIcomp.loadslabbutton}`}>Return to Current Story</div>
     </div>
   </div>

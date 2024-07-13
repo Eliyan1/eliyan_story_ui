@@ -2,7 +2,7 @@ import UIcomp from '../styles/story.module.css'
 import CharNotes from './charnotes'
 import { useState } from "react";
 
-export default function CharSlab(activeChars, setStorySlab) {
+export default function CharSlab(activeChars, setStorySlab, characterName) {
 
     const [activeIndex, setActiveIndex] = useState(0)
     const [charName, setName] = useState("Character Name");
@@ -46,7 +46,7 @@ export default function CharSlab(activeChars, setStorySlab) {
         }else{
             console.log(activeCharIndex);
             setActiveIndex(activeCharIndex);
-            setName('New Char');
+            setName(characterName);
             setAC(1)
             setHP('1')
             setTHP(0)
@@ -424,9 +424,9 @@ export default function CharSlab(activeChars, setStorySlab) {
     </div>
 
     <div className={`${UIcomp.charslabbuttonwrapper}`}>
+        <div onClick={()=>{setStorySlab(1)}} className={`${UIcomp.charslabbutton}`}>Return to Story</div>
         <div onClick={noteButtonClick} className={`${UIcomp.charslabbutton}`}>Character Notes</div>
         <div onClick={externalButtonClick} className={`${UIcomp.charslabbutton}`}>{extButtonText} </div>
-        <div onClick={()=>{setStorySlab(1)}} className={`${UIcomp.charslabbutton}`}>Return to Story</div>
     </div>
 
     </>)
