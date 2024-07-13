@@ -13,6 +13,7 @@ import VisualDB from "@/models/visual";
 import AudioLayout from '@/models/audiolay';
 import VisualLayout from '@/models/visuallay';
 import CharGroup from '@/models/chargroup';
+import Head from 'next/head';
 
 export default function IndexPage({dbCharacters, stories, audios, visuals, audiolayouts, visuallayouts, chargroups}) {
 
@@ -30,12 +31,21 @@ export default function IndexPage({dbCharacters, stories, audios, visuals, audio
 		return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 	});
 	
-	return <div className={`${Flexstyle.aspectwrapper}`}>
+	return <>
+	<Head>
+        <title>Chronicle-Sculptor</title>
+        <meta name="description" content="To assist in creating the perfect story" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
+		<link rel="icon" type="image/png" href="/favicon.png"></link>
+    </Head>
+
+	<div className={`${Flexstyle.aspectwrapper}`}>
 		<Story activePage={activePage} dbCharacters={sortedCharacters} stories={stories} chargroups={sortedGroups}/>
 		<Audio activePage={activePage} audios={audios} audiolayouts={audiolayouts}/>
 		<Visual activePage={activePage} visuals={visuals} visuallayouts={visuallayouts}/>
 		<Footer setActivePage={setActivePage}/>	
 	</div>
+	</>
 }
 
 
