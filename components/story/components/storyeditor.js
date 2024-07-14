@@ -29,27 +29,29 @@ const StoryEditor = ({activeStoryTitle, activeStoryContent, setActiveStoryConten
 	}
 
   const saveClick = async (e) => {
-    e.preventDefault()
-    
-    const content = await editor.getJSON()
-    const storyNumber = checkStoryPresent()
-    setActiveStoryContent(content)
+    if(activeStoryTitle != 'Title of New Chronicle') {
+      e.preventDefault()
+      
+      const content = await editor.getJSON()
+      const storyNumber = checkStoryPresent()
+      setActiveStoryContent(content)
 
-    if (storyNumber==-1){
-        await fetch('/api/story/create',{
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-              title:    activeStoryTitle,
-              content:  content,
-          }),
-        });
-        setStoryList([...storyList, {title: activeStoryTitle, content: content}])
+      if (storyNumber==-1){
+          await fetch('/api/story/create',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title:    activeStoryTitle,
+                content:  content,
+            }),
+          });
+          setStoryList([...storyList, {title: activeStoryTitle, content: content}])
+        }
+      else{
+        saveStory(storyNumber, content)
       }
-    else{
-      saveStory(storyNumber, content)
     }
   };
 

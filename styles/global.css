@@ -45,3 +45,8 @@ img {
   max-width: 100%;
   display: block;
 }
+
+p::selection {
+  color: rgba(255, 255, 229, 0.6);
+  background: none;
+}

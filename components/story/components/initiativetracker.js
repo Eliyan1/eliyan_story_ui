@@ -34,7 +34,7 @@ return <div spellCheck="false" className={`${StyleCSS.charslab}`}>
         </div>
     ))}
 </div>
-<div className={`${StyleCSS.loadstorybuttonwrapper}`}>
+<div className={`${StyleCSS.charslabbuttonwrapper}`}>
   <div onClick={()=>{setStorySlab(1)}} className={`${StyleCSS.charslabbutton}`}>Return to Story</div>
   <div onClick={setInitiative} className={`${StyleCSS.charslabbutton}`}>Initiate Combat</div>
 </div>           

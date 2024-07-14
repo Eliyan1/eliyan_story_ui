@@ -180,8 +180,8 @@ export default function Visual({activePage, visuals, visuallayouts}) {
 
                 {layoutState == 2 && visualState==1 && <input className={`${StyleCSS.newvisuallayout}`} defaultValue={currentLayout} id="layoutName" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
                 {layoutState == 2 && visualState==1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={() => {saveLayout()}}>Accept</div>}
-                {layoutState == 2 && visualState==1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=> {setLayoutState(1)}}>Return</div>}
-                {visualState!=1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=>{setVisualState(1)}}>Return</div>}
+                {layoutState == 2 && visualState==1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=> {setLayoutState(1)}}>Cancel</div>}
+                {visualState!=1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=>{setVisualState(1)}}>Cancel</div>}
             </div>
         </div>
 

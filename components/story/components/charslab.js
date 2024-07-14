@@ -206,22 +206,6 @@ export default function CharSlab(activeChars, setStorySlab, characterName) {
         if(activeChars[activeIndex].hp<0) {activeChars[activeIndex].hp=0};
         if(activeChars[activeIndex].hp >activeChars[activeIndex].maxhp) {activeChars[activeIndex].hp=activeChars[activeIndex].maxhp};
         setHP(activeChars[activeIndex].hp)
-        // if (characters[activeIndex].name=="" || 
-        // characters[activeIndex].ac==null ||
-        // characters[activeIndex].hp==null||
-        // characters[activeIndex].temphp==null ||
-        // characters[activeIndex].maxhp==null ||
-        // characters[activeIndex].str==null ||
-        // characters[activeIndex].dex==null ||
-        // characters[activeIndex].con==null ||
-        // characters[activeIndex].wis==null ||
-        // characters[activeIndex].intel==null ||
-        // characters[activeIndex].cha==null
-        // ) {
-        //     e.target.focus()
-        //     alert("Please don't leave the value empty")
-        //     return;
-        // }
 
         
         const res = await fetch(`/api/characters/update?id=${activeChars[activeIndex]._id}`,{

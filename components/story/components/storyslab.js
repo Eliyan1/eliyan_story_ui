@@ -11,6 +11,7 @@ export default function StorySlab({setActiveStoryContent, activeStoryTitle, acti
           value={`${activeStoryTitle}`} 
           className={`${StyleCSS.storytitle}`} 
           onChange={(e) => setActiveStoryTitle(e.target.value)}
+          onFocus={(e) => e.target.select()}
         />
       </div>
         <StoryEditor 
