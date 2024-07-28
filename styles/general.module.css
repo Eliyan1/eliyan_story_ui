@@ -236,7 +236,7 @@
 }
 
 .storyload{
-    font-size: 1.7cqw;
+    font-size: 1.5cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.65);
     margin-left: 5%;
@@ -654,8 +654,8 @@
     flex-direction: column;
     justify-content: flex-start;
     overflow-y: scroll;
-    margin-top:2.4cqw;
-    height: 77.6cqh;
+    margin-top:3.1cqw;
+    height: 76.5cqh;
     margin-bottom: 0.3cqw;
 }
 

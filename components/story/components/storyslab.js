@@ -6,7 +6,7 @@ export default function StorySlab({setActiveStoryContent, activeStoryTitle, acti
   const saveClick = async (content) => {
     const storyNumber = checkStoryPresent()
 
-    if(activeStoryTitle != 'Title of New Chronicle') {
+    if(activeStoryTitle != 'Title of New Journey') {
       if (storyNumber==-1){
           await fetch('/api/story/create',{
             method: 'POST',

@@ -33,8 +33,8 @@ export default function IndexPage({dbCharacters, stories, audios, visuals, audio
 	
 	return <>
 	<Head>
-        <title>Chronicle-Sculptor</title>
-        <meta name="description" content="To assist in creating the perfect story" />
+        <title>Journey Conductor</title>
+        <meta name="description" content="To guide the Journey from potential to essence" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
 		<link rel="icon" type="image/png" href="/favicon.png"></link>
     </Head>

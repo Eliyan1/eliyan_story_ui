@@ -21,7 +21,7 @@ const StoryEditor = ({activeStoryContent, setStorySlab, saveClick, setActiveStor
     <div className={StyleCSS.editorstory}>
         <EditorContent spellCheck="false" editor={editor} onBlur={updateContent}/>
         <div className={`${StyleCSS.storyloadwrapper}`}>
-					<div onClick={()=>{setStorySlab(4)}} className={`${StyleCSS.storyload}`}>Load Chronicle</div>
+					<div onClick={()=>{setStorySlab(4)}} className={`${StyleCSS.storyload}`}>Load Journey</div>
 				</div>
     </div>
   )

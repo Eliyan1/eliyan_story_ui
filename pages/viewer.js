@@ -21,8 +21,8 @@ export default function Viewer() {
 
     return<>
     	<Head>
-            <title>Chronicle-Viewer</title>
-            <meta name="description" content="To assist in showing the perfect story" />
+            <title>Journey Viewer</title>
+            <meta name="description" content="To visualize the Journey from potential to essence" />
             <link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
             <link rel="icon" type="image/png" href="/favicon.png"></link>
         </Head>
