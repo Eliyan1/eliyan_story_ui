@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    max-width: 177vh;
+    max-width: 176.6vh;
     aspect-ratio: 16/9;
     margin: auto;
     container-type: size;
@@ -83,7 +83,8 @@
     display: flex;
     justify-content: center;
     position: relative;
-    margin-top: 0.5cqw;
+    margin-top: 0.4cqw;
+    margin-right: 2cqw;
 }
 
 .storycontent {
@@ -130,21 +131,21 @@
 }
 
 .frontslab{
-    
+    position: absolute;
     background-image: url("../image/Stone_Story_Frame_Front.png");
     background-size: 100% 100%;
-    height: 100%;
-    width: 100%;
-    margin-bottom: -52.2cqw;
+    height: 52.5cqw;
+    width: 67.2cqw;
     z-index: 1;
     pointer-events: none;
 }
 
 .frontslabshort{
+    position: absolute;
     background-image: url("../image/Stone_Story_Frame_Front.png");
     background-size: 100% 100%;
-    height: 100%;
-    width: 100%;
+    height: 45.1cqw;
+    width: 67.2cqw;
     z-index: 1;
     margin-bottom: -45.0cqw;
     pointer-events: none;
@@ -236,8 +237,27 @@
     transition: 200ms;
 }
 
+.storysave{
+    font-size: 1.8cqw;
+    text-align: center;
+    color: rgba(219, 221, 229, 0.65);
+    margin-top: 0.1cqw;
+    cursor: pointer;
+    margin-right: 30%;
+}
+
+.storysave::selection{
+    background: none;
+    color: rgba(255, 255, 229, 0.8);
+}
+
+.storysave:hover{
+    color: rgba(219, 221, 229, 0.8);
+    transition: 200ms;
+}
+
 .storyload{
-    font-size: 1.5cqw;
+    font-size: 1.8cqw;
     text-align: center;
     color: rgba(219, 221, 229, 0.65);
     margin-left: 5%;
@@ -304,6 +324,7 @@
     margin-left: 10.5%;
     text-align: justify;
     color: rgba(219, 221, 229, 0.45);
+    z-index: 0;
 }
 
 .editorstory [class*=ProseMirror]:focus {

@@ -2,7 +2,7 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import StyleCSS from '@/styles/general.module.css'
 
-const StoryEditor = ({activeStoryContent, setStorySlab, saveClick, setActiveStoryContent}) => {
+const StoryEditor = ({activeStoryContent, setStorySlab, autoSave, setActiveStoryContent, saveClick}) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -10,18 +10,20 @@ const StoryEditor = ({activeStoryContent, setStorySlab, saveClick, setActiveStor
     content: activeStoryContent,
   });
 
+
   const updateContent = async () => {
     const content = await editor.getJSON()
     setActiveStoryContent(content)
     console.log(content)
-    saveClick(content)
+    autoSave(content)
   }
 
   return (
     <div className={StyleCSS.editorstory}>
         <EditorContent spellCheck="false" editor={editor} onBlur={updateContent}/>
         <div className={`${StyleCSS.storyloadwrapper}`}>
-					<div onClick={()=>{setStorySlab(4)}} className={`${StyleCSS.storyload}`}>Load Journey</div>
+          <div onClick={()=>{saveClick(activeStoryContent)}} className={`${StyleCSS.storysave}`}>Save</div>
+					<div onClick={()=>{setStorySlab(4)}} className={`${StyleCSS.storyload}`}>Load</div>
 				</div>
     </div>
   )

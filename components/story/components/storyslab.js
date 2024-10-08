@@ -6,7 +6,12 @@ export default function StorySlab({setActiveStoryContent, activeStoryTitle, acti
   const saveClick = async (content) => {
     const storyNumber = checkStoryPresent()
 
-    if(activeStoryTitle != 'Title of New Journey') {
+    if(activeStoryTitle == 'Title of New Journey') {
+      alert('Please give a title to the journey')
+    }
+    else{
+      console.log(activeStoryTitle)
+      console.log(content)
       if (storyNumber==-1){
           await fetch('/api/story/create',{
             method: 'POST',
@@ -25,6 +30,16 @@ export default function StorySlab({setActiveStoryContent, activeStoryTitle, acti
       }
     }
   };
+
+  const autoSave = async (content) => {
+    const storyNumber = checkStoryPresent()
+    if(activeStoryTitle != 'Title of New Journey') {
+      if (storyNumber!=-1){
+        saveStory(storyNumber, content)
+      }
+    }
+  };
+  
 
   const saveStory = async (storyIndex, content) => {
 		await fetch(`/api/story/updatebytitle?title=${storyList[storyIndex].title}`,{
@@ -53,13 +68,14 @@ export default function StorySlab({setActiveStoryContent, activeStoryTitle, acti
         className={`${StyleCSS.storytitle}`} 
         onChange={(e) => setActiveStoryTitle(e.target.value)}
         onFocus={(e) => e.target.select()}
-        onBlur={()=>saveClick(activeStoryContent)}
+        onBlur={()=>autoSave(activeStoryContent)}
       />
     </div>
       <StoryEditor
       setActiveStoryContent={setActiveStoryContent} 
       activeStoryContent={activeStoryContent} 
       setStorySlab={setStorySlab}
+      autoSave={autoSave}
       saveClick={saveClick}
       />
   </div>
