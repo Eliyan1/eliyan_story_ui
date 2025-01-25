@@ -188,150 +188,150 @@ export default function Audio({activePage, audios, audiolayouts}) {
 
 
     return <div className={`${StyleCSS.audiocontent}`} style={{display: activePage==2 ? "flex" : "none"}}>
-    <div className={`${StyleCSS.container}`}>
-        <div 
-        className={`${StyleCSS.audiobox}`} 
-        style={{display: audioState==1 ? "flex" : "none"}}>
-            {audioButtons.map(audioButtons => (
+        <div className={`${StyleCSS.container}`}>
             <div 
-            className={`${StyleCSS.audiobutton}`} 
-            key={audioButtons._id} 
-            onClick={(e) => {buttonPlay({e, audioButtons})}}
-            > 
-                {audioButtons.tag}
+            className={`${StyleCSS.audiobox}`} 
+            style={{display: audioState==1 ? "flex" : "none"}}>
+                {audioButtons.map(audioButtons => (
+                <div 
+                className={`${StyleCSS.audiobutton}`} 
+                key={audioButtons._id} 
+                onClick={(e) => {buttonPlay({e, audioButtons})}}
+                > 
+                    {audioButtons.tag}
+                </div>
+                ))}
             </div>
-            ))}
-        </div>
 
-        <div className={`${StyleCSS.audiobox}`} style={{display: audioState==2 ? "flex" : "none"}}>
-            <div className={`${StyleCSS.newaudiolist}`}>
-                <div className={`${StyleCSS.newaudioentry}`}>
-                    <div className={`${StyleCSS.newaudioname}`}> Title: </div>
-                    <input className={`${StyleCSS.newaudioinput}`} onChange={(e) => setAudioTitle(e.target.value)}/>
-                </div>
-                <div className={`${StyleCSS.newaudioentry}`}>
-                    <div className={`${StyleCSS.newaudioname}`}> Artist: </div>
-                    <input className={`${StyleCSS.newaudioinput}`} onChange={(e) => setAudioArtist(e.target.value)}/>
-                </div>
-                <div className={`${StyleCSS.newaudioentry}`}>
-                    <div className={`${StyleCSS.newaudioname}`}> Button Tag: </div>
-                    <input className={`${StyleCSS.newaudioinput}`} onChange={(e) => setAudioTag(e.target.value)}/>
-                </div>
-                <div className={`${StyleCSS.newaudioentry}`}>
-                    <div className={`${StyleCSS.newaudioname}`}> URL: </div>
-                    <input className={`${StyleCSS.newaudioinput}`} onChange={(e) => setAudioURL(e.target.value)}/>
-                </div>
-                <button className={`${StyleCSS.newaudiobutton}`} onClick={createSong}> Add </button>
-            </div>
-        </div>
-
-        <div className={`${StyleCSS.audiobox}`} style={{display: audioState==3 ? "flex" : "none"}}>
-        <div className={`${StyleCSS.audiooptionheaderwrapper}`}>
-            <div className={`${StyleCSS.audiooptionheader}`}> Select Song </div>
-        </div>
-        <div className={`${StyleCSS.audiooptionvalues}`}>
-                <div className={`${StyleCSS.audiooptionartist}`}> Artist</div>
-                <div className={`${StyleCSS.audiooptiontitle}`}> Title</div>
-            </div>
-            <div className={`${StyleCSS.audiooptionwrapper}`}>
-
-
-                {audios.map(audios => (
-                    <div 
-                        className={`${StyleCSS.audiooption}`}
-                        key={audios._id} 
-                        onClick={(e) => {addAudioButton({e, audios})}}
-                        >
-                        <div className={`${StyleCSS.audiooptionartist}`}> {audios.artist}</div>
-                        <div className={`${StyleCSS.audiooptiontitle}`}> {audios.title}</div>
+            <div className={`${StyleCSS.audiobox}`} style={{display: audioState==2 ? "flex" : "none"}}>
+                <div className={`${StyleCSS.newaudiolist}`}>
+                    <div className={`${StyleCSS.newaudioentry}`}>
+                        <div className={`${StyleCSS.newaudioname}`}> Title: </div>
+                        <input className={`${StyleCSS.newaudioinput}`} onChange={(e) => setAudioTitle(e.target.value)}/>
                     </div>
-                ))}
+                    <div className={`${StyleCSS.newaudioentry}`}>
+                        <div className={`${StyleCSS.newaudioname}`}> Artist: </div>
+                        <input className={`${StyleCSS.newaudioinput}`} onChange={(e) => setAudioArtist(e.target.value)}/>
+                    </div>
+                    <div className={`${StyleCSS.newaudioentry}`}>
+                        <div className={`${StyleCSS.newaudioname}`}> Button Tag: </div>
+                        <input className={`${StyleCSS.newaudioinput}`} onChange={(e) => setAudioTag(e.target.value)}/>
+                    </div>
+                    <div className={`${StyleCSS.newaudioentry}`}>
+                        <div className={`${StyleCSS.newaudioname}`}> URL: </div>
+                        <input className={`${StyleCSS.newaudioinput}`} onChange={(e) => setAudioURL(e.target.value)}/>
+                    </div>
+                    <button className={`${StyleCSS.newaudiobutton}`} onClick={createSong}> Add </button>
+                </div>
+            </div>
+
+            <div className={`${StyleCSS.audiobox}`} style={{display: audioState==3 ? "flex" : "none"}}>
+            <div className={`${StyleCSS.audiooptionheaderwrapper}`}>
+                <div className={`${StyleCSS.audiooptionheader}`}> Select Song </div>
+            </div>
+            <div className={`${StyleCSS.audiooptionvalues}`}>
+                    <div className={`${StyleCSS.audiooptionartist}`}> Artist</div>
+                    <div className={`${StyleCSS.audiooptiontitle}`}> Title</div>
+                </div>
+                <div className={`${StyleCSS.audiooptionwrapper}`}>
+
+
+                    {audios.map(audios => (
+                        <div 
+                            className={`${StyleCSS.audiooption}`}
+                            key={audios._id} 
+                            onClick={(e) => {addAudioButton({e, audios})}}
+                            >
+                            <div className={`${StyleCSS.audiooptionartist}`}> {audios.artist}</div>
+                            <div className={`${StyleCSS.audiooptiontitle}`}> {audios.title}</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <div className={`${StyleCSS.audiobox}`} style={{display: audioState==4 ? "flex" : "none"}}>
+            <div className={`${StyleCSS.audiooptionheaderwrapper}`}>
+                <div className={`${StyleCSS.layoutoptionheader}`}> Select Layout </div>
+            </div>
+                <div className={`${StyleCSS.layoutoptionwrapper}`}>
+                    {audioLayoutList.map(audioLayoutList => (
+                        <div 
+                            className={`${StyleCSS.audiooption}`}
+                            key={audioLayoutList.title} 
+                            onClick={() => {loadLayout(audioLayoutList)}}
+                            >
+                            <div className={`${StyleCSS.layoutoptiontitle}`}> - {audioLayoutList.title}</div>
+                        </div> 
+                    ))}
+
+                </div>
+            </div>
+
+            <div className={`${StyleCSS.audioline}`}/>
+
+            <div className={`${StyleCSS.audiocontrol}`}>
+                {saveState == 0 &&<div className={`${StyleCSS.audiocontrolbutton}`} onClick={()=>{setSaveState(1)}}>Save Layout</div>}
+                {saveState == 0 && <div className={`${StyleCSS.audiocontrolbutton}`} onClick={()=>{setAudioState(4)}}>Load Layout</div>}
+                {saveState == 1 && <input className={`${StyleCSS.newaudiolayout}`} defaultValue={currentLayout} id='layoutName' spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
+                {saveState == 1 && <div className={`${StyleCSS.audiocontrolbutton}`} onClick={saveLayout}> Accept</div>}
+                <div className={`${StyleCSS.audiocontrolspacer}`}></div>
+                <div className={`${StyleCSS.audiocontrolbutton}`} onClick={()=>{setAudioState(2)}}>Add Song</div>
+                <div className={`${StyleCSS.audiocontrolbutton}`} onClick={()=>{setAudioState(3)}}>Load Song</div>
+                <div className={`${StyleCSS.audiocontrolspacer}`}></div>
+                <div className={`${StyleCSS.audiocontrolbutton}`} onClick={returnMusic}>Return</div>
             </div>
         </div>
 
-        <div className={`${StyleCSS.audiobox}`} style={{display: audioState==4 ? "flex" : "none"}}>
-        <div className={`${StyleCSS.audiooptionheaderwrapper}`}>
-            <div className={`${StyleCSS.layoutoptionheader}`}> Select Layout </div>
-        </div>
-            <div className={`${StyleCSS.layoutoptionwrapper}`}>
-                {audioLayoutList.map(audioLayoutList => (
-                    <div 
-                        className={`${StyleCSS.audiooption}`}
-                        key={audioLayoutList.title} 
-                        onClick={() => {loadLayout(audioLayoutList)}}
-                        >
-                        <div className={`${StyleCSS.layoutoptiontitle}`}> - {audioLayoutList.title}</div>
-                    </div> 
-                ))}
 
+
+        <div className={`${StyleCSS.audiobar}`}>
+
+            <div className={`${StyleCSS.audionavigation}`}>
+                <div className={`${StyleCSS.audionavbar}`} onClick={setAudioPosition} ref={navRef}>
+                    <div className={`${StyleCSS.audioprog}`} style={{width: `${currentSong.progress+'%'}`}}/>
+                </div>
+            </div>
+            <div className={`${StyleCSS.playtime}`}>
+                <div className={`${StyleCSS.playhour}`}>{playHour}</div>
+                :
+                <div className={`${StyleCSS.playmin}`}>{playMin}</div>
+                :
+                <div className={`${StyleCSS.playsec}`}>{playSec}</div>
+                /
+                <div className={`${StyleCSS.playhour}`}>{totalHour}</div>
+                :
+                <div className={`${StyleCSS.playmin}`}>{totalMin}</div>
+                :
+                <div className={`${StyleCSS.playsec}`}>{TotalSec}</div>
+            </div>
+            <div className={`${StyleCSS.audiovolume}`}>
+                <div className={`${StyleCSS.audiovolumebar}`} onClick={setAudioVolume} ref={volRef}>
+                    <div className={`${StyleCSS.audiocurrentvolume}`} style={{width: `${volume+'%'}`}}/>
+                </div>
+            </div>
+            <div className={`${StyleCSS.volumenumber}`}>
+                {Math.ceil(volume)}
             </div>
         </div>
 
-        <div className={`${StyleCSS.audioline}`}/>
-
-        <div className={`${StyleCSS.audiocontrol}`}>
-            {saveState == 0 &&<div className={`${StyleCSS.audiocontrolbutton}`} onClick={()=>{setSaveState(1)}}>Save Layout</div>}
-            {saveState == 0 && <div className={`${StyleCSS.audiocontrolbutton}`} onClick={()=>{setAudioState(4)}}>Load Layout</div>}
-            {saveState == 1 && <input className={`${StyleCSS.newaudiolayout}`} defaultValue={currentLayout} id='layoutName' spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
-            {saveState == 1 && <div className={`${StyleCSS.audiocontrolbutton}`} onClick={saveLayout}> Accept</div>}
-            <div className={`${StyleCSS.audiocontrolspacer}`}></div>
-            <div className={`${StyleCSS.audiocontrolbutton}`} onClick={()=>{setAudioState(2)}}>Add Song</div>
-            <div className={`${StyleCSS.audiocontrolbutton}`} onClick={()=>{setAudioState(3)}}>Load Song</div>
-            <div className={`${StyleCSS.audiocontrolspacer}`}></div>
-            <div className={`${StyleCSS.audiocontrolbutton}`} onClick={returnMusic}>Return</div>
+        <div className={`${StyleCSS.audiobar}`}>
+            <audio 
+            src={currentSong.url} 
+            ref={audioElem}
+            onTimeUpdate={whilePlaying}
+            onPlaying={onPlay}
+            />
+            {/* <span id='current-time-audio' className='time'>0:00</span>
+            <input type="range" id="seek-slider-audio" max="100" value="0"/>
+            <span id='duration-audio' className='time'>0:00</span>
+            <output id="volume-output">100</output>
+            <input type="range" id="volume-slider" max="100" value="100"/> */}
         </div>
-    </div>
 
-
-
-    <div className={`${StyleCSS.audiobar}`}>
-
-        <div className={`${StyleCSS.audionavigation}`}>
-            <div className={`${StyleCSS.audionavbar}`} onClick={setAudioPosition} ref={navRef}>
-                <div className={`${StyleCSS.audioprog}`} style={{width: `${currentSong.progress+'%'}`}}/>
-            </div>
+        <div className={`${StyleCSS.audiobuttonbar}`}>
+            <button className={`${StyleCSS.audioplay}`} onClick={playMusic}/>
+            <button className={`${StyleCSS.audiopause}`} onClick={pauseMusic}/>
+            <button className={`${StyleCSS.audiostop}`}  onClick={stopMusic}/>
         </div>
-        <div className={`${StyleCSS.playtime}`}>
-            <div className={`${StyleCSS.playhour}`}>{playHour}</div>
-            :
-            <div className={`${StyleCSS.playmin}`}>{playMin}</div>
-            :
-            <div className={`${StyleCSS.playsec}`}>{playSec}</div>
-            /
-            <div className={`${StyleCSS.playhour}`}>{totalHour}</div>
-            :
-            <div className={`${StyleCSS.playmin}`}>{totalMin}</div>
-            :
-            <div className={`${StyleCSS.playsec}`}>{TotalSec}</div>
-        </div>
-        <div className={`${StyleCSS.audiovolume}`}>
-            <div className={`${StyleCSS.audiovolumebar}`} onClick={setAudioVolume} ref={volRef}>
-                <div className={`${StyleCSS.audiocurrentvolume}`} style={{width: `${volume+'%'}`}}/>
-            </div>
-        </div>
-        <div className={`${StyleCSS.volumenumber}`}>
-            {Math.ceil(volume)}
-        </div>
-    </div>
-
-    <div className={`${StyleCSS.audiobar}`}>
-        <audio 
-        src={currentSong.url} 
-        ref={audioElem}
-        onTimeUpdate={whilePlaying}
-        onPlaying={onPlay}
-        />
-        {/* <span id='current-time-audio' className='time'>0:00</span>
-        <input type="range" id="seek-slider-audio" max="100" value="0"/>
-        <span id='duration-audio' className='time'>0:00</span>
-        <output id="volume-output">100</output>
-        <input type="range" id="volume-slider" max="100" value="100"/> */}
-    </div>
-
-    <div className={`${StyleCSS.audiobuttonbar}`}>
-        <button className={`${StyleCSS.audioplay}`} onClick={playMusic}/>
-        <button className={`${StyleCSS.audiopause}`} onClick={pauseMusic}/>
-        <button className={`${StyleCSS.audiostop}`}  onClick={stopMusic}/>
-    </div>
     </div>;				
 }

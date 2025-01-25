@@ -28,7 +28,8 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
     setUniqueChar(uniqueChar+newgroup.length)
   }
 
-  return <div spellCheck="false" className={`${StyleCSS.charslab}`}>
+  return <>
+  <div spellCheck="false" className={`${StyleCSS.charslab}`}>
     <div className={`${StyleCSS.frontslabshort}`}/>
     <div type="text" className={`${StyleCSS.loadtitle}`}>Select your Character</div>
     <div className={`${StyleCSS.charoptionwrapper}`}>
@@ -53,13 +54,14 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
       </div>
     ))}
     </div>
+  </div>
 
-    <div className={`${StyleCSS.charslabbuttonwrapper}`}>
+  <div className={`${StyleCSS.loadcharbuttonwrapper}`}>
       <div onClick={()=>{setStorySlab(1)}} className={`${StyleCSS.loadslabbutton}`}>Return</div>
       <div className={`${StyleCSS.loadslabbutton}`} onClick={()=>{charTypeList(true)}}>Players</div>
       <div className={`${StyleCSS.loadslabbutton}`} onClick={()=>{charTypeList(false)}}>Mobs</div>
       <div className={`${StyleCSS.loadslabbutton}`} onClick={()=>{setGroupTab(1)}}>Groups</div>
-  </div>           
   </div>
+  </>
   }
   
