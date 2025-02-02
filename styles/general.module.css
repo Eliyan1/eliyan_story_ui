@@ -740,6 +740,28 @@
     opacity: 0.9;
 }
 
+.longerloadslabbutton{
+    font-size: 2.1cqw;
+    text-align: center;
+    color: rgba(219, 221, 229, 1.0);
+    background-image: url("../image/Character_Button_Round.png");
+    background-size: 100% 100%;
+    opacity: 0.75;
+    margin-top: 0.5cqw;
+    width: 20cqw;
+    height: 4.5cqw;
+    padding-top:1cqw;
+}
+
+.longerloadslabbutton::selection{
+    color: rgba(255, 255, 229, 1);
+    background: none;
+}
+
+.longerloadslabbutton:hover{
+    opacity: 0.9;
+}
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 .initiativevertwrapper::-webkit-scrollbar {
     display: none;

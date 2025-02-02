@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import connectMongoDB from "@/libs/mongodb";
 import Head from "next/head";
-import Story from '@/components/story/story';
+import PlayerPage from '@/components/story/player';
 import React from'react';
 import Character from "@/models/character";
 import StoryDB from "@/models/story";
@@ -47,7 +47,7 @@ export default function PlayerUI({dbCharacters, stories, audios, visuals, audiol
             <link rel="icon" type="image/png" href="/favicon.png"></link>
         </Head>
         <div className={`${StyleCSS.aspectwrapper}`}>
-            <Story activePage={1} dbCharacters={sortedCharacters} stories={stories} chargroups={sortedGroups}/>
+            <PlayerPage activePage={1} dbCharacters={sortedCharacters} stories={stories} chargroups={sortedGroups}/>
         </div>
     </>
 }

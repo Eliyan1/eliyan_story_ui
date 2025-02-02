@@ -7,12 +7,12 @@ import CharLoad from './components/charload';
 import StoryLoad from './components/storyload';
 import InitiativeTracker from './components/initiativetracker'
 
-export default function Story({dbCharacters, stories, activePage, chargroups})  {
+export default function PlayerPage({dbCharacters, stories, activePage, chargroups})  {
 
-	const user = 'DM'
+    const user = 'Player'
 	const [characters, setCharacters] = useState(dbCharacters)
 	const [storyList, setStoryList] = useState(stories)
-	const [storySlab, setStorySlab] = useState(1)
+	const [storySlab, setStorySlab] = useState(3)
 	const [activeStoryContent, setActiveStoryContent] = useState("") 
 	const [activeStoryTitle, setActiveStoryTitle] = useState("Title of New Journey")
 	const [activeChars, setActiveChars] = useState([])
@@ -163,8 +163,8 @@ export default function Story({dbCharacters, stories, activePage, chargroups})  
 				uniqueChar = {uniqueChar}
 				setUniqueChar = {setUniqueChar}
 				groupList = {groupList}
-				user = {user}
-				createNewCharacter = {createNewCharacter}
+                user = {user}
+                createNewCharacter={createNewCharacter}
 			/>}
 
 			{storySlab == 4 && 
@@ -186,6 +186,28 @@ export default function Story({dbCharacters, stories, activePage, chargroups})  
 		</div>
 		
 		<div className={`${StyleCSS.characterwrap}`}>
+                <CharButton key={activeChars.uniquechar} char={
+					{name:'Placeholder', 
+					hp:1,
+					temphp:1, 
+					ac:1, 
+					str:1,
+					dex:1,
+					con:1,
+					intel:1,
+					wis: 1,
+					cha: 1,
+					_id: 1,
+					active: 1,
+					uniquechar: 1,
+					group: 1,
+					url: 1
+				}} 
+				charMenu = {switchToChar}
+				removeActiveChar = {removeActiveChar}
+				moveCharUp = {moveCharUp}
+				moveCharDown = {moveCharDown}
+				/>
 			<div className={`${StyleCSS.characterbox}`}>
 				{activeChars.map(activeChars => (
 				<CharButton key={activeChars.uniquechar} char={
@@ -211,25 +233,6 @@ export default function Story({dbCharacters, stories, activePage, chargroups})  
 				moveCharDown = {moveCharDown}
 				/>
 				))}
-			</div>
-			<div> 
-				<div className={`${StyleCSS.charactersavecolumn}`}>
-					<div className={`${StyleCSS.charactersaverow}`}>
-						{characterState == 0 && <div onClick={()=>{setCharacterState(1)}} className={`${StyleCSS.characteroptionbutton}`}>Create Character</div>}
-						{characterState == 0 && <div className={`${StyleCSS.characteroptionbutton}`} onClick={()=>{setCharacterState(2)}}>Save Group</div>}
-						{characterState == 1 && <input className={`${StyleCSS.newcharname}`} defaultValue='Character Name' maxLength={12} onChange={(e)=>{setCharacterName(e.target.value)}} id="namedChar" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
-						{characterState == 2 && <input className={`${StyleCSS.newcharname}`} defaultValue='Group Name' id="namedGroup" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
-					</div>
-					<div className={`${StyleCSS.charactersaverow}`}>
-						{characterState == 0 && <div onClick={()=>{setStorySlab(3)}} className={`${StyleCSS.characteroptionbutton}`}>Load Characters</div>}
-						{characterState == 0 && <div onClick={()=>{setStorySlab(5)}} className={`${StyleCSS.characteroptionbutton}`}>Roll Initiative</div>}
-						{characterState == 1 && <div onClick={(e)=>{setCharacterState(0)}} className={`${StyleCSS.characteroptionbutton}`}>Cancel</div>}
-						{characterState == 1 && <div onClick={(e)=>{createNewCharacter([e,true])}} className={`${StyleCSS.characteroptionbutton}`}>Player</div>}
-						{characterState == 1 && <div onClick={(e)=>{createNewCharacter([e,false])}} className={`${StyleCSS.characteroptionbutton}`}>Mob</div>}
-						{characterState == 2 && <div onClick={(e)=>{setCharacterState(0)}} className={`${StyleCSS.characteroptionbutton}`}>Cancel</div>}
-						{characterState == 2 && <div onClick={(e)=>{saveGroup()}} className={`${StyleCSS.characteroptionbutton}`}>Accept</div>}
-					</div>
-				</div>			
 			</div>
 		</div>
 	</div>
