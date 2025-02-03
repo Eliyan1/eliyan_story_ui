@@ -41,7 +41,7 @@ export default function PlayerUI({dbCharacters, stories, audios, visuals, audiol
 
     return<>
     	<Head>
-            <title>Journey Player</title>
+            <title>Journeyer UI</title>
             <meta name="description" content="The Journeyer from potential to essence" />
             <link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
             <link rel="icon" type="image/png" href="/favicon.png"></link>

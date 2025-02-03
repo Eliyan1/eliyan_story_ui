@@ -20,7 +20,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups})  
 	const [characterState, setCharacterState] = useState(0) 
 	const [characterName, setCharacterName] = useState('Character Name') 
 	const [groupList, setGroupList] = useState(chargroups)
-	const {charPanel, populateActiveCharacter} = CharSlab(activeChars, setStorySlab, characterName)
+	const {charPanel, populateActiveCharacter} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user)
 
 	const saveGroup = async () =>{
 

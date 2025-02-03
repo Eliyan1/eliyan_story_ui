@@ -2,7 +2,7 @@ import StyleCSS from '@/styles/general.module.css'
 import CharNotes from './charnotes'
 import { useState } from "react";
 
-export default function CharSlab(activeChars, setStorySlab, characterName) {
+export default function CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user) {
 
     const [activeIndex, setActiveIndex] = useState(0)
     const [charName, setName] = useState("Character Name");
@@ -401,7 +401,8 @@ export default function CharSlab(activeChars, setStorySlab, characterName) {
     </div>
 
     <div className={`${StyleCSS.charslabbuttonwrapper}`}>
-        <div onClick={()=>{setStorySlab(1)}} className={`${StyleCSS.charslabbutton}`}>Return to Story</div>
+        {user == 'DM' && <div onClick={()=>{setStorySlab(1)}} className={`${StyleCSS.charslabbutton}`}>Return to Story</div>}
+        {user == 'Player' && <div onClick={()=>{setStorySlab(2)}} className={`${StyleCSS.charslabbutton}`}>Back to Main</div>}
         <div onClick={noteButtonClick} className={`${StyleCSS.charslabbutton}`}>Character Notes</div>
         <div onClick={externalButtonClick} className={`${StyleCSS.charslabbutton}`}>{extButtonText} </div>
     </div>

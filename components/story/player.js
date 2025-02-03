@@ -20,7 +20,24 @@ export default function PlayerPage({dbCharacters, stories, activePage, chargroup
 	const [characterState, setCharacterState] = useState(0) 
 	const [characterName, setCharacterName] = useState('Character Name') 
 	const [groupList, setGroupList] = useState(chargroups)
-	const {charPanel, populateActiveCharacter} = CharSlab(activeChars, setStorySlab, characterName)
+	const {charPanel, populateActiveCharacter} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user)
+	const [mainChar, setMainChar] = useState(					
+		{name:'Plholder', 
+		hp:1,
+		temphp:1, 
+		ac:1, 
+		str:1,
+		dex:1,
+		con:1,
+		intel:1,
+		wis: 1,
+		cha: 1,
+		_id: 1,
+		active: 1,
+		uniquechar: 1,
+		group: 1,
+		url: 1
+		})
 
 	const saveGroup = async () =>{
 
@@ -165,6 +182,8 @@ export default function PlayerPage({dbCharacters, stories, activePage, chargroup
 				groupList = {groupList}
                 user = {user}
                 createNewCharacter={createNewCharacter}
+				setMainChar = {setMainChar}
+				mainChar = {mainChar}
 			/>}
 
 			{storySlab == 4 && 
@@ -186,28 +205,13 @@ export default function PlayerPage({dbCharacters, stories, activePage, chargroup
 		</div>
 		
 		<div className={`${StyleCSS.characterwrap}`}>
-                <CharButton key={activeChars.uniquechar} char={
-					{name:'Placeholder', 
-					hp:1,
-					temphp:1, 
-					ac:1, 
-					str:1,
-					dex:1,
-					con:1,
-					intel:1,
-					wis: 1,
-					cha: 1,
-					_id: 1,
-					active: 1,
-					uniquechar: 1,
-					group: 1,
-					url: 1
-				}} 
+                <CharButton char={mainChar} 
 				charMenu = {switchToChar}
 				removeActiveChar = {removeActiveChar}
 				moveCharUp = {moveCharUp}
 				moveCharDown = {moveCharDown}
 				/>
+			<div className={`${StyleCSS.characterline}`}/>
 			<div className={`${StyleCSS.characterbox}`}>
 				{activeChars.map(activeChars => (
 				<CharButton key={activeChars.uniquechar} char={
