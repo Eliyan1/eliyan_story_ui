@@ -1,5 +1,5 @@
 import StyleCSS from '@/styles/general.module.css'
-import CharButton from './components/charbutton'
+import PlayerButton from './components/playerbutton'
 import StorySlab from './components/storyslab'
 import { useState } from 'react';
 import CharSlab from './components/charslab';
@@ -107,6 +107,13 @@ export default function PlayerPage({dbCharacters, stories, activePage, chargroup
 	setStorySlab(2);
 	}
 
+	const switchToMainChar = async (char) => {
+		populateActiveCharacter(0)
+		console.log(mainChar)
+		await setStorySlab(0); //necessary to update the notes of the character
+		setStorySlab(2);
+		}
+
 	const createNewCharacter = async ([e,playerstatus]) =>{
 		e.preventDefault();
 		if(document.getElementById('namedChar').value == 'Character Name'){
@@ -205,16 +212,13 @@ export default function PlayerPage({dbCharacters, stories, activePage, chargroup
 		</div>
 		
 		<div className={`${StyleCSS.characterwrap}`}>
-                <CharButton char={mainChar} 
-				charMenu = {switchToChar}
-				removeActiveChar = {removeActiveChar}
-				moveCharUp = {moveCharUp}
-				moveCharDown = {moveCharDown}
+                <PlayerButton char={mainChar} 
+				charMenu = {switchToMainChar}
 				/>
 			<div className={`${StyleCSS.characterline}`}/>
 			<div className={`${StyleCSS.characterbox}`}>
 				{activeChars.map(activeChars => (
-				<CharButton key={activeChars.uniquechar} char={
+				<PlayerButton key={activeChars.uniquechar} char={
 					{name:activeChars.name, 
 					hp:activeChars.hp,
 					temphp:activeChars.temphp, 

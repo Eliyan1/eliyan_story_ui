@@ -25,6 +25,7 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
     if(user == 'Player')
       {e.preventDefault();
       setMainChar(char)
+      activeChars[0]=char
     }
   }
 
