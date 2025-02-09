@@ -607,6 +607,8 @@
     padding-top:1.1cqw;
 }
 
+
+
 .charslabbutton::selection{
     color: rgba(255, 255, 229, 1);
     background: none;
@@ -854,6 +856,25 @@
     width: 100%;
     aspect-ratio: 4/1;
     cursor: pointer;
+}
+
+.playerbutton{
+    all: unset;
+    display: flex;
+    justify-content:space-around;
+    background-image: url("../image/Character_Button_Flat.png");
+    background-size: 100% 100%;
+    opacity: 0.75;
+    padding-top: 1%;
+    width: 100%;
+    aspect-ratio: 4/1;
+    cursor: pointer;
+}
+
+.playerbox{
+    height: 7.7cqw;
+    margin-top: 2.2%;
+
 }
 
 .characterbutton:hover{

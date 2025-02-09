@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import StyleCSS from '@/styles/general.module.css'
 
-export default function CharLoad({characters, setActiveChars, activeChars, setStorySlab, uniqueChar, setUniqueChar, groupList, user, createNewCharacter, setMainChar, mainChar}) {
+export default function CharLoad({characters, setActiveChars, activeChars, setStorySlab, uniqueChar, setUniqueChar, groupList, user, createNewCharacter, setMainChar, setMain, setNoSelect, populateActiveCharacter}) {
 
   const [characterType, setCharacterType] = useState(characters.filter((characters) => characters.player == true))
   const [groupTab, setGroupTab] = useState(0)
@@ -24,8 +24,32 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
 
     if(user == 'Player')
       {e.preventDefault();
-      setMainChar(char)
-      activeChars[0]=char
+      char.uniquechar= 99999;
+      setActiveChars=(activeChars)
+      setMainChar(char);
+      setMain(1);
+      activeChars[activeChars.length-1] = char;
+      populateActiveCharacter(activeChars.length-1);
+      console.log(char.active)
+        
+      const res = await fetch(`/api/characters/update?id=${char._id}`,{
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              active:   1,
+          }),
+      });
+  
+      if (!res.ok) {
+          throw new Error("Failed to edit the Character")
+      }
+      
+    
+      setNoSelect(0)
+      await setStorySlab(0); //necessary to update the notes of the character
+      setStorySlab(2)
     }
   }
 
@@ -81,8 +105,6 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
       {characterState == 1 && <div onClick={(e)=>{setCharacterState(0)}} className={`${StyleCSS.loadslabbutton}`}>Cancel</div>}
       {characterState == 1 && <div onClick={(e)=>{createNewCharacter([e,true])}} className={`${StyleCSS.loadslabbutton}`}>Accept</div>}
   </div>}
-
-
   </>
   }
   

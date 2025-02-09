@@ -18,7 +18,7 @@ export default function PlayerButton({char, charMenu}) {
 
 
   return <div>
-    <button className={`${StyleCSS.characterbutton}`} onClick={()=>charMenu(char)}>  
+    <button className={`${StyleCSS.playerbutton}`} onClick={()=>charMenu(char, 1)} style={{display: char.name!='No Character Selected' ? "flex" : "none"}}>  
       <div className={`${StyleCSS.characterbuttoncolumn}`}> 
       <div className={`${StyleCSS.characterbuttonrow}`}>
           <div className={`${StyleCSS.charactername}`}> {char.name} </div>

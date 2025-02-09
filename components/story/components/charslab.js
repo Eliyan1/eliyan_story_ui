@@ -2,7 +2,7 @@ import StyleCSS from '@/styles/general.module.css'
 import CharNotes from './charnotes'
 import { useState } from "react";
 
-export default function CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user) {
+export default function CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, main, noSelect, setMain) {
 
     const [activeIndex, setActiveIndex] = useState(0)
     const [charName, setName] = useState("Character Name");
@@ -24,6 +24,13 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     const [charSlab, setCharSlab] = useState(1)
     const [extButtonText, setExtButtonText] = useState("External Info")
     
+    const activateMain = async () => {
+        const activeCharIndex = activeChars.length - 1
+        setMain(1)
+        populateActiveCharacter(activeCharIndex)
+        await setStorySlab(0); //necessary to update the notes of the character
+        setStorySlab(2);
+    }
 
     const populateActiveCharacter = (activeCharIndex) => {
         if(activeCharIndex < activeChars.length) {
@@ -172,6 +179,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     const noteButtonClick = () => {
     setCharSlab(1);
     setExtButtonText("External Info");
+    console.log(noSelect)
     }
 
     const externalButtonClick = () => {
@@ -402,7 +410,9 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     <div className={`${StyleCSS.charslabbuttonwrapper}`}>
         {user == 'DM' && <div onClick={()=>{setStorySlab(1)}} className={`${StyleCSS.charslabbutton}`}>Return to Story</div>}
-        {user == 'Player' && <div onClick={()=>{setStorySlab(2)}} className={`${StyleCSS.charslabbutton}`}>Back to Main</div>}
+        {user == 'Player' && main == 1 && <div onClick={()=>{setStorySlab(3)}} className={`${StyleCSS.charslabbutton}`}>Switch Character</div>}
+        {user == 'Player' && main == 0 && noSelect == 1 && <div onClick={()=>{setStorySlab(3)}} className={`${StyleCSS.charslabbutton}`}>Switch Character</div>}
+        {user == 'Player' && main == 0 && noSelect == 0 && <div onClick={activateMain} className={`${StyleCSS.charslabbutton}`}>Return to Main</div>}
         <div onClick={noteButtonClick} className={`${StyleCSS.charslabbutton}`}>Character Notes</div>
         <div onClick={externalButtonClick} className={`${StyleCSS.charslabbutton}`}>{extButtonText} </div>
     </div>

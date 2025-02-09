@@ -17,7 +17,8 @@ const characterSchema = new Schema(
         player: Boolean,
         notes: JSON,
         url: String,
-        comment: String
+        comment: String,
+        active: Number
     }
 );
 
