@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import StyleCSS from '@/styles/general.module.css'
 
-export default function CharLoad({characters, setActiveChars, activeChars, setStorySlab, uniqueChar, setUniqueChar, groupList, user, createNewCharacter, setMainChar, setMain, setNoSelect, populateActiveCharacter}) {
+export default function CharLoad({characters, setActiveChars, activeChars, setStorySlab, uniqueChar, setUniqueChar, groupList, user, createNewCharacter, setMainChar, mainChar, setMain, setNoSelect, populateActiveCharacter}) {
 
   const [characterType, setCharacterType] = useState(characters.filter((characters) => characters.player == true))
   const [groupTab, setGroupTab] = useState(0)
@@ -20,12 +20,31 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
       newEntry[newEntry.length-1].uniquechar= uniqueChar;
       setUniqueChar(uniqueChar+1)
       setActiveChars(newEntry)
-  }
+    }
 
     if(user == 'Player')
       {e.preventDefault();
       char.uniquechar= 99999;
-      setActiveChars=(activeChars)
+      console.log(activeChars)
+      setActiveChars(activeChars)
+      console.log(mainChar)
+      if ('_id' in mainChar) {
+      console.log('I have an ID')  
+      const response = await fetch(`/api/characters/update?id=${mainChar._id}`,{
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            active:   0,
+        }),
+      });
+
+    if (!response.ok) {
+        throw new Error("Failed to edit the Character")
+    }}
+
+
       setMainChar(char);
       setMain(1);
       activeChars[activeChars.length-1] = char;

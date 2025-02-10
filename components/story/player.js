@@ -30,7 +30,6 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 		intel:1,
 		wis: 1,
 		cha: 1,
-		_id: 1,
 		active: 1,
 		uniquechar: 99999,
 		group: 1,
@@ -155,6 +154,7 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
                 createNewCharacter={createNewCharacter}
 				setMainChar = {setMainChar}
 				setMain = {setMain}
+				mainChar = {mainChar}
 				setNoSelect = {setNoSelect}
 				populateActiveCharacter = {populateActiveCharacter}
 				setCharacters = {setCharacters}
