@@ -18,7 +18,7 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 	const [characterState, setCharacterState] = useState(0) 
 	const [characterName, setCharacterName] = useState('Character Name') 
 	const [groupList, setGroupList] = useState(chargroups)
-	const {charPanel, populateActiveCharacter} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, main, noSelect, setMain)
+	const {charPanel, populateActiveCharacter, activeIndex, setActiveIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, main, noSelect, setMain)
 	const [mainChar, setMainChar] = useState(					
 		{name:'No Character Selected', 
 		hp:1,

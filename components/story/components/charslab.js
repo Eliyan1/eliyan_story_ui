@@ -79,13 +79,11 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     const nameUpdate = (e) => {
 		setName(e.target.value);
-		activeChars[activeIndex].name=e.target.value;
 	}
 
     const acUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
             setAC(e.target.value)
-            activeChars[activeIndex].ac=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
         
 	}
@@ -117,56 +115,48 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     const thpUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<1000){
             setTHP(e.target.value);
-            activeChars[activeIndex].temphp=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const mhpUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<1000){
             setMHP(e.target.value);
-            activeChars[activeIndex].maxhp=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const strUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
             setStr(e.target.value);
-            activeChars[activeIndex].str=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const dexUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
             setDex(e.target.value);
-            activeChars[activeIndex].dex=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const conUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
             setCon(e.target.value);
-            activeChars[activeIndex].con=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const wisUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
             setWis(e.target.value);
-            activeChars[activeIndex].wis=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const intUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
             setInt(e.target.value);
-            activeChars[activeIndex].intel=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
     const chaUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100) {
             setCha(e.target.value);
-            activeChars[activeIndex].cha=isNaN(e.target.valueAsNumber) ? null : e.target.valueAsNumber;
         }
 	}
 
@@ -211,9 +201,20 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     const updateCharDatabase = async (e) => {
         e.preventDefault();
+        console.log(activeChars)
         if(activeChars[activeIndex].hp<0) {activeChars[activeIndex].hp=0};
         if(activeChars[activeIndex].hp >activeChars[activeIndex].maxhp) {activeChars[activeIndex].hp=activeChars[activeIndex].maxhp};
         setHP(activeChars[activeIndex].hp)
+		activeChars[activeIndex].name=charName;
+        activeChars[activeIndex].ac=isNaN(charAC) ? null : charAC;
+        activeChars[activeIndex].temphp=isNaN(charCurTHP) ? null : charCurTHP;
+        activeChars[activeIndex].maxhp=isNaN(charHP) ? null : charHP;
+        activeChars[activeIndex].str=isNaN(charStr) ? null : charStr;
+        activeChars[activeIndex].dex=isNaN(charDex) ? null : charDex;
+        activeChars[activeIndex].con=isNaN(charCon) ? null : charCon;
+        activeChars[activeIndex].wis=isNaN(charWis) ? null : charWis;
+        activeChars[activeIndex].intel=isNaN(charInt) ? null : charInt;
+        activeChars[activeIndex].cha=isNaN(charCha) ? null : charCha;
 
         
         const res = await fetch(`/api/characters/update?id=${activeChars[activeIndex]._id}`,{
@@ -243,7 +244,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     };
 
 
-    return {populateActiveCharacter,
+    return {populateActiveCharacter, activeIndex, setActiveIndex,
         charPanel:(<>
         {charSlab == 1 && <div spellCheck="false" className={`${StyleCSS.charslab}`}>
         <div className={`${StyleCSS.frontslabshort}`}/>
