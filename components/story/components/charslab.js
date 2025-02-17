@@ -88,7 +88,10 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         
 	}
 
-    const hpUpdate = (e) => {
+    const hpUpdate = (e) => {setHP(e.target.value)}
+
+
+    const hpUpdateold = (e) => {
         if (e.target.value.startsWith("-") && !isNaN(e.target.value.substring(1))) {
             setHP(e.target.value)
             activeChars[activeIndex].temphp = charCurTHP - e.target.value.substring(1)
@@ -107,9 +110,15 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 	}
 
     const hpSelect = (e) => {
-        setCurHP(activeChars[activeIndex].hp);
-        setCurTHP(activeChars[activeIndex].temphp);
-        e.target.select()
+        if (activeIndex > activeChars.length-1) {
+            setCurHP(activeChars[activeChars.length-1].hp);
+            setCurTHP(activeChars[activeChars.length-1].temphp);
+            e.target.select()
+        }else{
+            setCurHP(activeChars[activeIndex].hp);
+            setCurTHP(activeChars[activeIndex].temphp);
+            e.target.select()
+        }
     }
 
     const thpUpdate = (e) => {
@@ -199,48 +208,73 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     
     }
 
-    const updateCharDatabase = async (e) => {
-        e.preventDefault();
-        console.log(activeChars)
-        if(activeChars[activeIndex].hp<0) {activeChars[activeIndex].hp=0};
-        if(activeChars[activeIndex].hp >activeChars[activeIndex].maxhp) {activeChars[activeIndex].hp=activeChars[activeIndex].maxhp};
-        setHP(activeChars[activeIndex].hp)
-		activeChars[activeIndex].name=charName;
-        activeChars[activeIndex].ac=isNaN(charAC) ? null : charAC;
-        activeChars[activeIndex].temphp=isNaN(charCurTHP) ? null : charCurTHP;
-        activeChars[activeIndex].maxhp=isNaN(charHP) ? null : charHP;
-        activeChars[activeIndex].str=isNaN(charStr) ? null : charStr;
-        activeChars[activeIndex].dex=isNaN(charDex) ? null : charDex;
-        activeChars[activeIndex].con=isNaN(charCon) ? null : charCon;
-        activeChars[activeIndex].wis=isNaN(charWis) ? null : charWis;
-        activeChars[activeIndex].intel=isNaN(charInt) ? null : charInt;
-        activeChars[activeIndex].cha=isNaN(charCha) ? null : charCha;
+    const actualUpdate = async (updateIndex) => {
+        var mutateTHP = charTHP
+        var mutateHP = String(charHP)
+
+        if (mutateHP.startsWith("-") && !isNaN(mutateHP.substring(1))) {
+            mutateTHP = charTHP - Number(charHP.substring(1))
+                if (mutateTHP < 0) {
+                    mutateTHP = 0;
+                    mutateHP=String(Number(charCurHP) + Number(charTHP) - Number(charHP.substring(1)))
+                }else(mutateHP=charCurHP)
+            setTHP(mutateTHP)
+        }else if (mutateHP.startsWith("+") && !isNaN(mutateHP.substring(1))) {
+            mutateHP=String(Number(charCurHP) + Number(mutateHP.substring(1)))
+        }else if (!isNaN(mutateHP)) {
+            mutateHP=String(mutateHP)
+        }else{
+            mutateHP = charHP
+        }
+
+
+        if(Number(mutateHP)<0) {mutateHP='0'};
+        if(Number(mutateHP) >activeChars[updateIndex].maxhp) {mutateHP=String(activeChars[updateIndex].maxhp)};
+        setHP(mutateHP)
+
+		activeChars[updateIndex].name=charName;
+        activeChars[updateIndex].ac=isNaN(charAC) ? null : charAC;
+        activeChars[updateIndex].temphp=isNaN(mutateTHP) ? null : mutateTHP;
+        activeChars[updateIndex].hp=isNaN(mutateHP) ? null : Number(mutateHP);
+        activeChars[updateIndex].maxhp=isNaN(charMHP) ? null : charMHP;
+        activeChars[updateIndex].str=isNaN(charStr) ? null : charStr;
+        activeChars[updateIndex].dex=isNaN(charDex) ? null : charDex;
+        activeChars[updateIndex].con=isNaN(charCon) ? null : charCon;
+        activeChars[updateIndex].wis=isNaN(charWis) ? null : charWis;
+        activeChars[updateIndex].intel=isNaN(charInt) ? null : charInt;
+        activeChars[updateIndex].cha=isNaN(charCha) ? null : charCha;
 
         
-        const res = await fetch(`/api/characters/update?id=${activeChars[activeIndex]._id}`,{
+        const res = await fetch(`/api/characters/update?id=${activeChars[updateIndex]._id}`,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name:   activeChars[activeIndex].name,
-                hp:     activeChars[activeIndex].hp,
-                maxhp:  activeChars[activeIndex].maxhp,
-                temphp: activeChars[activeIndex].temphp,
-                ac:     activeChars[activeIndex].ac,
-                str:    activeChars[activeIndex].str,
-                dex:    activeChars[activeIndex].dex,
-                con:    activeChars[activeIndex].con,
-                intel:  activeChars[activeIndex].intel,
-                wis:    activeChars[activeIndex].wis,
-                cha:    activeChars[activeIndex].cha,
-                url:    activeChars[activeIndex].url
+                name:   activeChars[updateIndex].name,
+                hp:     activeChars[updateIndex].hp,
+                maxhp:  activeChars[updateIndex].maxhp,
+                temphp: activeChars[updateIndex].temphp,
+                ac:     activeChars[updateIndex].ac,
+                str:    activeChars[updateIndex].str,
+                dex:    activeChars[updateIndex].dex,
+                con:    activeChars[updateIndex].con,
+                intel:  activeChars[updateIndex].intel,
+                wis:    activeChars[updateIndex].wis,
+                cha:    activeChars[updateIndex].cha,
+                url:    activeChars[updateIndex].url
             }),
         });
 
         if (!res.ok) {
             throw new Error("Failed to edit the Character")
         }
+    };
+
+    const updateCharDatabase = async (e) => {
+        e.preventDefault();
+        if(activeIndex > activeChars.length-1) {actualUpdate(activeChars.length-1)}
+        else{actualUpdate(activeIndex)}
     };
 
 
@@ -387,7 +421,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         <div className={`${StyleCSS.charslabline}`}/>
         
         <CharNotes
-            activeCharacter={activeChars[activeIndex]}
+            activeCharacter={activeIndex > activeChars.length-1 ? activeChars[activeChars.length-1] : activeChars[activeIndex]}
             charNotes={charNotes}
             setNotes={setNotes} 
         />
