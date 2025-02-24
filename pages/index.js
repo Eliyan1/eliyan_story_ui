@@ -34,7 +34,7 @@ export default function IndexPage({dbCharacters, stories, audios, visuals, audio
 	return <>
 	<Head>
         <title>Journey Shaper</title>
-        <meta name="description" content="To shape the Journey from potential to essence" />
+        <meta name="description" content="To Shape the Journey from Potential to Essence" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
 		<link rel="icon" type="image/png" href="/favicon.png"></link>
     </Head>
