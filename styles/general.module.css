@@ -1713,11 +1713,86 @@
     transition: 200ms;
 }
 
-.viewer{
+.viewerwrapper{
+    position: relative;
+    display: flex;
+    flex-direction: column;
     width: 100vw;
     height: 100vh;
-    object-fit: contain;
     background-color: black;
+    overflow: hidden;
+}
+
+.viewer{
+    position: absolute;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.viewercurrentturn{
+    position: relative;
+    width:36cqw;
+    height:12cqw;
+    background-image: url("../image/Initiative_Button_Block.png");
+    background-size: 100% 100%;
+    margin-top: 2cqw;
+    margin-left: 3cqw;
+    color: rgba(255, 255, 235, 0.45);
+    text-align: center;
+    padding-top: 3.2cqw;
+    font-size: 5cqw;
+    filter: drop-shadow(0cqw 0cqw 0.8cqw rgb(55, 55, 50));
+}
+
+.viewerupcomingturn{
+    position: relative;
+    width:24cqw;
+    height:8cqw;
+    background-image: url("../image/Initiative_Button_Block.png");
+    background-size: 100% 100%;
+    margin-top: 0.9cqw;
+    margin-left: 3cqw;
+    color: rgba(255, 255, 235, 0.45);
+    text-align: center;
+    padding-top: 2.4cqw;
+    font-size: 3cqw;
+    filter: drop-shadow(0cqw 0cqw 0.5cqw rgb(55, 55, 50));
+}
+
+.baddiename{
+    position: relative;
+    color: rgb(180, 175, 160);
+    text-shadow: 0cqw 0cqw 0.7cqw rgb(5, 5, 0);
+    font-size: 5cqw;
+    height: 5cqw;
+    width:100cqw;
+    padding-right: 4.5cqw;
+    margin-top: -3.6cqw;
+    text-align: right;
+}
+
+.totalhealth {
+    position: relative;
+    border: rgb(135, 135, 125) solid;
+    width: 92cqw;
+    margin-top: 1cqw;
+    margin-left: 4cqw;
+    height: 1cqw;
+    background-color: black;
+    box-shadow: 0cqw 0cqw 0.2cqw rgb(55, 55, 50);
+    border-radius: 0.2cqw;
+}
+
+.baddiehealth {
+    position: relative;
+    border: rgb(145, 145, 135) solid;
+    width: 52cqw;
+    margin-top: -1cqw;
+    margin-left: 4cqw;
+    height: 1cqw;
+    background-color: rgb(160, 152, 140);
+    border-radius: 0.2cqw;
 }
 
 .newvisuallayout{

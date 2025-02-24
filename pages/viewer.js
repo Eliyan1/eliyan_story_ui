@@ -26,7 +26,18 @@ export default function Viewer() {
             <link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
             <link rel="icon" type="image/png" href="/favicon.png"></link>
         </Head>
-        <img className={`${StyleCSS.viewer}`} src={displayImage}/>
+        <div className={`${StyleCSS.viewerwrapper}`}>
+            <img className={`${StyleCSS.viewer}`} src={displayImage}/>
+            <div className={`${StyleCSS.viewercurrentturn}`}>Elise</div>
+            <div className={`${StyleCSS.viewerupcomingturn}`}>Yuan</div>
+            <div className={`${StyleCSS.viewerupcomingturn}`}>Raphael</div>
+            <div className={`${StyleCSS.viewerupcomingturn}`}>Verena</div>
+            <div className={`${StyleCSS.viewerupcomingturn}`}>Zombie</div>
+            <div className={`${StyleCSS.baddiename}`}>Gazik, King of Pirates</div>
+            <div className={`${StyleCSS.totalhealth}`}/>
+            <div className={`${StyleCSS.baddiehealth}`}/>
+        </div>
+        
     </>
 }
 
