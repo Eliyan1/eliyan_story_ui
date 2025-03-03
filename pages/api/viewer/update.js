@@ -1,6 +1,5 @@
 import connectMongoDB from "@/libs/mongodb";
 import Viewer from "@/models/viewer";
-import { InsertInvitationRounded } from "@material-ui/icons";
 
 /**
  * @param {import("next").NextApiRequest} req 
