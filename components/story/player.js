@@ -44,14 +44,19 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 	const updateCurrentParty = async () =>{
 		var newParty = await fetch('/api/characters/read',{
             method: 'GET'
-        }).then(response => response.json()).then(response => newParty = response.characters.filter((characters) => characters.active == 1 && characters.name != mainChar.name))
+        }).then(response => response.json()).then(response => newParty = response.characters.filter((characters) => characters.active == 1))
 
 		
 		for (let i=0; i < newParty.length; i++) {
 			newParty[i].uniquechar = i;
+			if (newParty[i].name==mainChar.name){
+				newParty[i].uniquechar = 99999
+				setMainChar(newParty[i])
+				newParty.push(newParty.splice(i, 1)[0])
+			}
 		}
 
-		setActiveChars(newParty.concat(mainChar))
+		setActiveChars(newParty)
 	}
 
 	const removeActiveChar =  (uniquechar) => {

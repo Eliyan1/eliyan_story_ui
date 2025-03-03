@@ -1,13 +1,13 @@
 import StyleCSS from '@/styles/general.module.css'
 import CharButton from './components/charbutton'
 import StorySlab from './components/storyslab'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CharSlab from './components/charslab';
 import CharLoad from './components/charload';
 import StoryLoad from './components/storyload';
 import InitiativeTracker from './components/initiativetracker'
 
-export default function Story({dbCharacters, stories, activePage, chargroups})  {
+export default function Story({dbCharacters, stories, activePage, chargroups, activeChars, setActiveChars, combatActive, setCombatActive})  {
 
 	const user = 'DM'
 	const [characters, setCharacters] = useState(dbCharacters)
@@ -15,12 +15,65 @@ export default function Story({dbCharacters, stories, activePage, chargroups})  
 	const [storySlab, setStorySlab] = useState(1)
 	const [activeStoryContent, setActiveStoryContent] = useState("") 
 	const [activeStoryTitle, setActiveStoryTitle] = useState("Title of New Journey")
-	const [activeChars, setActiveChars] = useState([])
+	const [totalChars, setTotalChars] = useState([])
 	const [uniqueChar, setUniqueChar] = useState(0) 
 	const [characterState, setCharacterState] = useState(0) 
 	const [characterName, setCharacterName] = useState('Character Name') 
 	const [groupList, setGroupList] = useState(chargroups)
-	const {charPanel, populateActiveCharacter} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user)
+	const {charPanel, populateActiveCharacter, setActiveIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user)
+	const [currentTurnIndex, setCurrentTurnIndex] = useState(0)
+
+		useEffect(() => {
+			const interval = setInterval(() => {updateCurrentParty()}, 1000);
+			return () => clearInterval(interval);
+		}, [activeChars])
+	
+		const updateCurrentParty = async () =>{
+			var updatedChars = await fetch('/api/characters/read',{
+				method: 'GET'
+			}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.player == true))
+			var outerUpdateChars = JSON.parse(JSON.stringify(activeChars));
+	
+			for (let i=0; i < outerUpdateChars.length; i++) {
+				if (outerUpdateChars[i].player == true) {
+					const newID = updatedChars.findIndex((updatedChars) => updatedChars._id == outerUpdateChars[i]._id)
+					outerUpdateChars[i].hp=updatedChars[newID].hp
+					outerUpdateChars[i].ac=updatedChars[newID].ac
+					outerUpdateChars[i].temphp=updatedChars[newID].temphp
+					outerUpdateChars[i].maxhp=updatedChars[newID].maxhp
+					outerUpdateChars[i].str=updatedChars[newID].str
+					outerUpdateChars[i].dex=updatedChars[newID].dex
+					outerUpdateChars[i].con=updatedChars[newID].con
+					outerUpdateChars[i].wis=updatedChars[newID].wis
+					outerUpdateChars[i].intel=updatedChars[newID].intel
+					outerUpdateChars[i].cha=updatedChars[newID].cha
+				}
+
+			}
+
+			setActiveChars(outerUpdateChars)
+		}
+
+	const advanceTurn = async () =>{
+		var newTurnIndex = 0
+		if (currentTurnIndex < activeChars.length-1){
+			newTurnIndex = currentTurnIndex+1
+		}else {
+			newTurnIndex = 0
+		}
+		setCurrentTurnIndex(newTurnIndex)
+
+		await fetch('/api/viewer/update',{
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				initiatedChar: activeChars,
+				currentTurn:   activeChars[newTurnIndex]
+			}),
+		});
+	}
 
 	const saveGroup = async () =>{
 
@@ -80,6 +133,18 @@ export default function Story({dbCharacters, stories, activePage, chargroups})  
 		if (moveIndex === moveChar.length - 1) {return}
 		[moveChar[moveIndex], moveChar[moveIndex+1]] = [moveChar[moveIndex+1], moveChar[moveIndex]]
 		setActiveChars(moveChar)
+	}
+
+	const initiateCombat = () => {
+		for (let i=0; i < activeChars.length; i++) {
+			delete activeChars[i].initiative
+		}
+		setStorySlab(5)
+	}
+
+	const endCombat = () => {
+		setCombatActive(false)
+		setActiveChars(totalChars)
 	}
 
 	
@@ -182,6 +247,9 @@ export default function Story({dbCharacters, stories, activePage, chargroups})  
 				setStorySlab={setStorySlab}
 				setActiveChars={setActiveChars}
 				populateActiveCharacter={populateActiveCharacter}
+				setTotalChars={setTotalChars}
+				setCombatActive={setCombatActive}
+				setActiveIndex={setActiveIndex}
 			/>}
 
 		</div>
@@ -217,13 +285,15 @@ export default function Story({dbCharacters, stories, activePage, chargroups})  
 				<div className={`${StyleCSS.charactersavecolumn}`}>
 					<div className={`${StyleCSS.charactersaverow}`}>
 						{characterState == 0 && <div onClick={()=>{setCharacterState(1)}} className={`${StyleCSS.characteroptionbutton}`}>Create Character</div>}
-						{characterState == 0 && <div className={`${StyleCSS.characteroptionbutton}`} onClick={()=>{setCharacterState(2)}}>Save Group</div>}
+						{characterState == 0 && combatActive==false && <div className={`${StyleCSS.characteroptionbutton}`} onClick={()=>{setCharacterState(2)}}>Save Group</div>}
+						{characterState == 0 && combatActive==true && <div onClick={()=>{advanceTurn()}} className={`${StyleCSS.characteroptionbutton}`}>Advance Turn</div>}
 						{characterState == 1 && <input className={`${StyleCSS.newcharname}`} defaultValue='Character Name' maxLength={12} onChange={(e)=>{setCharacterName(e.target.value)}} id="namedChar" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
 						{characterState == 2 && <input className={`${StyleCSS.newcharname}`} defaultValue='Group Name' id="namedGroup" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
 					</div>
 					<div className={`${StyleCSS.charactersaverow}`}>
 						{characterState == 0 && <div onClick={()=>{setStorySlab(3)}} className={`${StyleCSS.characteroptionbutton}`}>Load Characters</div>}
-						{characterState == 0 && <div onClick={()=>{setStorySlab(5)}} className={`${StyleCSS.characteroptionbutton}`}>Roll Initiative</div>}
+						{characterState == 0 && combatActive==false && <div onClick={()=>{initiateCombat()}} className={`${StyleCSS.characteroptionbutton}`}>Roll Initiative</div>}
+						{characterState == 0 && combatActive==true && <div onClick={()=>{endCombat()}} className={`${StyleCSS.characteroptionbutton}`}>End Combat</div>}
 						{characterState == 1 && <div onClick={(e)=>{setCharacterState(0)}} className={`${StyleCSS.characteroptionbutton}`}>Cancel</div>}
 						{characterState == 1 && <div onClick={(e)=>{createNewCharacter([e,true])}} className={`${StyleCSS.characteroptionbutton}`}>Player</div>}
 						{characterState == 1 && <div onClick={(e)=>{createNewCharacter([e,false])}} className={`${StyleCSS.characteroptionbutton}`}>Mob</div>}

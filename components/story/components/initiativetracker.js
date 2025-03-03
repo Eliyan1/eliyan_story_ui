@@ -1,6 +1,6 @@
 import StyleCSS from '@/styles/general.module.css'
 
-export default function InitiativeTracker({activeChars, setActiveChars, setStorySlab, populateActiveCharacter}) {
+export default function InitiativeTracker({activeChars, setActiveChars, setStorySlab, populateActiveCharacter, setCombatActive, setTotalChars, setActiveIndex}) {
 
 const handleKeyPress = (e) => {
   if(e.keyCode === 13){
@@ -9,11 +9,36 @@ const handleKeyPress = (e) => {
 }
 
 const setInitiative = async () => {
+  setTotalChars(activeChars)
+  setCombatActive(true)  
+  
+  var initiatedChar = activeChars.filter(activeChars => activeChars.initiative)
+
   let sortedChar = activeChars.sort(
     (a, b) => (a.initiative < b.initiative) ? 1 : (a.initiative > b.initiative) ? -1 : 0);
     await setActiveChars(sortedChar)
-    populateActiveCharacter(0)
+
+    var initiatedChar = activeChars.filter(activeChars => activeChars.initiative)
+    for (let i=0; i < initiatedChar.length; i++) {
+      if (initiatedChar[i].player == false){
+        initiatedChar[i].villainhp = true
+      }
+    }
+
+    setActiveChars(initiatedChar)
+    populateActiveCharacter(activeChars.findIndex(activeChars => Math.max(activeChars.initiative)))
     setStorySlab(2)
+    setActiveIndex(0)
+    await fetch('/api/viewer/update',{
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          initiatedChar: activeChars,
+          currentTurn:   activeChars[activeChars.findIndex(activeChars => Math.max(activeChars.initiative))]
+      }),
+  });
 }
 
 return <div spellCheck="false" className={`${StyleCSS.charslab}`}>

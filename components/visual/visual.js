@@ -1,7 +1,7 @@
 import StyleCSS from '@/styles/general.module.css'
 import React, { useState } from'react';
 
-export default function Visual({activePage, visuals, visuallayouts}) {
+export default function Visual({activePage, visuals, visuallayouts, activeChars, combatActive}) {
 
     const [visualButtons, setVisualButtons] = useState([])
     const [visualState, setVisualState] = useState(1)
@@ -11,10 +11,100 @@ export default function Visual({activePage, visuals, visuallayouts}) {
     const [visualTag, setVisualTag] = useState('')
     const [visualURL, setVisualURL] = useState('')
 
+    const [visibleInitiativeUI, setVisibleInitiativeUI] = useState(false)
+    const [visibleBaddieUI, setVisibleBaddieUI] = useState(false)
+
     const [currentLayout, setCurrentLayout] = useState ('Name Layout')
     const [visualLayoutList, setVisualLayoutList] = useState(visuallayouts)
 
     const [layoutState, setLayoutState] = useState(1)
+
+    const toggleInitiativeUI = async () => {
+        if (visibleInitiativeUI==false){
+            setVisibleInitiativeUI(true)
+
+            await fetch('/api/viewer/update',{
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    initiativeOverlay: true
+                }),
+            });
+
+          }
+        else{
+            setVisibleInitiativeUI(false)
+
+            await fetch('/api/viewer/update',{
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    initiativeOverlay: false
+                }),
+            });
+        }
+    }
+
+    const toggleVillainHP = async (activeChar) => {
+        var villainHP = 0
+        var villainMaxHP =0
+
+        if(activeChar.villainhp == true){
+            activeChar.villainhp = false
+        }else{activeChar.villainhp= true}
+
+        for (let i=0; i < activeChars.length; i++) {
+            if (activeChars[i].villainhp==true){
+                villainHP= villainHP + activeChars[i].hp
+                villainMaxHP = villainMaxHP + activeChars[i].maxhp
+            }}
+
+            await fetch('/api/viewer/update',{
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    villainCurrentHP: villainHP,
+                    villainMaxHP: villainMaxHP
+                }),
+            });
+    }
+
+
+    const toggleBaddieUI = async () => {
+        if (visibleBaddieUI==false){
+            setVisibleBaddieUI(true)
+
+            await fetch('/api/viewer/update',{
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    hpOverlay: true
+                }),
+            });
+
+          }
+        else{
+            setVisibleBaddieUI(false)
+ 
+            await fetch('/api/viewer/update',{
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    hpOverlay: false
+                }),
+            });
+        }
+    }
 
     const makeVisual = async (e) => {
         e.preventDefault()
@@ -172,11 +262,40 @@ export default function Visual({activePage, visuals, visuallayouts}) {
                 </div>
             </div>
 
+            <div className={`${StyleCSS.visualmain}`} style={{display: visualState==5 ? "flex" : "none"}}>
+                <div className={`${StyleCSS.layoutoptionwrapper}`}>
+                    <div className={`${StyleCSS.combatuiwrapper}`}>
+                        <div className={`${StyleCSS.viewertickboxdescription}`}> Display Initiative UI</div>
+                        <div 
+                        className={`${StyleCSS.viewertickbox}`} 
+                        style={{backgroundColor: visibleInitiativeUI ? "rgba(219, 221, 229, 0.4)" : "rgba(219, 221, 229, 0.0 )"}} 
+                        onClick={toggleInitiativeUI}/>
+                    </div>
+                    <div className={`${StyleCSS.combatuiwrapper}`}>
+                        <div className={`${StyleCSS.viewertickboxdescription}`}> Display Villain HP</div>
+                        <div 
+                        className={`${StyleCSS.viewertickbox}`} 
+                        style={{backgroundColor: visibleBaddieUI ? "rgba(219, 221, 229, 0.4)" : "rgba(219, 221, 229, 0.0 )"}} 
+                        onClick={toggleBaddieUI}/>
+                    </div>
+                    {activeChars.length > 0 && combatActive && activeChars.map(activeChars => (<div className={`${StyleCSS.combatuiwrapper}`}>
+                        <div className={`${StyleCSS.viewertickboxdescription}`}> {activeChars.name}</div>
+                        <div 
+                        className={`${StyleCSS.viewertickbox}`} 
+                        style={{backgroundColor: activeChars.villainhp ? "rgba(219, 221, 229, 0.4)" : "rgba(219, 221, 229, 0.0 )"}} 
+                        onClick={() => toggleVillainHP(activeChars)}/>
+                    </div>))}
+                </div>
+            </div>
+
+
+
             <div className={`${StyleCSS.visualbar}`}>
                 {layoutState == 1 && visualState==1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=>{setVisualState(2)}}>Add Scene</div>}
                 {layoutState == 1 && visualState==1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=>{setVisualState(3)}}>Load Scene</div>}
-                {layoutState == 1 && visualState==1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=>{setLayoutState(2)}}>Save Layout</div>}
-                {layoutState == 1 && visualState==1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=>{setVisualState(4)}}>Load Layout</div>}
+                {layoutState == 1 && visualState==1 && combatActive == false && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=>{setLayoutState(2)}}>Save Layout</div>}
+                {layoutState == 1 && visualState==1 && combatActive == false && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=>{setVisualState(4)}}>Load Layout</div>}
+                {layoutState == 1 && visualState==1 && combatActive && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=>{setVisualState(5)}}>Combat UI</div>}
 
                 {layoutState == 2 && visualState==1 && <input className={`${StyleCSS.newvisuallayout}`} defaultValue={currentLayout} id="layoutName" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
                 {layoutState == 2 && visualState==1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={() => {saveLayout()}}>Accept</div>}

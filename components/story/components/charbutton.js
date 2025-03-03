@@ -29,7 +29,7 @@ export default function CharacterButton({char, charMenu, removeActiveChar, moveC
       <div className={`${StyleCSS.characterbuttonrow}`}>
           <div className={`${StyleCSS.charactername}`}> {char.name} </div>
           <div className={`${StyleCSS.characterhealthwrap}`}>
-            <div className={`${StyleCSS.characterhealth}`}> {Number(char.hp) + char.temphp} </div>
+            <div className={`${StyleCSS.characterhealth}`}> {Number(char.hp) + Number(char.temphp)} </div>
             <div className={`${StyleCSS.characterhealthlabel}`}> HP </div>
           </div>
           <div className={`${StyleCSS.characterhealthwrap}`}>

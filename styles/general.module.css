@@ -1422,6 +1422,29 @@
     padding-left: 3%;
 }
 
+.combatuiwrapper{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2cqw;
+}
+
+.viewertickboxdescription{
+    width: 40cqw;
+    margin-left: 0cqw;
+    padding: 0.5%;
+    padding-left: 3%;
+    font-size: 2.5cqw;
+}
+
+.viewertickbox{
+border: 0.2cqw solid rgba(219, 221, 229, 0.4);
+height: 2.5cqw;
+width: 2.5cqw;
+margin-top: 0.2cqw;
+margin-right: 15cqw;
+}
+
+
 .audiooption::selection{
     color: rgba(255, 255, 229, 0.6);
     background: none;
@@ -1721,6 +1744,23 @@
     height: 100vh;
     background-color: black;
     overflow: hidden;
+    justify-content: space-between;
+}
+
+.initiativewrapper{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+}
+
+.baddiehpwrapper{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+    margin-top: -5cqw;
+    margin-bottom: 3cqw;
 }
 
 .viewer{
@@ -1768,7 +1808,6 @@
     height: 5cqw;
     width:100cqw;
     padding-right: 4.5cqw;
-    margin-top: -3.6cqw;
     text-align: right;
 }
 

@@ -18,6 +18,9 @@ import Head from 'next/head';
 export default function IndexPage({dbCharacters, stories, audios, visuals, audiolayouts, visuallayouts, chargroups}) {
 
 	const [activePage, setActivePage] = useState(1)
+	const [activeChars, setActiveChars] = useState([])
+	const [combatActive, setCombatActive] = useState(false)
+
 
 	const sortedCharacters = dbCharacters.sort(function(a,b) {
 		var textA = a.name.toUpperCase();
@@ -40,9 +43,31 @@ export default function IndexPage({dbCharacters, stories, audios, visuals, audio
     </Head>
 
 	<div className={`${StyleCSS.aspectwrapper}`}>
-		<Story activePage={activePage} dbCharacters={sortedCharacters} stories={stories} chargroups={sortedGroups}/>
-		<Audio activePage={activePage} audios={audios} audiolayouts={audiolayouts}/>
-		<Visual activePage={activePage} visuals={visuals} visuallayouts={visuallayouts}/>
+		<Story 
+		activePage={activePage} 
+		dbCharacters={sortedCharacters} 
+		stories={stories} 
+		chargroups={sortedGroups} 
+		activeChars={activeChars} 
+		setActiveChars={setActiveChars}
+		combatActive={combatActive} 
+		setCombatActive={setCombatActive}
+		/>
+
+		<Audio 
+		activePage={activePage} 
+		audios={audios} 
+		audiolayouts={audiolayouts}
+		/>
+
+		<Visual 
+		activePage={activePage} 
+		visuals={visuals} 
+		visuallayouts={visuallayouts} 
+		activeChars={activeChars}
+		combatActive={combatActive} 
+		/>
+		
 		<Footer setActivePage={setActivePage}/>	
 	</div>
 	</>

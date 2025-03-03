@@ -7,17 +7,40 @@ import Head from "next/head";
 export default function Viewer() {
     
     const [displayImage, setDisplayImage] = useState('https://storage.googleapis.com/eliyan_multimedia/Images/Commissioned/Background%20BW.png')
+    const [hpOverlay, setHPOverlay] = useState(false)
+    const [initiativeOverlay, setInitiativeOverlay] = useState(false)
+    const [activeChars, setActiveChars] = useState([{hp:100, maxphp:100, uniquechar:0}])
+    const [currentTurn, setCurrentTurn] = useState([{hp:100, maxphp:100, uniquechar:0}])
+    const [villainCurrentHP, setVillainCurrentHP] = useState(100)
+    const [villainMaxHP, setVillainMaxHP] = useState(100)
 
     const updateDisplayImage = async () => {
-        const response = await fetch('api/viewer/get',{
+        await fetch('api/viewer/get',{
             method: 'GET'
-        }).then(response => response.json()).then((response) => setDisplayImage(response.displayImage.url))
+        }).then(response => response.json()).then((response) => updateUI(response))
+    }
+
+    const sortChar = (unsortedChar) => {
+        while (unsortedChar.initiatedChar[0].uniquechar != unsortedChar.currentTurn[0].uniquechar){
+            unsortedChar.initiatedChar.push(unsortedChar.initiatedChar.splice(unsortedChar.initiatedChar[0], 1)[0])
+        }
+        setActiveChars(unsortedChar.initiatedChar)
+    }
+
+    const updateUI = (response) => {
+        setDisplayImage(response.displayImage.url)
+        setHPOverlay(response.displayImage.hpOverlay)
+        setInitiativeOverlay(response.displayImage.initiativeOverlay)
+        setCurrentTurn(response.displayImage.currentTurn)
+        sortChar(response.displayImage)
+        setVillainCurrentHP(response.displayImage.villainCurrentHP)
+        setVillainMaxHP(response.displayImage.villainMaxHP)
     }
 
     useEffect(() => {
         const interval = setInterval(() => {updateDisplayImage()}, 1000);
         return () => clearInterval(interval);
-    }, [])
+    }, [currentTurn, villainCurrentHP])
 
     return<>
     	<Head>
@@ -28,14 +51,18 @@ export default function Viewer() {
         </Head>
         <div className={`${StyleCSS.viewerwrapper}`}>
             <img className={`${StyleCSS.viewer}`} src={displayImage}/>
-            <div className={`${StyleCSS.viewercurrentturn}`}>Elise</div>
-            <div className={`${StyleCSS.viewerupcomingturn}`}>Yuan</div>
-            <div className={`${StyleCSS.viewerupcomingturn}`}>Raphael</div>
-            <div className={`${StyleCSS.viewerupcomingturn}`}>Verena</div>
-            <div className={`${StyleCSS.viewerupcomingturn}`}>Zombie</div>
-            <div className={`${StyleCSS.baddiename}`}>Gazik, King of Pirates</div>
-            <div className={`${StyleCSS.totalhealth}`}/>
-            <div className={`${StyleCSS.baddiehealth}`}/>
+            <div className={`${StyleCSS.initiativewrapper}`} style={{display: initiativeOverlay ? "flex" : "none"}}>
+                {activeChars.length > 0 && <div className={`${StyleCSS.viewercurrentturn}`}>{activeChars[0].name}</div>}
+                {activeChars.length > 1 && <div className={`${StyleCSS.viewerupcomingturn}`}>{activeChars[1].name}</div>}
+                {activeChars.length > 2 && <div className={`${StyleCSS.viewerupcomingturn}`}>{activeChars[2].name}</div>}
+                {activeChars.length > 3 && <div className={`${StyleCSS.viewerupcomingturn}`}>{activeChars[3].name}</div>}
+                {activeChars.length > 4 && <div className={`${StyleCSS.viewerupcomingturn}`}>{activeChars[4].name}</div>}
+            </div>
+            <div className={`${StyleCSS.baddiehpwrapper}`} style={{display: hpOverlay ? "flex" : "none"}}>
+                <div className={`${StyleCSS.baddiename}`}>Enemy Forces</div>
+                <div className={`${StyleCSS.totalhealth}`}/>
+                <div className={`${StyleCSS.baddiehealth}`} style={{width: `${villainCurrentHP/villainMaxHP*92}cqw`}}/>
+            </div>
         </div>
         
     </>

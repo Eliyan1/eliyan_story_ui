@@ -4,7 +4,7 @@ const visualSchema = new Schema(
     {
         tag: String,
         title: String,
-        url: String
+        url: String,
     }
 );
 

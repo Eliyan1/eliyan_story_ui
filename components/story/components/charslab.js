@@ -90,25 +90,6 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     const hpUpdate = (e) => {setHP(e.target.value)}
 
-
-    const hpUpdateold = (e) => {
-        if (e.target.value.startsWith("-") && !isNaN(e.target.value.substring(1))) {
-            setHP(e.target.value)
-            activeChars[activeIndex].temphp = charCurTHP - e.target.value.substring(1)
-                if (activeChars[activeIndex].temphp < 0) {
-                    activeChars[activeIndex].temphp = 0;
-                    activeChars[activeIndex].hp=charCurHP + charCurTHP - e.target.value.substring(1)
-                }
-            setTHP(activeChars[activeIndex].temphp)
-        }else if (e.target.value.startsWith("+") && !isNaN(e.target.value.substring(1))) {
-            setHP(e.target.value)
-            activeChars[activeIndex].hp=charCurHP + Number(e.target.value.substring(1))
-        }else if (!isNaN(e.target.value)) {
-            setHP(Number(e.target.value));
-            activeChars[activeIndex].hp=Number(e.target.value)
-        }
-	}
-
     const hpSelect = (e) => {
         if (activeIndex > activeChars.length-1) {
             setCurHP(activeChars[activeChars.length-1].hp);
@@ -218,7 +199,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
                     mutateTHP = 0;
                     mutateHP=String(Number(charCurHP) + Number(charTHP) - Number(charHP.substring(1)))
                 }else(mutateHP=charCurHP)
-            setTHP(mutateTHP)
+            setTHP(Number(mutateTHP))
         }else if (mutateHP.startsWith("+") && !isNaN(mutateHP.substring(1))) {
             mutateHP=String(Number(charCurHP) + Number(mutateHP.substring(1)))
         }else if (!isNaN(mutateHP)) {
@@ -234,7 +215,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
 		activeChars[updateIndex].name=charName;
         activeChars[updateIndex].ac=isNaN(charAC) ? null : charAC;
-        activeChars[updateIndex].temphp=isNaN(mutateTHP) ? null : mutateTHP;
+        activeChars[updateIndex].temphp=isNaN(mutateTHP) ? null : Number(mutateTHP);
         activeChars[updateIndex].hp=isNaN(mutateHP) ? null : Number(mutateHP);
         activeChars[updateIndex].maxhp=isNaN(charMHP) ? null : charMHP;
         activeChars[updateIndex].str=isNaN(charStr) ? null : charStr;
