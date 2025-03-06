@@ -250,6 +250,27 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         if (!res.ok) {
             throw new Error("Failed to edit the Character")
         }
+
+        var villainHP = 0
+        var villainMaxHP = 0
+
+        for (let i=0; i < activeChars.length; i++) {
+            if (activeChars[i].villainhp==true){
+                villainHP= villainHP + activeChars[i].hp
+                villainMaxHP = villainMaxHP + activeChars[i].maxhp
+            }}
+
+        await fetch('/api/viewer/update',{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                initiatedChar: activeChars,
+                villainCurrentHP: villainHP,
+                villainMaxHP: villainMaxHP
+            }),
+        });
     };
 
     const updateCharDatabase = async (e) => {

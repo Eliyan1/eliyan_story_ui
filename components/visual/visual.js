@@ -17,6 +17,8 @@ export default function Visual({activePage, visuals, visuallayouts, activeChars,
     const [currentLayout, setCurrentLayout] = useState ('Name Layout')
     const [visualLayoutList, setVisualLayoutList] = useState(visuallayouts)
 
+    const [villainName, setVillainName] = useState('Enemy Forces')
+
     const [layoutState, setLayoutState] = useState(1)
 
     const toggleInitiativeUI = async () => {
@@ -278,7 +280,11 @@ export default function Visual({activePage, visuals, visuallayouts, activeChars,
                         style={{backgroundColor: visibleBaddieUI ? "rgba(219, 221, 229, 0.4)" : "rgba(219, 221, 229, 0.0 )"}} 
                         onClick={toggleBaddieUI}/>
                     </div>
-                    {activeChars.length > 0 && combatActive && activeChars.map(activeChars => (<div className={`${StyleCSS.combatuiwrapper}`}>
+                    <div className={`${StyleCSS.combatuiwrapper}`}>
+                        <div className={`${StyleCSS.viewertickboxdescription}`}> Villain Name </div>
+                        <div className={`${StyleCSS.viewertickboxdescription}`} > {villainName} </div>
+                    </div>
+                    {activeChars.length > 0 && combatActive && activeChars.map(activeChars => (<div className={`${StyleCSS.combatuiwrapper}`} key={activeChars.uniquechar}>
                         <div className={`${StyleCSS.viewertickboxdescription}`}> {activeChars.name}</div>
                         <div 
                         className={`${StyleCSS.viewertickbox}`} 

@@ -50,18 +50,20 @@ export default function Viewer() {
             <link rel="icon" type="image/png" href="/favicon.png"></link>
         </Head>
         <div className={`${StyleCSS.viewerwrapper}`}>
-            <img className={`${StyleCSS.viewer}`} src={displayImage}/>
-            <div className={`${StyleCSS.initiativewrapper}`} style={{display: initiativeOverlay ? "flex" : "none"}}>
-                {activeChars.length > 0 && <div className={`${StyleCSS.viewercurrentturn}`}>{activeChars[0].name}</div>}
-                {activeChars.length > 1 && <div className={`${StyleCSS.viewerupcomingturn}`}>{activeChars[1].name}</div>}
-                {activeChars.length > 2 && <div className={`${StyleCSS.viewerupcomingturn}`}>{activeChars[2].name}</div>}
-                {activeChars.length > 3 && <div className={`${StyleCSS.viewerupcomingturn}`}>{activeChars[3].name}</div>}
-                {activeChars.length > 4 && <div className={`${StyleCSS.viewerupcomingturn}`}>{activeChars[4].name}</div>}
-            </div>
-            <div className={`${StyleCSS.baddiehpwrapper}`} style={{display: hpOverlay ? "flex" : "none"}}>
-                <div className={`${StyleCSS.baddiename}`}>Enemy Forces</div>
-                <div className={`${StyleCSS.totalhealth}`}/>
-                <div className={`${StyleCSS.baddiehealth}`} style={{width: `${villainCurrentHP/villainMaxHP*92}cqw`}}/>
+            <div className={`${StyleCSS.vieweraspectwrapper}`}>
+                <img className={`${StyleCSS.viewer}`} src={displayImage}/>
+                <div className={`${StyleCSS.initiativewrapper}`} style={{display: initiativeOverlay ? "flex" : "none"}}>
+                    {activeChars.length > 0 && <div className={activeChars[0].hp > activeChars[0].maxhp*0.5 ? `${StyleCSS.viewercurrentturn}` : `${StyleCSS.viewercurrentturnhalf}`}>{activeChars[0].name}</div>}
+                    {activeChars.length > 1 && <div className={activeChars[1].hp > activeChars[1].maxhp*0.5 ? `${StyleCSS.viewerupcomingturn}`: `${StyleCSS.viewerupcomingturnhalf}`}>{activeChars[1].name}</div>}
+                    {activeChars.length > 2 && <div className={activeChars[2].hp > activeChars[2].maxhp*0.5 ? `${StyleCSS.viewerupcomingturn}`: `${StyleCSS.viewerupcomingturnhalf}`}>{activeChars[2].name}</div>}
+                    {activeChars.length > 3 && <div className={activeChars[3].hp > activeChars[3].maxhp*0.5 ? `${StyleCSS.viewerupcomingturn}`: `${StyleCSS.viewerupcomingturnhalf}`}>{activeChars[3].name}</div>}
+                    {activeChars.length > 4 && <div className={activeChars[4].hp > activeChars[4].maxhp*0.5 ? `${StyleCSS.viewerupcomingturn}`: `${StyleCSS.viewerupcomingturnhalf}`}>{activeChars[4].name}</div>}
+                </div>
+                <div className={`${StyleCSS.baddiehpwrapper}`} style={{display: hpOverlay ? "flex" : "none"}}>
+                    <div className={`${StyleCSS.baddiename}`}>Enemy Forces</div>
+                    <div className={`${StyleCSS.totalhealth}`}/>
+                    <div className={`${StyleCSS.baddiehealth}`} style={{width: `${villainCurrentHP/villainMaxHP*92}cqw`}}/>
+                </div>
             </div>
         </div>
         

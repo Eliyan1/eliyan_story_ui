@@ -852,10 +852,34 @@
     background-size: 100% 100%;
     margin-top: 2.2%;
     padding-top: 1%;
-    opacity: 0.75;
+    opacity: 0.72;
     width: 100%;
     aspect-ratio: 4/1;
     cursor: pointer;
+}
+
+.characterbutton:hover{
+    opacity: 0.93;
+    transition: 200ms;
+}
+
+.currentcharacterbutton{
+    all: unset;
+    display: flex;
+    justify-content:space-around;
+    background-image: url("../image/Character_Button_Flat.png");
+    background-size: 100% 100%;
+    margin-top: 2.2%;
+    padding-top: 1%;
+    opacity: 0.93;
+    width: 100%;
+    aspect-ratio: 4/1;
+    cursor: pointer;
+}
+
+.currentcharacterbutton:hover{
+    opacity: 1;
+    transition: 200ms;
 }
 
 .playerbutton{
@@ -875,11 +899,6 @@
     height: 7.7cqw;
     margin-top: 2.2%;
 
-}
-
-.characterbutton:hover{
-    opacity: 0.9;
-    transition: 200ms;
 }
 
 .characterbuttoncolumn{
@@ -1434,6 +1453,7 @@
     padding: 0.5%;
     padding-left: 3%;
     font-size: 2.5cqw;
+    text-align: left;
 }
 
 .viewertickbox{
@@ -1739,19 +1759,29 @@ margin-right: 15cqw;
 .viewerwrapper{
     position: relative;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     width: 100vw;
     height: 100vh;
     background-color: black;
-    overflow: hidden;
-    justify-content: space-between;
 }
+
+.vieweraspectwrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-width: 176.6vh;
+    max-height: 56.25vw;
+    aspect-ratio: 16/9;
+    container-type: size;
+    caret-color: transparent;
+    }
 
 .initiativewrapper{
     position: relative;
     display: flex;
     flex-direction: column;
     overflow: hidden; 
+    margin-bottom: -5cqw;
 }
 
 .baddiehpwrapper{
@@ -1759,15 +1789,15 @@ margin-right: 15cqw;
     display: flex;
     flex-direction: column;
     overflow: hidden; 
-    margin-top: -5cqw;
+    margin-top: auto;
     margin-bottom: 3cqw;
 }
 
 .viewer{
     position: absolute;
     width: 100%;
-    height: auto;
-    object-fit: contain;
+    height: 100%;
+    object-fit: fill;
 }
 
 .viewercurrentturn{
@@ -1785,6 +1815,21 @@ margin-right: 15cqw;
     filter: drop-shadow(0cqw 0cqw 0.8cqw rgb(55, 55, 50));
 }
 
+.viewercurrentturnhalf{
+    position: relative;
+    width:36cqw;
+    height:12cqw;
+    background-image: url("../image/Initiative_Button_Block_Dark.png");
+    background-size: 100% 100%;
+    margin-top: 2cqw;
+    margin-left: 3cqw;
+    color: rgba(255, 255, 235, 0.25);
+    text-align: center;
+    padding-top: 3.2cqw;
+    font-size: 5cqw;
+    filter: drop-shadow(0cqw 0cqw 0.8cqw rgb(55, 55, 50));
+}
+
 .viewerupcomingturn{
     position: relative;
     width:24cqw;
@@ -1794,6 +1839,21 @@ margin-right: 15cqw;
     margin-top: 0.9cqw;
     margin-left: 3cqw;
     color: rgba(255, 255, 235, 0.45);
+    text-align: center;
+    padding-top: 2.4cqw;
+    font-size: 3cqw;
+    filter: drop-shadow(0cqw 0cqw 0.5cqw rgb(55, 55, 50));
+}
+
+.viewerupcomingturnhalf{
+    position: relative;
+    width:24cqw;
+    height:8cqw;
+    background-image: url("../image/Initiative_Button_Block_Dark.png");
+    background-size: 100% 100%;
+    margin-top: 0.9cqw;
+    margin-left: 3cqw;
+    color: rgba(255, 255, 235, 0.25);
     text-align: center;
     padding-top: 2.4cqw;
     font-size: 3cqw;

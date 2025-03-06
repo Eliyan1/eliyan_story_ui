@@ -1,6 +1,6 @@
 import StyleCSS from '@/styles/general.module.css'
 
-export default function InitiativeTracker({activeChars, setActiveChars, setStorySlab, populateActiveCharacter, setCombatActive, setTotalChars, setActiveIndex}) {
+export default function InitiativeTracker({activeChars, setActiveChars, setStorySlab, populateActiveCharacter, setCombatActive, setTotalChars, setActiveIndex, setCurrentTurn}) {
 
 const handleKeyPress = (e) => {
   if(e.keyCode === 13){
@@ -39,6 +39,7 @@ const setInitiative = async () => {
           currentTurn:   activeChars[activeChars.findIndex(activeChars => Math.max(activeChars.initiative))]
       }),
   });
+  setCurrentTurn(activeChars[activeChars.findIndex(activeChars => Math.max(activeChars.initiative))])
 }
 
 return <div spellCheck="false" className={`${StyleCSS.charslab}`}>

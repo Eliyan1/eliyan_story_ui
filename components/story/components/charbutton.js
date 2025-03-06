@@ -4,7 +4,7 @@ import CharContextMenu from './charcontextmenu'
 
 
 
-export default function CharacterButton({char, charMenu, removeActiveChar, moveCharUp, moveCharDown, noSelect}) {
+export default function CharacterButton({char, charMenu, removeActiveChar, moveCharUp, moveCharDown, noSelect, currentTurn}) {
   
   const initialContextMenu = {
     show: false,
@@ -24,7 +24,11 @@ export default function CharacterButton({char, charMenu, removeActiveChar, moveC
 
 
   return <div>
-    <button className={`${StyleCSS.characterbutton}`} onClick={()=>charMenu(char, 0, noSelect)} onContextMenu={rightClick}>  
+    <button 
+    className={char.uniquechar == currentTurn.uniquechar ? `${StyleCSS.currentcharacterbutton}` : `${StyleCSS.characterbutton}`} 
+    onClick={()=>charMenu(char, 0, noSelect)} 
+    onContextMenu={rightClick} 
+    >  
       <div className={`${StyleCSS.characterbuttoncolumn}`}> 
       <div className={`${StyleCSS.characterbuttonrow}`}>
           <div className={`${StyleCSS.charactername}`}> {char.name} </div>

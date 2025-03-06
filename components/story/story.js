@@ -21,7 +21,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 	const [characterName, setCharacterName] = useState('Character Name') 
 	const [groupList, setGroupList] = useState(chargroups)
 	const {charPanel, populateActiveCharacter, setActiveIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user)
-	const [currentTurnIndex, setCurrentTurnIndex] = useState(0)
+	const [currentTurn, setCurrentTurn] = useState([{uniquechar: -1}])
 
 		useEffect(() => {
 			const interval = setInterval(() => {updateCurrentParty()}, 1000);
@@ -54,14 +54,47 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 			setActiveChars(outerUpdateChars)
 		}
 
-	const advanceTurn = async () =>{
+	const nextTurn = async () =>{
 		var newTurnIndex = 0
-		if (currentTurnIndex < activeChars.length-1){
-			newTurnIndex = currentTurnIndex+1
+
+		if(currentTurn.uniquechar != -1){
+			newTurnIndex=activeChars.findIndex((activeChars) => activeChars.uniquechar == currentTurn.uniquechar)
+		}
+		
+		
+		if (newTurnIndex < activeChars.length-1){
+			newTurnIndex = newTurnIndex+1
 		}else {
 			newTurnIndex = 0
 		}
-		setCurrentTurnIndex(newTurnIndex)
+		setCurrentTurn(activeChars[newTurnIndex])
+
+		await fetch('/api/viewer/update',{
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				initiatedChar: activeChars,
+				currentTurn:   activeChars[newTurnIndex]
+			}),
+		});
+	}
+
+	const previousTurn = async () =>{
+		var newTurnIndex = 0
+
+		if(currentTurn.uniquechar != -1){
+			newTurnIndex=activeChars.findIndex((activeChars) => activeChars.uniquechar == currentTurn.uniquechar)
+		}
+		
+		
+		if (newTurnIndex > 0){
+			newTurnIndex = newTurnIndex-1
+		}else {
+			newTurnIndex = activeChars.length-1
+		}
+		setCurrentTurn(activeChars[newTurnIndex])
 
 		await fetch('/api/viewer/update',{
 			method: 'PUT',
@@ -145,6 +178,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 	const endCombat = () => {
 		setCombatActive(false)
 		setActiveChars(totalChars)
+		setCurrentTurn([{uniquechar: -1}])
 	}
 
 	
@@ -250,6 +284,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				setTotalChars={setTotalChars}
 				setCombatActive={setCombatActive}
 				setActiveIndex={setActiveIndex}
+				setCurrentTurn={setCurrentTurn}
 			/>}
 
 		</div>
@@ -278,15 +313,17 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				removeActiveChar = {removeActiveChar}
 				moveCharUp = {moveCharUp}
 				moveCharDown = {moveCharDown}
+				currentTurn = {currentTurn}
 				/>
 				))}
 			</div>
 			<div> 
 				<div className={`${StyleCSS.charactersavecolumn}`}>
 					<div className={`${StyleCSS.charactersaverow}`}>
-						{characterState == 0 && <div onClick={()=>{setCharacterState(1)}} className={`${StyleCSS.characteroptionbutton}`}>Create Character</div>}
+						{characterState == 0 && combatActive==false && <div onClick={()=>{setCharacterState(1)}} className={`${StyleCSS.characteroptionbutton}`}>Create Character</div>}
+						{characterState == 0 && combatActive==true && <div onClick={()=>{previousTurn()}} className={`${StyleCSS.characteroptionbutton}`}>Previous Turn</div>}
 						{characterState == 0 && combatActive==false && <div className={`${StyleCSS.characteroptionbutton}`} onClick={()=>{setCharacterState(2)}}>Save Group</div>}
-						{characterState == 0 && combatActive==true && <div onClick={()=>{advanceTurn()}} className={`${StyleCSS.characteroptionbutton}`}>Advance Turn</div>}
+						{characterState == 0 && combatActive==true && <div onClick={()=>{nextTurn()}} className={`${StyleCSS.characteroptionbutton}`}>Next Turn</div>}
 						{characterState == 1 && <input className={`${StyleCSS.newcharname}`} defaultValue='Character Name' maxLength={12} onChange={(e)=>{setCharacterName(e.target.value)}} id="namedChar" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
 						{characterState == 2 && <input className={`${StyleCSS.newcharname}`} defaultValue='Group Name' id="namedGroup" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
 					</div>
