@@ -32,21 +32,20 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 			var updatedChars = await fetch('/api/characters/read',{
 				method: 'GET'
 			}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.player == true))
-			var currentChars = JSON.parse(JSON.stringify(activeChars));
 	
-			for (let i=0; i < currentChars.length; i++) {
+			for (let i=0; i < activeChars.length; i++) {
 				for (let j=0; j < updatedChars.length; j++) {
-					if (currentChars[i]._id == updatedChars[j]._id) {
-						currentChars[i].hp=updatedChars[j].hp
-						currentChars[i].ac=updatedChars[j].ac
-						currentChars[i].temphp=updatedChars[j].temphp
-						currentChars[i].maxhp=updatedChars[j].maxhp
-						currentChars[i].str=updatedChars[j].str
-						currentChars[i].dex=updatedChars[j].dex
-						currentChars[i].con=updatedChars[j].con
-						currentChars[i].wis=updatedChars[j].wis
-						currentChars[i].intel=updatedChars[j].intel
-						currentChars[i].cha=updatedChars[j].cha
+					if (activeChars[i]._id == updatedChars[j]._id) {
+						activeChars[i].hp=updatedChars[j].hp
+						activeChars[i].ac=updatedChars[j].ac
+						activeChars[i].temphp=updatedChars[j].temphp
+						activeChars[i].maxhp=updatedChars[j].maxhp
+						activeChars[i].str=updatedChars[j].str
+						activeChars[i].dex=updatedChars[j].dex
+						activeChars[i].con=updatedChars[j].con
+						activeChars[i].wis=updatedChars[j].wis
+						activeChars[i].intel=updatedChars[j].intel
+						activeChars[i].cha=updatedChars[j].cha
 					}
 				}
 			}
@@ -65,12 +64,14 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    initiatedChar: currentChars,
+                    initiatedChar: activeChars,
                     villainCurrentHP: villainHP,
                     villainMaxHP: villainMaxHP
                 }),
             });
-			setActiveChars(currentChars)
+
+			const forceUpdate = JSON.parse(JSON.stringify(activeChars))
+			setActiveChars(forceUpdate)
 		}
 
 	const nextTurn = async () =>{
