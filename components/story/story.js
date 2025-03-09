@@ -31,7 +31,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 		const updateCurrentParty = async () =>{
 			var updatedChars = await fetch('/api/characters/read',{
 				method: 'GET'
-			}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.player == true))
+			}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.active == 1))
 	
 			for (let i=0; i < activeChars.length; i++) {
 				for (let j=0; j < updatedChars.length; j++) {
