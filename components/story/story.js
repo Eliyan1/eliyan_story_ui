@@ -24,7 +24,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 	const [currentTurn, setCurrentTurn] = useState([{uniquechar: -1}])
 
 		useEffect(() => {
-			const interval = setInterval(() => {updateCurrentParty()}, 5000);
+			const interval = setInterval(() => {updateCurrentParty()}, 1000);
 			return () => clearInterval(interval);
 		}, [activeChars])
 	
@@ -32,22 +32,23 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 			var updatedChars = await fetch('/api/characters/read',{
 				method: 'GET'
 			}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.active == 1))
+			const currentChar = JSON.parse(JSON.stringify(activeChars))
 	
 			for (let i=0; i < updatedChars.length; i++) {
-				const sameIndex = activeChars.findIndex((activeChars)=> activeChars._id == updatedChars[i]._id)
+				const sameIndex = currentChar.findIndex((currentChar)=> currentChar._id == updatedChars[i]._id)
 				console.log(sameIndex)
 				if (sameIndex ==! -1) {
-					activeChars[sameIndex].hp=updatedChars[i].hp
-					activeChars[sameIndex].ac=updatedChars[i].ac
-					activeChars[sameIndex].temphp=updatedChars[i].temphp
-					activeChars[sameIndex].maxhp=updatedChars[i].maxhp
-					activeChars[sameIndex].str=updatedChars[i].str
-					activeChars[sameIndex].dex=updatedChars[i].dex
-					activeChars[sameIndex].con=updatedChars[i].con
-					activeChars[sameIndex].wis=updatedChars[i].wis
-					activeChars[sameIndex].intel=updatedChars[i].intel
-					activeChars[sameIndex].cha=updatedChars[i].cha
-					activeChars[sameIndex].notes=updatedChars[i].notes
+					currentChar[sameIndex].hp=updatedChars[i].hp
+					currentChar[sameIndex].ac=updatedChars[i].ac
+					currentChar[sameIndex].temphp=updatedChars[i].temphp
+					currentChar[sameIndex].maxhp=updatedChars[i].maxhp
+					currentChar[sameIndex].str=updatedChars[i].str
+					currentChar[sameIndex].dex=updatedChars[i].dex
+					currentChar[sameIndex].con=updatedChars[i].con
+					currentChar[sameIndex].wis=updatedChars[i].wis
+					currentChar[sameIndex].intel=updatedChars[i].intel
+					currentChar[sameIndex].cha=updatedChars[i].cha
+					currentChar[sameIndex].notes=updatedChars[i].notes
 				}
 			}
 			var villainHP = 0
@@ -65,14 +66,13 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    initiatedChar: activeChars,
+                    initiatedChar: currentChar,
                     villainCurrentHP: villainHP,
                     villainMaxHP: villainMaxHP
                 }),
             });
 
-			const forceUpdate = JSON.parse(JSON.stringify(activeChars))
-			setActiveChars(forceUpdate)
+			setActiveChars(currentChar)
 		}
 
 	const nextTurn = async () =>{
