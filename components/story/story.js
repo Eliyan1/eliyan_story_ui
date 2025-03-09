@@ -33,20 +33,21 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				method: 'GET'
 			}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.active == 1))
 	
-			for (let i=0; i < activeChars.length; i++) {
-				for (let j=0; j < updatedChars.length; j++) {
-					if (activeChars[i]._id == updatedChars[j]._id) {
-						activeChars[i].hp=updatedChars[j].hp
-						activeChars[i].ac=updatedChars[j].ac
-						activeChars[i].temphp=updatedChars[j].temphp
-						activeChars[i].maxhp=updatedChars[j].maxhp
-						activeChars[i].str=updatedChars[j].str
-						activeChars[i].dex=updatedChars[j].dex
-						activeChars[i].con=updatedChars[j].con
-						activeChars[i].wis=updatedChars[j].wis
-						activeChars[i].intel=updatedChars[j].intel
-						activeChars[i].cha=updatedChars[j].cha
-					}
+			for (let i=0; i < updatedChars.length; i++) {
+				const sameIndex = activeChars.findIndex((activeChars)=> activeChars._id == updatedChars[i]._id)
+				console.log(sameIndex)
+				if (sameIndex ==! -1) {
+					activeChars[sameIndex].hp=updatedChars[i].hp
+					activeChars[sameIndex].ac=updatedChars[i].ac
+					activeChars[sameIndex].temphp=updatedChars[i].temphp
+					activeChars[sameIndex].maxhp=updatedChars[i].maxhp
+					activeChars[sameIndex].str=updatedChars[i].str
+					activeChars[sameIndex].dex=updatedChars[i].dex
+					activeChars[sameIndex].con=updatedChars[i].con
+					activeChars[sameIndex].wis=updatedChars[i].wis
+					activeChars[sameIndex].intel=updatedChars[i].intel
+					activeChars[sameIndex].cha=updatedChars[i].cha
+					activeChars[sameIndex].notes=updatedChars[i].notes
 				}
 			}
 			var villainHP = 0
