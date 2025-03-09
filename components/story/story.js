@@ -24,7 +24,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 	const [currentTurn, setCurrentTurn] = useState([{uniquechar: -1}])
 
 		useEffect(() => {
-			const interval = setInterval(() => {updateCurrentParty()}, 3000);
+			const interval = setInterval(() => {updateCurrentParty()}, 1000);
 			return () => clearInterval(interval);
 		}, [activeChars])
 	
@@ -33,10 +33,10 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				method: 'GET'
 			}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.active == 1))
 			const currentChar = JSON.parse(JSON.stringify(activeChars))
+			var somethingChanged = false
 	
 			for (let i=0; i < updatedChars.length; i++) {
 				const sameIndex = currentChar.findIndex((currentChar)=> currentChar._id == updatedChars[i]._id)
-				console.log(sameIndex)
 				if (sameIndex ==! -1) {
 					currentChar[sameIndex].hp=updatedChars[i].hp
 					currentChar[sameIndex].ac=updatedChars[i].ac
@@ -49,30 +49,37 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 					currentChar[sameIndex].intel=updatedChars[i].intel
 					currentChar[sameIndex].cha=updatedChars[i].cha
 					currentChar[sameIndex].notes=updatedChars[i].notes
+					if (activeChars[sameIndex] != updatedChars[i]){						
+					somethingChanged=true
+					}
 				}
 			}
-			var villainHP = 0
-            var villainMaxHP = 0
 
-            for (let i=0; i < activeChars.length; i++) {
-                if (activeChars[i].villainhp==true){
-                    villainHP= villainHP + activeChars[i].hp
-                    villainMaxHP = villainMaxHP + activeChars[i].maxhp
-                }}
+			if(somethingChanged == true) {
 
-            await fetch('/api/viewer/update',{
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    initiatedChar: currentChar,
-                    villainCurrentHP: villainHP,
-                    villainMaxHP: villainMaxHP
-                }),
-            });
+				var villainHP = 0
+				var villainMaxHP = 0
 
-			setActiveChars(currentChar)
+				for (let i=0; i < activeChars.length; i++) {
+					if (activeChars[i].villainhp==true){
+						villainHP= villainHP + activeChars[i].hp
+						villainMaxHP = villainMaxHP + activeChars[i].maxhp
+					}}
+
+				await fetch('/api/viewer/update',{
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						initiatedChar: currentChar,
+						villainCurrentHP: villainHP,
+						villainMaxHP: villainMaxHP
+					}),
+				});
+
+				setActiveChars(currentChar)
+			}
 		}
 
 	const nextTurn = async () =>{
