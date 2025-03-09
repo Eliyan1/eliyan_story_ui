@@ -7,7 +7,7 @@ import CharLoad from './components/charload';
 import StoryLoad from './components/storyload';
 import InitiativeTracker from './components/initiativetracker'
 
-export default function Story({dbCharacters, stories, activePage, chargroups, activeChars, setActiveChars, combatActive, setCombatActive})  {
+export default function Story({dbCharacters, stories, activePage, chargroups, activeChars, setActiveChars, combatActive, setCombatActive, work})  {
 
 	const user = 'DM'
 	const [characters, setCharacters] = useState(dbCharacters)
@@ -15,7 +15,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 	const [storySlab, setStorySlab] = useState(1)
 	const [activeStoryContent, setActiveStoryContent] = useState("") 
 	const [activeStoryTitle, setActiveStoryTitle] = useState("Title of New Journey")
-	const [totalChars, setTotalChars] = useState([])
+	const [inactiveChars, setInactiveChars] = useState([])
 	const [uniqueChar, setUniqueChar] = useState(0) 
 	const [characterState, setCharacterState] = useState(0) 
 	const [characterName, setCharacterName] = useState('Character Name') 
@@ -32,26 +32,45 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 			var updatedChars = await fetch('/api/characters/read',{
 				method: 'GET'
 			}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.player == true))
-			var outerUpdateChars = JSON.parse(JSON.stringify(activeChars));
+			var currentChars = JSON.parse(JSON.stringify(activeChars));
 	
-			for (let i=0; i < outerUpdateChars.length; i++) {
-				if (outerUpdateChars[i].player == true) {
-					const newID = updatedChars.findIndex((updatedChars) => updatedChars._id == outerUpdateChars[i]._id)
-					outerUpdateChars[i].hp=updatedChars[newID].hp
-					outerUpdateChars[i].ac=updatedChars[newID].ac
-					outerUpdateChars[i].temphp=updatedChars[newID].temphp
-					outerUpdateChars[i].maxhp=updatedChars[newID].maxhp
-					outerUpdateChars[i].str=updatedChars[newID].str
-					outerUpdateChars[i].dex=updatedChars[newID].dex
-					outerUpdateChars[i].con=updatedChars[newID].con
-					outerUpdateChars[i].wis=updatedChars[newID].wis
-					outerUpdateChars[i].intel=updatedChars[newID].intel
-					outerUpdateChars[i].cha=updatedChars[newID].cha
+			for (let i=0; i < currentChars.length; i++) {
+				for (let j=0; j < updatedChars.length; j++) {
+					if (currentChars[i]._id == updatedChars[j]._id) {
+						currentChars[i].hp=updatedChars[j].hp
+						currentChars[i].ac=updatedChars[j].ac
+						currentChars[i].temphp=updatedChars[j].temphp
+						currentChars[i].maxhp=updatedChars[j].maxhp
+						currentChars[i].str=updatedChars[j].str
+						currentChars[i].dex=updatedChars[j].dex
+						currentChars[i].con=updatedChars[j].con
+						currentChars[i].wis=updatedChars[j].wis
+						currentChars[i].intel=updatedChars[j].intel
+						currentChars[i].cha=updatedChars[j].cha
+					}
 				}
-
 			}
+			var villainHP = 0
+            var villainMaxHP = 0
 
-			setActiveChars(outerUpdateChars)
+            for (let i=0; i < activeChars.length; i++) {
+                if (activeChars[i].villainhp==true){
+                    villainHP= villainHP + activeChars[i].hp
+                    villainMaxHP = villainMaxHP + activeChars[i].maxhp
+                }}
+
+            await fetch('/api/viewer/update',{
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    initiatedChar: currentChars,
+                    villainCurrentHP: villainHP,
+                    villainMaxHP: villainMaxHP
+                }),
+            });
+			setActiveChars(currentChars)
 		}
 
 	const nextTurn = async () =>{
@@ -68,6 +87,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 			newTurnIndex = 0
 		}
 		setCurrentTurn(activeChars[newTurnIndex])
+		populateActiveCharacter(newTurnIndex)
 
 		await fetch('/api/viewer/update',{
 			method: 'PUT',
@@ -95,6 +115,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 			newTurnIndex = activeChars.length-1
 		}
 		setCurrentTurn(activeChars[newTurnIndex])
+		populateActiveCharacter(newTurnIndex)
 
 		await fetch('/api/viewer/update',{
 			method: 'PUT',
@@ -137,6 +158,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
                     body: JSON.stringify({
                         name:    document.getElementById('namedGroup').value,
                         group:   activeChars,
+						work:	 work,
                     }),
                 });
                 setGroupList([...groupList, {name: document.getElementById('namedGroup').value, group:activeChars}])
@@ -177,7 +199,8 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 
 	const endCombat = () => {
 		setCombatActive(false)
-		setActiveChars(totalChars)
+		console.log(inactiveChars)
+		setActiveChars(activeChars.concat(inactiveChars))
 		setCurrentTurn([{uniquechar: -1}])
 	}
 
@@ -213,7 +236,8 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
                 wis:    1,
                 cha:    1,
 				url:	"",
-				player:	playerstatus
+				player:	playerstatus,
+				work:   work
             }),
         });
 
@@ -250,6 +274,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 			setStorySlab={setStorySlab}
 			storyList={storyList}
 			setStoryList={setStoryList}
+			work = {work}
 			/>}
 
 			{storySlab == 2 && <>{charPanel}</>}
@@ -265,6 +290,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				groupList = {groupList}
 				user = {user}
 				createNewCharacter = {createNewCharacter}
+				work = {work}
 			/>}
 
 			{storySlab == 4 && 
@@ -281,7 +307,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				setStorySlab={setStorySlab}
 				setActiveChars={setActiveChars}
 				populateActiveCharacter={populateActiveCharacter}
-				setTotalChars={setTotalChars}
+				setInactiveChars={setInactiveChars}
 				setCombatActive={setCombatActive}
 				setActiveIndex={setActiveIndex}
 				setCurrentTurn={setCurrentTurn}

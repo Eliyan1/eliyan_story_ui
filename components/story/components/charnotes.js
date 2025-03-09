@@ -4,18 +4,20 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import StyleCSS from '@/styles/general.module.css'
 
-const CharNotes = ({activeCharacter, charNotes}) => {
+const CharNotes = ({activeCharacter, charNotes, mutuable}) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
     ],
     content: charNotes,
+    editable: mutuable,
   });
 
   const saveNotes = async (e) => {
     e.preventDefault();
     const content = await editor.getJSON()
     activeCharacter.notes=content
+    console.log(mutuable)
     
     const res = await fetch(`/api/characters/update?id=${activeCharacter._id}`,{
         method: 'PUT',

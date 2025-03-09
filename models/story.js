@@ -4,6 +4,7 @@ const storySchema = new Schema(
     {
         title: String,
         content: JSON,
+        work: Number,
     }
 );
 

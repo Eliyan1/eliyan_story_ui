@@ -18,7 +18,8 @@ const characterSchema = new Schema(
         notes: JSON,
         url: String,
         comment: String,
-        active: Number
+        active: Number,
+        work: Number
     }
 );
 

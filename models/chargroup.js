@@ -4,6 +4,7 @@ const charGroupSchema = new Schema(
     {
         name: String,
         group: JSON,
+        work: Number,
     }
 );
 

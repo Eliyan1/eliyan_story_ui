@@ -20,7 +20,7 @@ export default function IndexPage({dbCharacters, stories, audios, visuals, audio
 	const [activePage, setActivePage] = useState(1)
 	const [activeChars, setActiveChars] = useState([])
 	const [combatActive, setCombatActive] = useState(false)
-	const work = 0
+    const work = 1
 
 
 	const sortedCharacters = dbCharacters.sort(function(a,b) {
@@ -29,17 +29,17 @@ export default function IndexPage({dbCharacters, stories, audios, visuals, audio
 		return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 	});
 
+    const workCharacters = sortedCharacters.filter(sortedCharacters => sortedCharacters.work == 1)
+
+    const workStories = stories.filter(stories => stories.work == 1)
+
 	const sortedGroups = chargroups.sort(function(a,b) {
 		var textA = a.name.toUpperCase();
 		var textB = b.name.toUpperCase();
 		return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 	});
 
-	const fantasyStories = stories.filter((stories) => stories.work == undefined || stories.work == 0)
-
-	const fantasyCharacters = sortedCharacters.filter((sortedCharacters) => sortedCharacters.work == undefined || sortedCharacters.work == 0)
-
-	const fantasyGroups = sortedGroups.filter((sortedGroups) => sortedGroups.work == undefined || sortedCharacters.work == 0)
+    const workGroups = sortedGroups.filter(sortedGroups => sortedGroups.work == 1)
 	
 	return <>
 	<Head>
@@ -52,14 +52,14 @@ export default function IndexPage({dbCharacters, stories, audios, visuals, audio
 	<div className={`${StyleCSS.aspectwrapper}`}>
 		<Story 
 		activePage={activePage} 
-		dbCharacters={fantasyCharacters} 
-		stories={fantasyStories} 
-		chargroups={fantasyGroups} 
+		dbCharacters={workCharacters} 
+		stories={workStories} 
+		chargroups={workGroups} 
 		activeChars={activeChars} 
 		setActiveChars={setActiveChars}
 		combatActive={combatActive} 
 		setCombatActive={setCombatActive}
-		work = {work}
+        work = {work}
 		/>
 
 		<Audio 

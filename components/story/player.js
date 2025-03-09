@@ -3,7 +3,9 @@ import PlayerButton from './components/playerbutton'
 import CharButton from './components/charbutton'
 import { useEffect, useState } from 'react';
 import CharSlab from './components/charslab';
+import PartySlab from './components/partyslab';
 import CharLoad from './components/charload';
+import { set } from 'mongoose';
 
 export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 
@@ -18,7 +20,9 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 	const [characterState, setCharacterState] = useState(0) 
 	const [characterName, setCharacterName] = useState('Character Name') 
 	const [groupList, setGroupList] = useState(chargroups)
-	const {charPanel, populateActiveCharacter, activeIndex, setActiveIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, main, noSelect, setMain)
+	const currentTurn= [{uniquechar: -1}]
+	const {charPanel, populateActiveCharacter, directPopulate, setActiveIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain)
+	const {partyPanel, populatePartyCharacter} = PartySlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain, populateActiveCharacter)
 	const [mainChar, setMainChar] = useState(					
 		{name:'No Character Selected', 
 		hp:1,
@@ -46,16 +50,18 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
             method: 'GET'
         }).then(response => response.json()).then(response => newParty = response.characters.filter((characters) => characters.active == 1))
 
-		
+		var j =-1;
+
 		for (let i=0; i < newParty.length; i++) {
 			newParty[i].uniquechar = i;
 			if (newParty[i].name==mainChar.name){
 				newParty[i].uniquechar = 99999
 				setMainChar(newParty[i])
-				newParty.push(newParty.splice(i, 1)[0])
+				j=i
 			}
 		}
 
+		newParty.push(newParty.splice(j, 1)[0])
 		setActiveChars(newParty)
 	}
 
@@ -83,15 +89,14 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 	}
 
 	
-	const switchToChar = async (char, mainTrue, noSelect) => {
+	const switchToChar = async (char, mainTrue, mutuable) => {
 	setMain(mainTrue)
-	console.log(mainTrue) 
-	console.log(noSelect)
 	const activeCharIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == char.uniquechar)
 	populateActiveCharacter(activeCharIndex)
+	populatePartyCharacter(activeCharIndex)
 	await setStorySlab(0); //necessary to update the notes of the character
-	setStorySlab(2);
-	console.log(partyChars)
+	if (mutuable==true){setStorySlab(2);}
+	if (mutuable==false){setStorySlab(1);}
 	}
 
 	const createNewCharacter = async ([e,playerstatus]) =>{
@@ -117,22 +122,48 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
                 wis:    1,
                 cha:    1,
 				url:	"",
-				player:	playerstatus
+				player:	playerstatus,
+				active: 1,
             }),
         });
 
         if (res.ok) {
-			const response = await fetch('/api/characters/read',{
+			if ('_id' in mainChar) {
+				console.log('I have an ID')  
+				await fetch(`/api/characters/update?id=${mainChar._id}`,{
+				  method: 'PUT',
+				  headers: {
+					  'Content-Type': 'application/json',
+				  },
+				  body: JSON.stringify({
+					  active:   0,
+				  }),
+				});
+			}
+			
+			await fetch('/api/characters/read',{
 				method: 'PUT'
 			}).then(response => response.json()).then(async (response) => {
 				setCharacters(response.characters);
-				const newEntry = JSON.parse(JSON.stringify([response.characters[response.characters.length-1]]));
+				var newEntry = JSON.parse(JSON.stringify([response.characters[response.characters.length-1]]));
 				newEntry[newEntry.length-1].uniquechar= 99999;
+				console.log(newEntry[0])
+				for (let i=0; i < activeChars.length; i++){
+					if (activeChars[i]._id == newEntry[0]._id)
+						activeChars.splice(i, 1)
+				  }
+				  if (main == 0) {
+					setActiveChars([...activeChars, newEntry[0]]);
+					directPopulate(newEntry[0])
+					setActiveIndex(activeChars.length)
+				  }
+				  if (main == 1) {
+					activeChars[activeChars.length-1] = newEntry[0];
+					populateActiveCharacter(activeChars.length-1)
+				}
+
 				setMainChar(newEntry[0]);
 				setMain(1);
-				activeChars[activeChars.length-1] = newEntry[0];
-				console.log(activeChars)
-				populateActiveCharacter(activeChars.length-1)
 				setNoSelect(0)
 				await setStorySlab(0); //necessary to update the notes of the character
 				setStorySlab(2);
@@ -142,8 +173,10 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
         }}
 	}
 
-	return <div className={`${StyleCSS.storycontent}`} style={{display: activePage==1 ? "flex" : "none"}}>
+	return <div className={`${StyleCSS.playercontent}`} style={{display: activePage==1 ? "flex" : "none"}}>
 		<div className={`${StyleCSS.storybox}`}>
+			{storySlab == 1 && <>{partyPanel}</>}
+			
 			{storySlab == 2 && <>{charPanel}</>}
 
 			{storySlab == 3 && 
@@ -163,6 +196,10 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 				setNoSelect = {setNoSelect}
 				populateActiveCharacter = {populateActiveCharacter}
 				setCharacters = {setCharacters}
+				directPopulate = {directPopulate}
+				setActiveIndex = {setActiveIndex}
+				main = {main}
+				
 			/>}
 		</div>
 		
@@ -196,7 +233,8 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 				removeActiveChar = {removeActiveChar}
 				moveCharUp = {moveCharUp}
 				moveCharDown = {moveCharDown}
-				noSelect = {noSelect}
+				mutuable = {false}
+				currentTurn={currentTurn}
 				/>
 				))}
 			</div>

@@ -5,20 +5,10 @@ import CharContextMenu from './charcontextmenu'
 
 
 export default function PlayerButton({char, charMenu}) {
-  
-  const initialContextMenu = {
-    show: false,
-    x: 0,
-    y: 0
-  }
-
-  const [contextMenu, setContextMenu] = useState(initialContextMenu)
-
-  const closeContextMenu = () => setContextMenu(initialContextMenu);
 
 
   return <div>
-    <button className={`${StyleCSS.playerbutton}`} onClick={()=>charMenu(char, 1)} style={{display: char.name!='No Character Selected' ? "flex" : "none"}}>  
+    <button className={`${StyleCSS.playerbutton}`} onClick={()=>charMenu(char, 1, true)} style={{display: char.name!='No Character Selected' ? "flex" : "none"}}>  
       <div className={`${StyleCSS.characterbuttoncolumn}`}> 
       <div className={`${StyleCSS.characterbuttonrow}`}>
           <div className={`${StyleCSS.charactername}`}> {char.name} </div>

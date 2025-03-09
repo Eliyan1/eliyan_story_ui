@@ -1,7 +1,7 @@
 import StyleCSS from '@/styles/general.module.css'
 import StoryEditor from './storyeditor'
 
-export default function StorySlab({setActiveStoryContent, activeStoryTitle, activeStoryContent, setActiveStoryTitle, setStorySlab, setStoryList, storyList}) {
+export default function StorySlab({setActiveStoryContent, activeStoryTitle, activeStoryContent, setActiveStoryTitle, setStorySlab, setStoryList, storyList, work}) {
 
   const saveClick = async (content) => {
     const storyNumber = checkStoryPresent()
@@ -21,12 +21,13 @@ export default function StorySlab({setActiveStoryContent, activeStoryTitle, acti
             body: JSON.stringify({
                 title:    activeStoryTitle,
                 content:  content,
+                work:     work,
             }),
           });
           setStoryList([...storyList, {title: activeStoryTitle, content: content}])
         }
       else{
-        saveStory(storyNumber, content)
+        saveStory(storyNumber, content, work)
       }
     }
   };
@@ -35,13 +36,13 @@ export default function StorySlab({setActiveStoryContent, activeStoryTitle, acti
     const storyNumber = checkStoryPresent()
     if(activeStoryTitle != 'Title of New Journey') {
       if (storyNumber!=-1){
-        saveStory(storyNumber, content)
+        saveStory(storyNumber, content, work)
       }
     }
   };
   
 
-  const saveStory = async (storyIndex, content) => {
+  const saveStory = async (storyIndex, content, work) => {
 		await fetch(`/api/story/updatebytitle?title=${storyList[storyIndex].title}`,{
 			method: 'PUT',
 			headers: {
@@ -49,7 +50,8 @@ export default function StorySlab({setActiveStoryContent, activeStoryTitle, acti
 			},
 			body: JSON.stringify({
 				title:		activeStoryTitle,
-				content:	content
+				content:	content,
+        work: work,
 			}),
 		});
 		storyList[storyIndex].content=content;

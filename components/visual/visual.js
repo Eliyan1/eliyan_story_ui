@@ -108,6 +108,25 @@ export default function Visual({activePage, visuals, visuallayouts, activeChars,
         }
     }
 
+    const handleKeyPress = (e) => {
+        if(e.keyCode === 13){
+            e.target.blur(); 
+        }
+    }
+
+    const updateVillainDatabase = async (e) => {
+        await fetch('/api/viewer/update',{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                villainName: e.target.value,
+            }),
+        });
+
+    }
+
     const makeVisual = async (e) => {
         e.preventDefault()
 
@@ -198,7 +217,7 @@ export default function Visual({activePage, visuals, visuallayouts, activeChars,
   
   
 
-    return <div className={`${StyleCSS.visualcontainer}`} style={{display: activePage==3 ? "flex" : "none"}}> 
+    return <div className={`${StyleCSS.visualcontainer}`} spellCheck="false" style={{display: activePage==3 ? "flex" : "none"}}> 
         <div className={`${StyleCSS.visualbox}`}>
             <div className={`${StyleCSS.visualmain}`} style={{display: visualState==1 ? "flex" : "none"}}>
                 <img className={`${StyleCSS.visualmainimage}`} src={visualMain} />
@@ -265,7 +284,7 @@ export default function Visual({activePage, visuals, visuallayouts, activeChars,
             </div>
 
             <div className={`${StyleCSS.visualmain}`} style={{display: visualState==5 ? "flex" : "none"}}>
-                <div className={`${StyleCSS.layoutoptionwrapper}`}>
+                <div className={`${StyleCSS.combatuioptionwrapper}`}>
                     <div className={`${StyleCSS.combatuiwrapper}`}>
                         <div className={`${StyleCSS.viewertickboxdescription}`}> Display Initiative UI</div>
                         <div 
@@ -280,11 +299,22 @@ export default function Visual({activePage, visuals, visuallayouts, activeChars,
                         style={{backgroundColor: visibleBaddieUI ? "rgba(219, 221, 229, 0.4)" : "rgba(219, 221, 229, 0.0 )"}} 
                         onClick={toggleBaddieUI}/>
                     </div>
-                    <div className={`${StyleCSS.combatuiwrapper}`}>
+                    <div className={`${StyleCSS.undercombatuiwrapper}`}>
                         <div className={`${StyleCSS.viewertickboxdescription}`}> Villain Name </div>
-                        <div className={`${StyleCSS.viewertickboxdescription}`} > {villainName} </div>
+                        <input 
+                        type='text' 
+                        className={`${StyleCSS.villainname}`} 
+                        value={villainName} 
+                        onChange={(e) => setVillainName(e.target.value)}
+                        onBlur={(e) => updateVillainDatabase(e)}
+                        onKeyDown={(e) => handleKeyPress(e)}
+                        onFocus={(e) => e.target.select()}/>
                     </div>
-                    {activeChars.length > 0 && combatActive && activeChars.map(activeChars => (<div className={`${StyleCSS.combatuiwrapper}`} key={activeChars.uniquechar}>
+                    {activeChars.length > 0 && combatActive && <div className={`${StyleCSS.combatanttitleuiwrapper}`}>
+                        <div className={`${StyleCSS.viewertickboxdescription}`}> Combatant </div>
+                        <div className={`${StyleCSS.villaintickboxtitle}`}> Villain? </div>
+                    </div>}
+                    {activeChars.length > 0 && combatActive && activeChars.map(activeChars => (<div className={`${StyleCSS.combatantuiwrapper}`} key={activeChars.uniquechar}>
                         <div className={`${StyleCSS.viewertickboxdescription}`}> {activeChars.name}</div>
                         <div 
                         className={`${StyleCSS.viewertickbox}`} 
@@ -306,7 +336,8 @@ export default function Visual({activePage, visuals, visuallayouts, activeChars,
                 {layoutState == 2 && visualState==1 && <input className={`${StyleCSS.newvisuallayout}`} defaultValue={currentLayout} id="layoutName" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
                 {layoutState == 2 && visualState==1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={() => {saveLayout()}}>Accept</div>}
                 {layoutState == 2 && visualState==1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=> {setLayoutState(1)}}>Cancel</div>}
-                {visualState!=1 && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=>{setVisualState(1)}}>Cancel</div>}
+                {visualState!=1 && combatActive == false && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=>{setVisualState(1)}}>Cancel</div>}
+                {visualState!=1 && combatActive == true && <div className={`${StyleCSS.visualcontrolbutton}`} onClick={()=>{setVisualState(1)}}>Return</div>}
             </div>
         </div>
 

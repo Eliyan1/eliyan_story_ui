@@ -9,10 +9,11 @@ export default function Viewer() {
     const [displayImage, setDisplayImage] = useState('https://storage.googleapis.com/eliyan_multimedia/Images/Commissioned/Background%20BW.png')
     const [hpOverlay, setHPOverlay] = useState(false)
     const [initiativeOverlay, setInitiativeOverlay] = useState(false)
-    const [activeChars, setActiveChars] = useState([{hp:100, maxphp:100, uniquechar:0}])
+    const [activeChars, setActiveChars] = useState([{hp:100, maxphp:100, uniquechar:0, name:'Nothing Entered Yet'}])
     const [currentTurn, setCurrentTurn] = useState([{hp:100, maxphp:100, uniquechar:0}])
     const [villainCurrentHP, setVillainCurrentHP] = useState(100)
     const [villainMaxHP, setVillainMaxHP] = useState(100)
+    const [villainName, setVillainName] = useState('Enemy Forces')
 
     const updateDisplayImage = async () => {
         await fetch('api/viewer/get',{
@@ -32,15 +33,16 @@ export default function Viewer() {
         setHPOverlay(response.displayImage.hpOverlay)
         setInitiativeOverlay(response.displayImage.initiativeOverlay)
         setCurrentTurn(response.displayImage.currentTurn)
-        sortChar(response.displayImage)
+        if(response.displayImage.initiatedChar.length>0) {sortChar(response.displayImage)}
         setVillainCurrentHP(response.displayImage.villainCurrentHP)
         setVillainMaxHP(response.displayImage.villainMaxHP)
+        setVillainName(response.displayImage.villainName)
     }
 
     useEffect(() => {
         const interval = setInterval(() => {updateDisplayImage()}, 1000);
         return () => clearInterval(interval);
-    }, [currentTurn, villainCurrentHP])
+    }, [currentTurn, villainCurrentHP, villainName])
 
     return<>
     	<Head>
@@ -53,14 +55,14 @@ export default function Viewer() {
             <div className={`${StyleCSS.vieweraspectwrapper}`}>
                 <img className={`${StyleCSS.viewer}`} src={displayImage}/>
                 <div className={`${StyleCSS.initiativewrapper}`} style={{display: initiativeOverlay ? "flex" : "none"}}>
-                    {activeChars.length > 0 && <div className={activeChars[0].hp > activeChars[0].maxhp*0.5 ? `${StyleCSS.viewercurrentturn}` : `${StyleCSS.viewercurrentturnhalf}`}>{activeChars[0].name}</div>}
+                    {activeChars.length > 0 && activeChars[0].name != 'Nothing Entered Yet' && <div className={activeChars[0].hp > activeChars[0].maxhp*0.5 ? `${StyleCSS.viewercurrentturn}` : `${StyleCSS.viewercurrentturnhalf}`}>{activeChars[0].name}</div>}
                     {activeChars.length > 1 && <div className={activeChars[1].hp > activeChars[1].maxhp*0.5 ? `${StyleCSS.viewerupcomingturn}`: `${StyleCSS.viewerupcomingturnhalf}`}>{activeChars[1].name}</div>}
                     {activeChars.length > 2 && <div className={activeChars[2].hp > activeChars[2].maxhp*0.5 ? `${StyleCSS.viewerupcomingturn}`: `${StyleCSS.viewerupcomingturnhalf}`}>{activeChars[2].name}</div>}
                     {activeChars.length > 3 && <div className={activeChars[3].hp > activeChars[3].maxhp*0.5 ? `${StyleCSS.viewerupcomingturn}`: `${StyleCSS.viewerupcomingturnhalf}`}>{activeChars[3].name}</div>}
                     {activeChars.length > 4 && <div className={activeChars[4].hp > activeChars[4].maxhp*0.5 ? `${StyleCSS.viewerupcomingturn}`: `${StyleCSS.viewerupcomingturnhalf}`}>{activeChars[4].name}</div>}
                 </div>
                 <div className={`${StyleCSS.baddiehpwrapper}`} style={{display: hpOverlay ? "flex" : "none"}}>
-                    <div className={`${StyleCSS.baddiename}`}>Enemy Forces</div>
+                    <div className={`${StyleCSS.baddiename}`}>{villainName}</div>
                     <div className={`${StyleCSS.totalhealth}`}/>
                     <div className={`${StyleCSS.baddiehealth}`} style={{width: `${villainCurrentHP/villainMaxHP*92}cqw`}}/>
                 </div>

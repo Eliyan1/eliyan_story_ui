@@ -22,9 +22,10 @@ export default async function PUT(req,res) {
         active: active,
         notes: notes,
         group: group,
-        url: url     
+        url: url,
+        work: work     
     } = req.body;
     await connectMongoDB();
-    await Character.findByIdAndUpdate(req.query.id, {name, hp, maxhp, temphp, ac, str, dex, con, wis, intel, cha, active, notes, group, url});
+    await Character.findByIdAndUpdate(req.query.id, {name, hp, maxhp, temphp, ac, str, dex, con, wis, intel, cha, active, notes, group, url, work});
     res.status(200).json({message:"Character Updated"});
 }

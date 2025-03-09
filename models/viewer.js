@@ -9,7 +9,8 @@ const viewerSchema = new Schema(
         villainMaxHP: Number,
         villainCurrentHP: Number,
         hpOverlay: Boolean,
-        initiativeOverlay: Boolean
+        initiativeOverlay: Boolean,
+        villainName: String,
     }
 );
 

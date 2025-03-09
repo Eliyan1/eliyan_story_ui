@@ -1,6 +1,6 @@
 import StyleCSS from '@/styles/general.module.css'
 
-export default function InitiativeTracker({activeChars, setActiveChars, setStorySlab, populateActiveCharacter, setCombatActive, setTotalChars, setActiveIndex, setCurrentTurn}) {
+export default function InitiativeTracker({activeChars, setActiveChars, setStorySlab, populateActiveCharacter, setCombatActive, setInactiveChars, setActiveIndex, setCurrentTurn}) {
 
 const handleKeyPress = (e) => {
   if(e.keyCode === 13){
@@ -9,8 +9,8 @@ const handleKeyPress = (e) => {
 }
 
 const setInitiative = async () => {
-  setTotalChars(activeChars)
-  setCombatActive(true)  
+  setCombatActive(true)
+  setInactiveChars(activeChars.filter(activeChars => activeChars.initiative === undefined)) 
   
   var initiatedChar = activeChars.filter(activeChars => activeChars.initiative)
 
@@ -35,8 +35,8 @@ const setInitiative = async () => {
           'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-          initiatedChar: activeChars,
-          currentTurn:   activeChars[activeChars.findIndex(activeChars => Math.max(activeChars.initiative))]
+          initiatedChar: initiatedChar,
+          currentTurn:   initiatedChar[activeChars.findIndex(activeChars => Math.max(activeChars.initiative))]
       }),
   });
   setCurrentTurn(activeChars[activeChars.findIndex(activeChars => Math.max(activeChars.initiative))])

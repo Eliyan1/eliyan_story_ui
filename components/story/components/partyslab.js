@@ -2,10 +2,10 @@ import StyleCSS from '@/styles/general.module.css'
 import CharNotes from './charnotes'
 import { useState } from "react";
 
-export default function CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, setMain) {
+export default function CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain, populateActiveCharacter) {
 
     const [activeIndex, setActiveIndex] = useState(0)
-    const mutuable = true
+    const mutuable = false
     const [charName, setName] = useState("Character Name");
     const [charAC, setAC] = useState(0);
     const [charHP, setHP] = useState('');
@@ -28,30 +28,13 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     const activateMain = async () => {
         const activeCharIndex = activeChars.length - 1
         setMain(1)
+        populatePartyCharacter(activeCharIndex)
         populateActiveCharacter(activeCharIndex)
         await setStorySlab(0); //necessary to update the notes of the character
         setStorySlab(2);
     }
 
-    const directPopulate = (directChar) => {
-        setName(directChar.name);
-        setAC(directChar.ac)
-        setHP(directChar.hp)
-        setTHP(directChar.temphp)
-        setMHP(directChar.maxhp)
-        setStr(directChar.str)
-        setDex(directChar.dex)
-        setCon(directChar.con)
-        setWis(directChar.wis)
-        setInt(directChar.intel)
-        setCha(directChar.cha)
-        setNotes(directChar.notes)
-        setCharSlab(1)
-        setExtButtonText("External Info")
-        setURL(directChar.url)
-    }
-
-    const populateActiveCharacter = (activeCharIndex) => {
+    const populatePartyCharacter = (activeCharIndex) => {
         if(activeCharIndex < activeChars.length) {
             setActiveIndex(activeCharIndex);
             setName(activeChars[activeCharIndex].name);
@@ -89,85 +72,6 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         }
 
     }
-
-    const handleKeyPress = (e) => {
-        if(e.keyCode === 13){
-            e.target.blur(); 
-        }
-    }
-
-    const nameUpdate = (e) => {
-        setName(e.target.value)
-	}
-
-    const acUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100){
-            setAC(e.target.value)
-        }
-        
-	}
-
-    const hpUpdate = (e) => {setHP(e.target.value)}
-
-    const hpSelect = (e) => {
-        if (activeIndex > activeChars.length-1) {
-            setCurHP(activeChars[activeChars.length-1].hp);
-            setCurTHP(activeChars[activeChars.length-1].temphp);
-            e.target.select()
-        }else{
-            setCurHP(activeChars[activeIndex].hp);
-            setCurTHP(activeChars[activeIndex].temphp);
-            e.target.select()
-        }
-    }
-
-    const thpUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<1000){
-            setTHP(e.target.value);
-        }
-	}
-
-    const mhpUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<1000){
-            setMHP(e.target.value);
-        }
-	}
-
-    const strUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100){
-            setStr(e.target.value);
-        }
-	}
-
-    const dexUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100){
-            setDex(e.target.value);
-        }
-	}
-
-    const conUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100){
-            setCon(e.target.value);
-        }
-	}
-
-    const wisUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100){
-            setWis(e.target.value);
-        }
-	}
-
-    const intUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100){
-            setInt(e.target.value);
-        }
-	}
-
-    const chaUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100) {
-            setCha(e.target.value);
-        }
-	}
 
     const urlUpdate = (e) => {
         setURL(e.target.value)
@@ -269,28 +173,26 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
             throw new Error("Failed to edit the Character")
         }
 
-        if (user == 'DM') {
-            var villainHP = 0
-            var villainMaxHP = 0
+        var villainHP = 0
+        var villainMaxHP = 0
 
-            for (let i=0; i < activeChars.length; i++) {
-                if (activeChars[i].villainhp==true){
-                    villainHP= villainHP + activeChars[i].hp
-                    villainMaxHP = villainMaxHP + activeChars[i].maxhp
-                }}
+        for (let i=0; i < activeChars.length; i++) {
+            if (activeChars[i].villainhp==true){
+                villainHP= villainHP + activeChars[i].hp
+                villainMaxHP = villainMaxHP + activeChars[i].maxhp
+            }}
 
-            await fetch('/api/viewer/update',{
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    initiatedChar: activeChars,
-                    villainCurrentHP: villainHP,
-                    villainMaxHP: villainMaxHP
-                }),
-            });
-        }
+        await fetch('/api/viewer/update',{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                initiatedChar: activeChars,
+                villainCurrentHP: villainHP,
+                villainMaxHP: villainMaxHP
+            }),
+        });
     };
 
     const updateCharDatabase = async (e) => {
@@ -300,143 +202,53 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     };
 
 
-    return {populateActiveCharacter, setActiveIndex, directPopulate,
-        charPanel:(<>
+    return {populatePartyCharacter,
+        partyPanel:(<>
         {charSlab == 1 && <div spellCheck="false" className={`${StyleCSS.charslab}`}>
         <div className={`${StyleCSS.frontslabshort}`}/>
         <div className={`${StyleCSS.namewrapper}`}> 
-            <input 
-                type="text"
-                maxLength={12} 
-                value={`${charName}`} 
-                className={`${StyleCSS.charname}`} 
-                onChange={(e) => nameUpdate(e)}
-                onBlur={(e) => updateCharDatabase(e)}
-                onKeyDown={(e) => handleKeyPress(e)}
-                onFocus={(e) => e.target.select()}
-            />
+            <div className={`${StyleCSS.charname}`}> {charName} </div>
         </div>
         <div className={`${StyleCSS.charslabhprow}`}>
             <div className={`${StyleCSS.charslabstatwrap}`}>
                 <div className={`${StyleCSS.charslabac}`}>AC:</div>
-                <input
-                    type="number"
-                    value={`${charAC}`}
-                    className={`${StyleCSS.charslabacvalue}`}
-                    onChange={(e) => acUpdate(e)}
-                    onBlur={(e) => updateCharDatabase(e)}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                    onFocus={(e) => e.target.select()}
-                />
+                <div className={`${StyleCSS.charslabacvalue}`}> {charAC} </div>
             </div>
             <div className={`${StyleCSS.charslabstatwrap}`}>
                 <div className={`${StyleCSS.charslabhp}`}>HP:</div>
-                <input 
-                    type="text"
-                    maxLength={4}
-                    value={`${charHP}`} 
-                    className={`${StyleCSS.charslabhpvalue}`}
-                    onFocus={(e) => hpSelect(e)}
-                    onChange={(e) => hpUpdate(e)}
-                    onBlur={(e) => updateCharDatabase(e)}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                />
+                <div className={`${StyleCSS.charslabhpvalue}`}> {charHP} </div>
                 <div className={`${StyleCSS.charslabhp}`}>/</div>
-                <input 
-                    type="number"
-                    value={`${charMHP}`}
-                    className={`${StyleCSS.charslabmaxhpvalue}`}
-                    onChange={(e) => mhpUpdate(e)}
-                    onBlur={(e) => updateCharDatabase(e)}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                    onFocus={(e) => e.target.select()}
-                />
+                <div className={`${StyleCSS.charslabmaxhpvalue}`}>{charMHP}</div>
             </div>
             <div className={`${StyleCSS.charslabstatwrap}`}>
                 <div className={`${StyleCSS.charslabac}`}>Temp HP:</div>
-                <input
-                    type="number"
-                    value={`${charTHP}`}
-                    className={`${StyleCSS.charslabacvalue}`}
-                    onChange={(e) => thpUpdate(e)}
-                    onBlur={(e) => updateCharDatabase(e)}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                    onFocus={(e) => e.target.select()}
-                />
+                <div className={`${StyleCSS.charslabacvalue}`}> {charTHP} </div>
             </div>
         </div>
         <div className={`${StyleCSS.charslabstatrow}`}>
             <div className={`${StyleCSS.charslabstatwrap}`}>
                 <div className={`${StyleCSS.charslabstat}`}>Str:</div>
-                <input 
-                    type='number'
-                    value={charStr}
-                    className={`${StyleCSS.charslabstatvalue}`}
-                    onChange={(e) => strUpdate(e)}
-                    onBlur={(e) => updateCharDatabase(e)}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                    onFocus={(e) => e.target.select()}
-                />
+                <div className={`${StyleCSS.charslabstatvalue}`}> {charStr} </div>
             </div>
             <div className={`${StyleCSS.charslabstatwrap}`}>
                 <div className={`${StyleCSS.charslabstat}`}>Dex:</div>
-                <input 
-                    type='number'
-                    value={charDex}
-                    className={`${StyleCSS.charslabstatvalue}`}
-                    onChange={(e) => dexUpdate(e)}
-                    onBlur={(e) => updateCharDatabase(e)}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                    onFocus={(e) => e.target.select()}
-                />
+                <div className={`${StyleCSS.charslabstatvalue}`}> {charDex} </div>
             </div>
             <div className={`${StyleCSS.charslabstatwrap}`}>
                 <div className={`${StyleCSS.charslabstat}`}>Con:</div>
-                <input 
-                    type='number'
-                    value={charCon}
-                    className={`${StyleCSS.charslabstatvalue}`}
-                    onChange={(e) => conUpdate(e)}
-                    onBlur={(e) => updateCharDatabase(e)}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                    onFocus={(e) => e.target.select()}
-                />
+                <div className={`${StyleCSS.charslabstatvalue}`}> {charCon} </div>
             </div>
             <div className={`${StyleCSS.charslabstatwrap}`}>
                 <div className={`${StyleCSS.charslabstat}`}>Wis:</div>
-                <input 
-                    type='number'
-                    value={charWis}
-                    className={`${StyleCSS.charslabstatvalue}`}
-                    onChange={(e) => wisUpdate(e)}
-                    onBlur={(e) => updateCharDatabase(e)}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                    onFocus={(e) => e.target.select()}
-                />
+                <div className={`${StyleCSS.charslabstatvalue}`}> {charWis} </div>
             </div>
             <div className={`${StyleCSS.charslabstatwrap}`}>
                 <div className={`${StyleCSS.charslabstat}`}>Int:</div>
-                <input 
-                    type='number'
-                    value={charInt}
-                    className={`${StyleCSS.charslabstatvalue}`}
-                    onChange={(e) => intUpdate(e)}
-                    onBlur={(e) => updateCharDatabase(e)}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                    onFocus={(e) => e.target.select()}
-                />
+                <div className={`${StyleCSS.charslabstatvalue}`}> {charInt} </div>
             </div>
             <div className={`${StyleCSS.charslabstatwrap}`}>
                 <div className={`${StyleCSS.charslabstat}`}>Cha:</div>
-                <input 
-                    type='number'
-                    value={charCha}
-                    className={`${StyleCSS.charslabstatvalue}`}
-                    onChange={(e) => chaUpdate(e)}
-                    onBlur={(e) => updateCharDatabase(e)}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                    onFocus={(e) => e.target.select()}
-                />
+                <div className={`${StyleCSS.charslabstatvalue}`}> {charCha} </div>
             </div>
         </div>
 
@@ -467,7 +279,8 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     <div className={`${StyleCSS.charslabbuttonwrapper}`}>
         {user == 'DM' && <div onClick={()=>{setStorySlab(1)}} className={`${StyleCSS.charslabbutton}`}>Return to Story</div>}
-        {user == 'Player' && <div onClick={()=>{setStorySlab(3)}} className={`${StyleCSS.charslabbutton}`}>Switch Character</div>}
+        {user == 'Player' && noSelect == 1 && <div onClick={()=>{setStorySlab(3)}} className={`${StyleCSS.charslabbutton}`}>Switch Character</div>}
+        {user == 'Player' && noSelect == 0 && <div onClick={activateMain} className={`${StyleCSS.charslabbutton}`}>Return to Main</div>}
         <div onClick={noteButtonClick} className={`${StyleCSS.charslabbutton}`}>Character Notes</div>
         <div onClick={externalButtonClick} className={`${StyleCSS.charslabbutton}`}>{extButtonText} </div>
     </div>

@@ -9,9 +9,10 @@ import CharGroup from "@/models/chargroup";
 export default async function PUT(req,res) {
     const { 
         name: name,
-        group: group   
+        group: group,
+        work: work,   
     } = req.body;
     await connectMongoDB();
-    await CharGroup.updateOne({name:req.query.name}, {name,group});
+    await CharGroup.updateOne({name:req.query.name}, {name,group, work});
     res.status(200).json({message:"Group Updated"});
 }

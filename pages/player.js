@@ -29,6 +29,10 @@ export default function PlayerUI({dbCharacters, chargroups}) {
 		return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 	});
 
+	const fantasyCharacters = sortedCharacters.filter(sortedCharacters => sortedCharacters.work == undefined || sortedCharacters.work == 0)
+
+	const fantasyGroups = sortedGroups.filter(sortedGroups => sortedGroups.work == undefined || sortedGroups.work == 0)
+
     useEffect(() => {
         const interval = setInterval(() => {updateDisplayImage()}, 1000);
         return () => clearInterval(interval);
@@ -42,7 +46,7 @@ export default function PlayerUI({dbCharacters, chargroups}) {
             <link rel="icon" type="image/png" href="/favicon.png"></link>
         </Head>
         <div className={`${StyleCSS.aspectwrapper}`}>
-            <PlayerPage activePage={1} dbCharacters={sortedCharacters} chargroups={sortedGroups}/>
+            <PlayerPage activePage={1} dbCharacters={fantasyCharacters} chargroups={fantasyGroups}/>
         </div>
     </>
 }
