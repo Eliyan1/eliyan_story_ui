@@ -24,7 +24,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 	const [currentTurn, setCurrentTurn] = useState([{uniquechar: -1}])
 
 		useEffect(() => {
-			const interval = setInterval(() => {updateCurrentParty()}, 1000);
+			const interval = setInterval(() => {updateCurrentParty()}, 5000);
 			return () => clearInterval(interval);
 		}, [activeChars])
 	
