@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import CharSlab from './components/charslab';
 import PartySlab from './components/partyslab';
 import CharLoad from './components/charload';
-import { set } from 'mongoose';
 
 export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 
@@ -17,9 +16,7 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 	const [activeChars, setActiveChars] = useState([])
 	var partyChars = activeChars.filter((activeChars) => activeChars.uniquechar != 99999)
 	const [uniqueChar, setUniqueChar] = useState(0) 
-	const [characterState, setCharacterState] = useState(0) 
 	const [characterName, setCharacterName] = useState('Character Name') 
-	const [groupList, setGroupList] = useState(chargroups)
 	const currentTurn= [{uniquechar: -1}]
 	const {charPanel, populateActiveCharacter, directPopulate, setActiveIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain)
 	const {partyPanel, populatePartyCharacter} = PartySlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain, populateActiveCharacter)
@@ -52,17 +49,20 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 
 		var j =-1;
 
-		for (let i=0; i < newParty.length; i++) {
-			newParty[i].uniquechar = i;
-			if (newParty[i].name==mainChar.name){
-				newParty[i].uniquechar = 99999
-				setMainChar(newParty[i])
-				j=i
-			}
-		}
+		if (newParty.length>0) {
 
-		newParty.push(newParty.splice(j, 1)[0])
-		setActiveChars(newParty)
+			for (let i=0; i < newParty.length; i++) {
+				newParty[i].uniquechar = i;
+				if (newParty[i].name==mainChar.name){
+					newParty[i].uniquechar = 99999
+					setMainChar(newParty[i])
+					j=i
+				}
+			}
+
+			newParty.push(newParty.splice(j, 1)[0])
+			setActiveChars(newParty)
+		}
 	}
 
 	const removeActiveChar =  (uniquechar) => {
@@ -187,7 +187,7 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 				setStorySlab={setStorySlab}
 				uniqueChar = {uniqueChar}
 				setUniqueChar = {setUniqueChar}
-				groupList = {groupList}
+				groupList = {chargroups}
                 user = {user}
                 createNewCharacter={createNewCharacter}
 				setMainChar = {setMainChar}
@@ -199,7 +199,6 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 				directPopulate = {directPopulate}
 				setActiveIndex = {setActiveIndex}
 				main = {main}
-				
 			/>}
 		</div>
 		

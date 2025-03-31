@@ -9,14 +9,6 @@ import StyleCSS from '@/styles/general.module.css'
 
 export default function PlayerUI({dbCharacters, chargroups}) {
     
-    const [displayImage, setDisplayImage] = useState('https://storage.googleapis.com/eliyan_multimedia/Images/Commissioned/Background%20BW.png')
-
-    const updateDisplayImage = async () => {
-        const response = await fetch('api/viewer/get',{
-            method: 'GET'
-        }).then(response => response.json()).then((response) => setDisplayImage(response.displayImage.url))
-    }
-
     const sortedCharacters = dbCharacters.sort(function(a,b) {
 		var textA = a.name.toUpperCase();
 		var textB = b.name.toUpperCase();
@@ -32,11 +24,6 @@ export default function PlayerUI({dbCharacters, chargroups}) {
 	const fantasyCharacters = sortedCharacters.filter(sortedCharacters => sortedCharacters.work == undefined || sortedCharacters.work == 0)
 
 	const fantasyGroups = sortedGroups.filter(sortedGroups => sortedGroups.work == undefined || sortedGroups.work == 0)
-
-    useEffect(() => {
-        const interval = setInterval(() => {updateDisplayImage()}, 1000);
-        return () => clearInterval(interval);
-    }, [])
 
     return<>
     	<Head>

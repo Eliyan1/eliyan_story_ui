@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import StyleCSS from '@/styles/general.module.css'
-import { Main } from 'next/document';
 
 export default function CharLoad({characters, setActiveChars, activeChars, setStorySlab, uniqueChar, setUniqueChar, groupList, user, createNewCharacter, setMainChar, mainChar, setMain, setNoSelect, populateActiveCharacter, directPopulate, setActiveIndex, main, work}) {
 

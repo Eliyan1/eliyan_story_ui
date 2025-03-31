@@ -905,10 +905,14 @@
     cursor: pointer;
 }
 
+.playerbutton:hover{
+    opacity: 0.93;
+    transition: 200ms;
+}
+
 .playerbox{
     height: 7.7cqw;
     margin-top: 2.2%;
-
 }
 
 .characterbuttoncolumn{
@@ -1995,3 +1999,40 @@ margin-right: 5cqw;
     color: rgba(255, 255, 229, 0.9);
     background: none;
 }
+
+.resetbutton{
+    position: relative;
+    width:90cqw;
+    height:40cqw;
+    background-image: url("../image/Initiative_Button_Block_Red.png");
+    background-size: 100% 100%;
+    color: rgba(255, 200, 200, 0.4);
+    text-align: center;
+    padding-top: 8.6cqw;
+    font-size: 20cqw;
+    opacity: 0.9;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+.resetbutton:hover{
+    opacity: 1;
+    transition: 200ms;
+}
+
+.resetaspectwrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-width: 176.6vh;
+    max-height: 56.25vw;
+    aspect-ratio: 16/9;
+    container-type: size;
+    caret-color: transparent;
+    justify-content: center;
+    align-items: center;
+    }
+
+    
