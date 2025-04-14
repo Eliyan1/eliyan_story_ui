@@ -171,7 +171,9 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     const urlUpdate = (e) => {
         setURL(e.target.value)
-        activeChars[activeIndex].url=e.target.value;
+        if (user == 'DM') {activeChars[activeIndex].url=e.target.value}
+        else{activeChars[activeChars.findIndex(activeChars => activeChars.uniquechar==99999)].url=e.target.value
+        }
     }
 
 
@@ -181,16 +183,34 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     }
 
     const externalButtonClick = () => {
-        if(extButtonText == "External Info" && activeChars[activeIndex].url)
-        {
-            setCharSlab(2);
-            setExtButtonText("Edit URL")
+
+        if(user == 'DM') {
+            if(extButtonText == "External Info" && activeChars[activeIndex].url)
+            {
+                setCharSlab(2);
+                setExtButtonText("Edit URL")
+            }
+        
+            if(extButtonText == "External Info" && !activeChars[activeIndex].url)
+            {
+                setCharSlab(3);
+                setExtButtonText("Accept")
+            }
         }
-    
-        if(extButtonText == "External Info" && !activeChars[activeIndex].url)
-        {
-            setCharSlab(3);
-            setExtButtonText("Accept")
+
+        if(user == 'Player') {
+            const MCIndex = activeChars.findIndex(activeChars => activeChars.uniquechar==99999);
+            if(extButtonText == "External Info" && activeChars[MCIndex].url)
+            {
+                setCharSlab(2);
+                setExtButtonText("Edit URL")
+            }
+        
+            if(extButtonText == "External Info" && !activeChars[MCIndex].url)
+            {
+                setCharSlab(3);
+                setExtButtonText("Accept")
+            }
         }
 
         if(extButtonText == "Accept")
@@ -205,6 +225,25 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
             setExtButtonText("Accept")
         }
     
+    }
+
+    const updateCharURL = async (e) => {
+        console.log(e.target.value)
+        const updateIndex = activeChars.findIndex(activeChars => activeChars.uniquechar==99999);
+        const res = await fetch(`/api/characters/update?id=${activeChars[updateIndex]._id}`,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                url:    e.target.value
+            }),
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to edit the Character")
+        }
+
     }
 
     const actualUpdate = async (updateIndex) => {
@@ -242,6 +281,8 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         activeChars[updateIndex].wis=isNaN(charWis) ? null : charWis;
         activeChars[updateIndex].intel=isNaN(charInt) ? null : charInt;
         activeChars[updateIndex].cha=isNaN(charCha) ? null : charCha;
+
+        console.log(activeChars[updateIndex].name)
 
         
         const res = await fetch(`/api/characters/update?id=${activeChars[updateIndex]._id}`,{
@@ -295,8 +336,14 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     const updateCharDatabase = async (e) => {
         e.preventDefault();
-        if(activeIndex > activeChars.length-1) {actualUpdate(activeChars.length-1)}
-        else{actualUpdate(activeIndex)}
+        if (user == 'Player'){
+            const MCIndex = activeChars.findIndex(activeChars => activeChars.uniquechar==99999);
+            actualUpdate(MCIndex)
+        }
+        else{
+            if(activeIndex > activeChars.length-1) {actualUpdate(activeChars.length-1)}
+            else{actualUpdate(activeIndex)}
+        }
     };
 
 
@@ -443,7 +490,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         <div className={`${StyleCSS.charslabline}`}/>
         
         <CharNotes
-            activeCharacter = {activeIndex > activeChars.length-1 ? activeChars[activeChars.length-1] : activeChars[activeIndex]}
+            activeCharacter = {user == 'Player' ? activeChars[activeChars.findIndex(activeChars => activeChars.uniquechar==99999)] : activeChars[activeIndex]}
             charNotes = {charNotes}
             mutuable = {mutuable}
         />
@@ -462,7 +509,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         className={`${StyleCSS.charexternalinput}`} 
         onChange={(e) => urlUpdate(e)} 
         value={charURL}
-        onBlur={(e) => updateCharDatabase(e)}/>
+        onBlur={(e) => updateCharURL(e)}/>
     </div>
 
     <div className={`${StyleCSS.charslabbuttonwrapper}`}>

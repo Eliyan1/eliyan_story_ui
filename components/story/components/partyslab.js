@@ -88,27 +88,11 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         if(extButtonText == "External Info" && activeChars[activeIndex].url)
         {
             setCharSlab(2);
-            setExtButtonText("Edit URL")
-        }
-    
+        } 
         if(extButtonText == "External Info" && !activeChars[activeIndex].url)
         {
             setCharSlab(3);
-            setExtButtonText("Accept")
         }
-
-        if(extButtonText == "Accept")
-        {
-            setCharSlab(2);
-            setExtButtonText("Edit URL")
-        }
-
-        if(extButtonText == "Edit URL")
-        {
-            setCharSlab(3);
-            setExtButtonText("Accept")
-        }
-    
     }
 
     const actualUpdate = async (updateIndex) => {
@@ -268,13 +252,8 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     <div className={`${StyleCSS.charexternal}`} style={{display: charSlab == 3 ? "flex" : "none"}}>
         <div className={`${StyleCSS.charexternaltext}`}>
-        Please enter external URL:
+        No external URL has been given.
         </div>
-        <input 
-        className={`${StyleCSS.charexternalinput}`} 
-        onChange={(e) => urlUpdate(e)} 
-        value={charURL}
-        onBlur={(e) => updateCharDatabase(e)}/>
     </div>
 
     <div className={`${StyleCSS.charslabbuttonwrapper}`}>
