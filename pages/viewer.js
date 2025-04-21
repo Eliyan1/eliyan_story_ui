@@ -40,7 +40,7 @@ export default function Viewer() {
     }
 
     useEffect(() => {
-        const interval = setInterval(() => {updateDisplayImage()}, 1000);
+        const interval = setInterval(() => {updateDisplayImage()}, 3000);
         return () => clearInterval(interval);
     }, [currentTurn, villainCurrentHP, villainName])
 
