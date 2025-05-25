@@ -1,7 +1,7 @@
 import StyleCSS from '@/styles/general.module.css'
 import React, { useState } from'react';
 
-export default function Visual({activePage, visuals, visuallayouts, activeChars, combatActive}) {
+export default function Visual({activePage, visuals, viewerDB, visuallayouts, activeChars, combatActive}) {
 
     const [visualButtons, setVisualButtons] = useState([])
     const [visualState, setVisualState] = useState(1)
@@ -11,19 +11,20 @@ export default function Visual({activePage, visuals, visuallayouts, activeChars,
     const [visualTag, setVisualTag] = useState('')
     const [visualURL, setVisualURL] = useState('')
 
-    const [visibleInitiativeUI, setVisibleInitiativeUI] = useState(false)
-    const [visibleBaddieUI, setVisibleBaddieUI] = useState(false)
+    const [visibleInitiativeUI, setVisibleInitiativeUI] = useState(viewerDB[1].initiativeOverlay)
+    const [visibleBaddieUI, setVisibleBaddieUI] = useState(viewerDB[1].hpOverlay)
 
     const [currentLayout, setCurrentLayout] = useState ('Name Layout')
     const [visualLayoutList, setVisualLayoutList] = useState(visuallayouts)
 
-    const [villainName, setVillainName] = useState('Enemy Forces')
+    const [villainName, setVillainName] = useState(viewerDB[1].villainName)
 
     const [layoutState, setLayoutState] = useState(1)
 
     const toggleInitiativeUI = async () => {
         if (visibleInitiativeUI==false){
             setVisibleInitiativeUI(true)
+            console.log(viewerDB)
 
             await fetch('/api/viewer/update',{
                 method: 'PUT',
@@ -57,7 +58,11 @@ export default function Visual({activePage, visuals, visuallayouts, activeChars,
 
         if(activeChar.villainhp == true){
             activeChar.villainhp = false
-        }else{activeChar.villainhp= true}
+            document.getElementById(activeChar.uniquechar).style.backgroundColor = "rgba(219, 221, 229, 0.0)"
+        }else{
+            activeChar.villainhp= true
+            document.getElementById(activeChar.uniquechar).style.backgroundColor = "rgba(219, 221, 229, 0.4)"
+        }
 
         for (let i=0; i < activeChars.length; i++) {
             if (activeChars[i].villainhp==true){
@@ -75,6 +80,7 @@ export default function Visual({activePage, visuals, visuallayouts, activeChars,
                     villainMaxHP: villainMaxHP
                 }),
             });
+            
     }
 
 
@@ -318,6 +324,7 @@ export default function Visual({activePage, visuals, visuallayouts, activeChars,
                         <div className={`${StyleCSS.viewertickboxdescription}`}> {activeChars.name}</div>
                         <div 
                         className={`${StyleCSS.viewertickbox}`} 
+                        id={`${activeChars.uniquechar}`}
                         style={{backgroundColor: activeChars.villainhp ? "rgba(219, 221, 229, 0.4)" : "rgba(219, 221, 229, 0.0 )"}} 
                         onClick={() => toggleVillainHP(activeChars)}/>
                     </div>))}

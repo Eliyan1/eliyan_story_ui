@@ -29,57 +29,60 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 		}, [activeChars])
 	
 		const updateCurrentParty = async () =>{
-			var updatedChars = await fetch('/api/characters/read',{
-				method: 'GET'
-			}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.active == 1))
-			const currentChar = JSON.parse(JSON.stringify(activeChars))
-			var somethingChanged = false
-	
-			for (let i=0; i < updatedChars.length; i++) {
-				const sameIndex = currentChar.findIndex((currentChar)=> currentChar._id == updatedChars[i]._id)
-				if (sameIndex ==! -1) {
-					currentChar[sameIndex].hp=updatedChars[i].hp
-					currentChar[sameIndex].ac=updatedChars[i].ac
-					currentChar[sameIndex].temphp=updatedChars[i].temphp
-					currentChar[sameIndex].maxhp=updatedChars[i].maxhp
-					currentChar[sameIndex].str=updatedChars[i].str
-					currentChar[sameIndex].dex=updatedChars[i].dex
-					currentChar[sameIndex].con=updatedChars[i].con
-					currentChar[sameIndex].wis=updatedChars[i].wis
-					currentChar[sameIndex].intel=updatedChars[i].intel
-					currentChar[sameIndex].cha=updatedChars[i].cha
-					currentChar[sameIndex].notes=updatedChars[i].notes
-					if (activeChars[sameIndex] != updatedChars[i]){						
-					somethingChanged=true
+			try{
+				var updatedChars = await fetch('/api/characters/read',{
+					method: 'GET'
+				}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.active == 1))
+				const currentChar = JSON.parse(JSON.stringify(activeChars))
+				var somethingChanged = false
+		
+				for (let i=0; i < updatedChars.length; i++) {
+					const sameIndex = currentChar.findIndex((currentChar)=> currentChar._id == updatedChars[i]._id)
+					if (sameIndex ==! -1) {
+						currentChar[sameIndex].hp=updatedChars[i].hp
+						currentChar[sameIndex].ac=updatedChars[i].ac
+						currentChar[sameIndex].temphp=updatedChars[i].temphp
+						currentChar[sameIndex].maxhp=updatedChars[i].maxhp
+						currentChar[sameIndex].str=updatedChars[i].str
+						currentChar[sameIndex].dex=updatedChars[i].dex
+						currentChar[sameIndex].con=updatedChars[i].con
+						currentChar[sameIndex].wis=updatedChars[i].wis
+						currentChar[sameIndex].intel=updatedChars[i].intel
+						currentChar[sameIndex].cha=updatedChars[i].cha
+						currentChar[sameIndex].notes=updatedChars[i].notes
+						if (activeChars[sameIndex] != updatedChars[i]){						
+						somethingChanged=true
+						}
 					}
 				}
-			}
 
-			if(somethingChanged == true) {
+				if(somethingChanged == true) {
 
-				var villainHP = 0
-				var villainMaxHP = 0
+					var villainHP = 0
+					var villainMaxHP = 0
 
-				for (let i=0; i < activeChars.length; i++) {
-					if (activeChars[i].villainhp==true){
-						villainHP= villainHP + activeChars[i].hp
-						villainMaxHP = villainMaxHP + activeChars[i].maxhp
-					}}
+					for (let i=0; i < activeChars.length; i++) {
+						if (activeChars[i].villainhp==true){
+							villainHP= villainHP + activeChars[i].hp
+							villainMaxHP = villainMaxHP + activeChars[i].maxhp
+						}}
 
-				await fetch('/api/viewer/update',{
-					method: 'PUT',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						initiatedChar: currentChar,
-						villainCurrentHP: villainHP,
-						villainMaxHP: villainMaxHP
-					}),
-				});
+					await fetch('/api/viewer/update',{
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({
+							initiatedChar: currentChar,
+							villainCurrentHP: villainHP,
+							villainMaxHP: villainMaxHP
+						}),
+					});
 
-				setActiveChars(currentChar)
-			}
+					setActiveChars(currentChar)
+				}
+			} catch (ex) {throw ex}
+        	return false
 		}
 
 	const nextTurn = async () =>{

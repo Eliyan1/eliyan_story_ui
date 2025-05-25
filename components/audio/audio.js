@@ -80,6 +80,7 @@ export default function Audio({activePage, audios, audiolayouts}) {
 
 
     const playMusic = () =>{
+        audioElem.current.volume = volume/100
         audioElem.current.play();
     }
 
@@ -183,6 +184,7 @@ export default function Audio({activePage, audios, audiolayouts}) {
     const buttonPlay = async ({e,audioButtons}) => {
         e.preventDefault();
         await setCurrentSong(audioButtons);
+        audioElem.current.volume = volume/100;
         audioElem.current.play();
     }
 

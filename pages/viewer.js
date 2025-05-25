@@ -16,9 +16,12 @@ export default function Viewer() {
     const [villainName, setVillainName] = useState('Enemy Forces')
 
     const updateDisplayImage = async () => {
+        try {
         await fetch('api/viewer/get',{
             method: 'GET'
         }).then(response => response.json()).then((response) => updateUI(response))
+        } catch (ex) {throw ex}
+        return false
     }
 
     const sortChar = (unsortedChar) => {

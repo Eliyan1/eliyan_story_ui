@@ -4,6 +4,7 @@ import Story from '@/components/story/story';
 import { useState } from 'react';
 import Audio from '@/components/audio/audio';
 import Visual from '@/components/visual/visual'
+import ViewerDB from "@/models/viewer"
 import StyleCSS from '@/styles/general.module.css'
 import connectMongoDB from "@/libs/mongodb";
 import Character from "@/models/character";
@@ -15,7 +16,7 @@ import VisualLayout from '@/models/visuallay';
 import CharGroup from '@/models/chargroup';
 import Head from 'next/head';
 
-export default function IndexPage({dbCharacters, stories, audios, visuals, audiolayouts, visuallayouts, chargroups}) {
+export default function IndexPage({dbCharacters, stories, audios, visuals, viewerDB, audiolayouts, visuallayouts, chargroups}) {
 
 	const [activePage, setActivePage] = useState(1)
 	const [activeChars, setActiveChars] = useState([])
@@ -70,7 +71,8 @@ export default function IndexPage({dbCharacters, stories, audios, visuals, audio
 
 		<Visual 
 		activePage={activePage} 
-		visuals={visuals} 
+		visuals={visuals}
+		viewerDB={viewerDB} 
 		visuallayouts={visuallayouts} 
 		activeChars={activeChars}
 		combatActive={combatActive} 
@@ -93,6 +95,7 @@ export const getServerSideProps = async () => {
 	const stories = await StoryDB.find();
 	const audios = await AudioDB.find();
 	const visuals = await VisualDB.find();
+	const viewerDB = await ViewerDB.find();
 	const audiolayouts = await AudioLayout.find();
 	const visuallayouts = await VisualLayout.find();
 	const chargroups = await CharGroup.find();
@@ -104,6 +107,7 @@ export const getServerSideProps = async () => {
 			stories: JSON.parse(JSON.stringify(stories)),
 			audios: JSON.parse(JSON.stringify(audios)),
 			visuals: JSON.parse(JSON.stringify(visuals)),
+			viewerDB: JSON.parse(JSON.stringify(viewerDB)),
 			audiolayouts: JSON.parse(JSON.stringify(audiolayouts)),
 			visuallayouts: JSON.parse(JSON.stringify(visuallayouts)),
 			chargroups: JSON.parse(JSON.stringify(chargroups))
