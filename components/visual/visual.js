@@ -11,13 +11,13 @@ export default function Visual({activePage, visuals, viewerDB, visuallayouts, ac
     const [visualTag, setVisualTag] = useState('')
     const [visualURL, setVisualURL] = useState('')
 
-    const [visibleInitiativeUI, setVisibleInitiativeUI] = useState(viewerDB[1].initiativeOverlay)
-    const [visibleBaddieUI, setVisibleBaddieUI] = useState(viewerDB[1].hpOverlay)
+    const [visibleInitiativeUI, setVisibleInitiativeUI] = useState(viewerDB[0].initiativeOverlay)
+    const [visibleBaddieUI, setVisibleBaddieUI] = useState(viewerDB[0].hpOverlay)
 
     const [currentLayout, setCurrentLayout] = useState ('Name Layout')
     const [visualLayoutList, setVisualLayoutList] = useState(visuallayouts)
 
-    const [villainName, setVillainName] = useState(viewerDB[1].villainName)
+    const [villainName, setVillainName] = useState(viewerDB[0].villainName)
 
     const [layoutState, setLayoutState] = useState(1)
 
