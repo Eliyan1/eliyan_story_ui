@@ -14,7 +14,6 @@ const StoryEditor = ({activeStoryContent, setStorySlab, autoSave, setActiveStory
   const updateContent = async () => {
     const content = await editor.getJSON()
     setActiveStoryContent(content)
-    console.log(content)
     autoSave(content)
   }
 

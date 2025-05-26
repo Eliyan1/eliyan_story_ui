@@ -228,7 +228,6 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     }
 
     const updateCharURL = async (e) => {
-        console.log(e.target.value)
         const updateIndex = activeChars.findIndex(activeChars => activeChars.uniquechar==99999);
         const res = await fetch(`/api/characters/update?id=${activeChars[updateIndex]._id}`,{
             method: 'PUT',
@@ -282,7 +281,6 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         activeChars[updateIndex].intel=isNaN(charInt) ? null : charInt;
         activeChars[updateIndex].cha=isNaN(charCha) ? null : charCha;
 
-        console.log(activeChars[updateIndex].name)
 
         
         const res = await fetch(`/api/characters/update?id=${activeChars[updateIndex]._id}`,{

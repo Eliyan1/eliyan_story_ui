@@ -17,7 +17,6 @@ const CharNotes = ({activeCharacter, charNotes, mutuable}) => {
     e.preventDefault();
     const content = await editor.getJSON()
     activeCharacter.notes=content
-    console.log(mutuable)
     
     const res = await fetch(`/api/characters/update?id=${activeCharacter._id}`,{
         method: 'PUT',

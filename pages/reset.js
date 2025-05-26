@@ -42,8 +42,7 @@ export default function ResetButton({dbCharacters}) {
                         throw new Error("Failed to edit the Character")
                     }
                 }
-            }
-            console.log('done')       
+            }     
           } else {
             // Do nothing!
           }

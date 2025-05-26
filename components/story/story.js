@@ -22,67 +22,67 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 	const [groupList, setGroupList] = useState(chargroups)
 	const {charPanel, populateActiveCharacter, setActiveIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user)
 	const [currentTurn, setCurrentTurn] = useState([{uniquechar: -1}])
+	const [lockDatabase, setLockDatabase] = useState(false)
 
 		useEffect(() => {
-			const interval = setInterval(() => {updateCurrentParty()}, 3000);
-			return () => clearInterval(interval);
-		}, [activeChars])
+			if (lockDatabase == false) {
+				const interval = setInterval(() => {updateCurrentParty()}, 1000);
+				return () => clearInterval(interval);
+			}
+		}, [activeChars, lockDatabase])
 	
 		const updateCurrentParty = async () =>{
-			try{
-				var updatedChars = await fetch('/api/characters/read',{
-					method: 'GET'
-				}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.active == 1))
-				const currentChar = JSON.parse(JSON.stringify(activeChars))
-				var somethingChanged = false
-		
-				for (let i=0; i < updatedChars.length; i++) {
-					const sameIndex = currentChar.findIndex((currentChar)=> currentChar._id == updatedChars[i]._id)
-					if (sameIndex ==! -1) {
-						currentChar[sameIndex].hp=updatedChars[i].hp
-						currentChar[sameIndex].ac=updatedChars[i].ac
-						currentChar[sameIndex].temphp=updatedChars[i].temphp
-						currentChar[sameIndex].maxhp=updatedChars[i].maxhp
-						currentChar[sameIndex].str=updatedChars[i].str
-						currentChar[sameIndex].dex=updatedChars[i].dex
-						currentChar[sameIndex].con=updatedChars[i].con
-						currentChar[sameIndex].wis=updatedChars[i].wis
-						currentChar[sameIndex].intel=updatedChars[i].intel
-						currentChar[sameIndex].cha=updatedChars[i].cha
-						currentChar[sameIndex].notes=updatedChars[i].notes
-						if (activeChars[sameIndex] != updatedChars[i]){						
-						somethingChanged=true
-						}
+			var updatedChars = await fetch('/api/characters/read',{
+				method: 'GET'
+			}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.active == 1))
+			const currentChar = JSON.parse(JSON.stringify(activeChars))
+			var somethingChanged = false
+	
+			for (let i=0; i < updatedChars.length; i++) {
+				const sameIndex = currentChar.findIndex((currentChar)=> currentChar._id == updatedChars[i]._id)
+				if (sameIndex ==! -1) {
+					currentChar[sameIndex].hp=updatedChars[i].hp
+					currentChar[sameIndex].ac=updatedChars[i].ac
+					currentChar[sameIndex].temphp=updatedChars[i].temphp
+					currentChar[sameIndex].maxhp=updatedChars[i].maxhp
+					currentChar[sameIndex].str=updatedChars[i].str
+					currentChar[sameIndex].dex=updatedChars[i].dex
+					currentChar[sameIndex].con=updatedChars[i].con
+					currentChar[sameIndex].wis=updatedChars[i].wis
+					currentChar[sameIndex].intel=updatedChars[i].intel
+					currentChar[sameIndex].cha=updatedChars[i].cha
+					currentChar[sameIndex].notes=updatedChars[i].notes
+					if (activeChars[sameIndex] != updatedChars[i]){						
+					somethingChanged=true
 					}
 				}
+			}
 
-				if(somethingChanged == true) {
+			if(somethingChanged == true) {
 
-					var villainHP = 0
-					var villainMaxHP = 0
+				var villainHP = 0
+				var villainMaxHP = 0
 
-					for (let i=0; i < activeChars.length; i++) {
-						if (activeChars[i].villainhp==true){
-							villainHP= villainHP + activeChars[i].hp
-							villainMaxHP = villainMaxHP + activeChars[i].maxhp
-						}}
+				for (let i=0; i < activeChars.length; i++) {
+					if (activeChars[i].villainhp==true){
+						villainHP= villainHP + activeChars[i].hp
+						villainMaxHP = villainMaxHP + activeChars[i].maxhp
+					}}
 
-					await fetch('/api/viewer/update',{
-						method: 'PUT',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({
-							initiatedChar: currentChar,
-							villainCurrentHP: villainHP,
-							villainMaxHP: villainMaxHP
-						}),
-					});
+				await fetch('/api/viewer/update',{
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						initiatedChar: currentChar,
+						villainCurrentHP: villainHP,
+						villainMaxHP: villainMaxHP
+					}),
+				});
 
-					setActiveChars(currentChar)
-				}
-			} catch (ex) {throw ex}
-        	return false
+				setActiveChars(currentChar)
+			}
 		}
 
 	const nextTurn = async () =>{
@@ -203,6 +203,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 	}
 
 	const initiateCombat = () => {
+		setLockDatabase(true)
 		for (let i=0; i < activeChars.length; i++) {
 			delete activeChars[i].initiative
 		}
@@ -211,18 +212,22 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 
 	const endCombat = () => {
 		setCombatActive(false)
-		console.log(inactiveChars)
 		setActiveChars(activeChars.concat(inactiveChars))
 		setCurrentTurn([{uniquechar: -1}])
 	}
 
+	const loadCharacters = () => {
+		setLockDatabase(true)
+		setStorySlab(3)
+	}
+
 	
 	const switchToChar = async (char) => {
-	const activeCharIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == char.uniquechar)
-	populateActiveCharacter(activeCharIndex)
-	console.log(activeCharIndex)
-	await setStorySlab(0); //necessary to update the notes of the character
-	setStorySlab(2);
+		setLockDatabase(false)
+		const activeCharIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == char.uniquechar)
+		populateActiveCharacter(activeCharIndex)
+		await setStorySlab(0); //necessary to update the notes of the character
+		setStorySlab(2);
 	}
 
 	const createNewCharacter = async ([e,playerstatus]) =>{
@@ -303,6 +308,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				user = {user}
 				createNewCharacter = {createNewCharacter}
 				work = {work}
+				setLockDatabase = {setLockDatabase}
 			/>}
 
 			{storySlab == 4 && 
@@ -323,6 +329,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				setCombatActive={setCombatActive}
 				setActiveIndex={setActiveIndex}
 				setCurrentTurn={setCurrentTurn}
+				setLockDatabase={setLockDatabase}
 			/>}
 
 		</div>
@@ -366,7 +373,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 						{characterState == 2 && <input className={`${StyleCSS.newcharname}`} defaultValue='Group Name' id="namedGroup" spellCheck='false' autoFocus onFocus={(e) => e.target.select()}/>}
 					</div>
 					<div className={`${StyleCSS.charactersaverow}`}>
-						{characterState == 0 && <div onClick={()=>{setStorySlab(3)}} className={`${StyleCSS.characteroptionbutton}`}>Load Characters</div>}
+						{characterState == 0 && <div onClick={()=>{loadCharacters()}} className={`${StyleCSS.characteroptionbutton}`}>Load Characters</div>}
 						{characterState == 0 && combatActive==false && <div onClick={()=>{initiateCombat()}} className={`${StyleCSS.characteroptionbutton}`}>Roll Initiative</div>}
 						{characterState == 0 && combatActive==true && <div onClick={()=>{endCombat()}} className={`${StyleCSS.characteroptionbutton}`}>End Combat</div>}
 						{characterState == 1 && <div onClick={(e)=>{setCharacterState(0)}} className={`${StyleCSS.characteroptionbutton}`}>Cancel</div>}

@@ -10,8 +10,6 @@ export default function StorySlab({setActiveStoryContent, activeStoryTitle, acti
       alert('Please give a title to the journey')
     }
     else{
-      console.log(activeStoryTitle)
-      console.log(content)
       if (storyNumber==-1){
           await fetch('/api/story/create',{
             method: 'POST',

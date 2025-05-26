@@ -1,6 +1,6 @@
 import StyleCSS from '@/styles/general.module.css'
 
-export default function InitiativeTracker({activeChars, setActiveChars, setStorySlab, populateActiveCharacter, setCombatActive, setInactiveChars, setActiveIndex, setCurrentTurn}) {
+export default function InitiativeTracker({activeChars, setActiveChars, setStorySlab, populateActiveCharacter, setCombatActive, setInactiveChars, setActiveIndex, setCurrentTurn, setLockDatabase}) {
 
 const handleKeyPress = (e) => {
   if(e.keyCode === 13){
@@ -11,8 +11,9 @@ const handleKeyPress = (e) => {
 const setInitiative = async () => {
   setCombatActive(true)
   setInactiveChars(activeChars.filter(activeChars => activeChars.initiative === undefined)) 
-  
+
   var initiatedChar = activeChars.filter(activeChars => activeChars.initiative)
+  console.log(initiatedChar)
 
   let sortedChar = activeChars.sort(
     (a, b) => (a.initiative < b.initiative) ? 1 : (a.initiative > b.initiative) ? -1 : 0);
@@ -40,6 +41,12 @@ const setInitiative = async () => {
       }),
   });
   setCurrentTurn(activeChars[activeChars.findIndex(activeChars => Math.max(activeChars.initiative))])
+  setLockDatabase(false)
+}
+
+const returnToStory = () => {
+  setStorySlab(1)
+  setLockDatabase(false)
 }
 
 return <div spellCheck="false" className={`${StyleCSS.charslab}`}>
@@ -61,8 +68,8 @@ return <div spellCheck="false" className={`${StyleCSS.charslab}`}>
     ))}
 </div>
 <div className={`${StyleCSS.charslabbuttonwrapper}`}>
-  <div onClick={()=>{setStorySlab(1)}} className={`${StyleCSS.charslabbutton}`}>Return to Story</div>
-  <div onClick={setInitiative} className={`${StyleCSS.charslabbutton}`}>Initiate Combat</div>
+  <div onClick={()=>{returnToStory()}} className={`${StyleCSS.charslabbutton}`}>Return to Story</div>
+  <div onClick={()=>{setInitiative()}} className={`${StyleCSS.charslabbutton}`}>Initiate Combat</div>
 </div>           
 </div>
 }

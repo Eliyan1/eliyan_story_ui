@@ -132,7 +132,6 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 
         if (res.ok) {
 			if ('_id' in mainChar) {
-				console.log('I have an ID')  
 				await fetch(`/api/characters/update?id=${mainChar._id}`,{
 				  method: 'PUT',
 				  headers: {
@@ -150,7 +149,6 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 				setCharacters(response.characters);
 				var newEntry = JSON.parse(JSON.stringify([response.characters[response.characters.length-1]]));
 				newEntry[newEntry.length-1].uniquechar= 99999;
-				console.log(newEntry[0])
 				for (let i=0; i < activeChars.length; i++){
 					if (activeChars[i]._id == newEntry[0]._id)
 						activeChars.splice(i, 1)

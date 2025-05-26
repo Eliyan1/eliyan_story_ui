@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import StyleCSS from '@/styles/general.module.css'
 
-export default function CharLoad({characters, setActiveChars, activeChars, setStorySlab, uniqueChar, setUniqueChar, groupList, user, createNewCharacter, setMainChar, mainChar, setMain, setNoSelect, populateActiveCharacter, directPopulate, setActiveIndex, main, work}) {
+export default function CharLoad({characters, setActiveChars, activeChars, setStorySlab, uniqueChar, setUniqueChar, groupList, user, createNewCharacter, setMainChar, mainChar, setMain, setNoSelect, populateActiveCharacter, directPopulate, setActiveIndex, main, work, setLockDatabase}) {
 
   const [characterType, setCharacterType] = useState(characters.filter((characters) => characters.player == true))
   const [groupTab, setGroupTab] = useState(0)
@@ -25,8 +25,7 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
     if(user == 'Player')
       {e.preventDefault();
       char.uniquechar= 99999;
-      if ('_id' in mainChar) {
-      console.log('I have an ID')  
+      if ('_id' in mainChar) { 
       const response = await fetch(`/api/characters/update?id=${mainChar._id}`,{
         method: 'PUT',
         headers: {
@@ -94,10 +93,15 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
   const addGroup = async ({addgroup}) => {
     const newgroup = JSON.parse(JSON.stringify(addgroup))
     for (let i=0; i < newgroup.length; i++) {
-      newgroup[i].uniquechar = i + activeChars.length;
+      newgroup[i].uniquechar = i + uniqueChar;
     }
     setActiveChars(activeChars.concat(newgroup))
     setUniqueChar(uniqueChar+newgroup.length)
+  }
+
+  const returnToStory = () => {
+    setStorySlab(1)
+    setLockDatabase(false)
   }
 
   return <>
@@ -130,7 +134,7 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
   </div>
 
   {user == 'DM' && <div className={`${StyleCSS.loadcharbuttonwrapper}`}>
-      <div onClick={()=>{setStorySlab(1)}} className={`${StyleCSS.loadslabbutton}`}>Return</div>
+      <div onClick={()=>{returnToStory()}} className={`${StyleCSS.loadslabbutton}`}>Return</div>
       <div className={`${StyleCSS.loadslabbutton}`} onClick={()=>{charTypeList(true)}}>Players</div>
       <div className={`${StyleCSS.loadslabbutton}`} onClick={()=>{charTypeList(false)}}>Mobs</div>
       <div className={`${StyleCSS.loadslabbutton}`} onClick={()=>{setGroupTab(1)}}>Groups</div>
