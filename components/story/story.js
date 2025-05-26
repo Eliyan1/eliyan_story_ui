@@ -32,35 +32,48 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 		}, [activeChars, lockDatabase])
 	
 		const updateCurrentParty = async () =>{
-			console.log('updating...')
 			var updatedChars = await fetch('/api/characters/read',{
 				method: 'GET'
 			}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.active == 1))
 			const currentChar = JSON.parse(JSON.stringify(activeChars))
 			var somethingChanged = false
+
 	
 			for (let i=0; i < updatedChars.length; i++) {
 				const sameIndex = currentChar.findIndex((currentChar)=> currentChar._id == updatedChars[i]._id)
-				if (sameIndex ==! -1) {
-					currentChar[sameIndex].hp=updatedChars[i].hp
-					currentChar[sameIndex].ac=updatedChars[i].ac
-					currentChar[sameIndex].temphp=updatedChars[i].temphp
-					currentChar[sameIndex].maxhp=updatedChars[i].maxhp
-					currentChar[sameIndex].str=updatedChars[i].str
-					currentChar[sameIndex].dex=updatedChars[i].dex
-					currentChar[sameIndex].con=updatedChars[i].con
-					currentChar[sameIndex].wis=updatedChars[i].wis
-					currentChar[sameIndex].intel=updatedChars[i].intel
-					currentChar[sameIndex].cha=updatedChars[i].cha
-					currentChar[sameIndex].notes=updatedChars[i].notes
-					if (activeChars[sameIndex] != updatedChars[i]){						
-					somethingChanged=true
+
+				if (sameIndex != -1){
+					const notesBefore = JSON.stringify(currentChar[sameIndex].notes.content)
+					const notesAfter = JSON.stringify(updatedChars[i].notes.content)			
+					if (currentChar[sameIndex].hp != updatedChars[i].hp ||
+						currentChar[sameIndex].ac != updatedChars[i].ac ||
+						currentChar[sameIndex].temphp != updatedChars[i].temphp ||
+						currentChar[sameIndex].maxhp != updatedChars[i].maxhp ||
+						currentChar[sameIndex].str != updatedChars[i].str ||
+						currentChar[sameIndex].dex != updatedChars[i].dex ||
+						currentChar[sameIndex].con != updatedChars[i].con ||
+						currentChar[sameIndex].wis != updatedChars[i].wis ||
+						currentChar[sameIndex].intel != updatedChars[i].intel ||
+						currentChar[sameIndex].cha != updatedChars[i].cha ||
+						notesBefore != notesAfter
+					) {
+						currentChar[sameIndex].hp=updatedChars[i].hp
+						currentChar[sameIndex].ac=updatedChars[i].ac
+						currentChar[sameIndex].temphp=updatedChars[i].temphp
+						currentChar[sameIndex].maxhp=updatedChars[i].maxhp
+						currentChar[sameIndex].str=updatedChars[i].str
+						currentChar[sameIndex].dex=updatedChars[i].dex
+						currentChar[sameIndex].con=updatedChars[i].con
+						currentChar[sameIndex].wis=updatedChars[i].wis
+						currentChar[sameIndex].intel=updatedChars[i].intel
+						currentChar[sameIndex].cha=updatedChars[i].cha
+						currentChar[sameIndex].notes=updatedChars[i].notes
+						somethingChanged=true
 					}
 				}
 			}
 
 			if(somethingChanged == true) {
-				console.log('character changed!')
 				var villainHP = 0
 				var villainMaxHP = 0
 
