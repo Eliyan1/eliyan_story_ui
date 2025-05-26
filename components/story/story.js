@@ -114,6 +114,8 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 		}
 		setCurrentTurn(activeChars[newTurnIndex])
 		populateActiveCharacter(newTurnIndex)
+		await setStorySlab(0); //necessary to update the notes of the character
+		setStorySlab(2)
 
 		await fetch('/api/viewer/update',{
 			method: 'PUT',
@@ -142,6 +144,8 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 		}
 		setCurrentTurn(activeChars[newTurnIndex])
 		populateActiveCharacter(newTurnIndex)
+		await setStorySlab(0); //necessary to update the notes of the character
+		setStorySlab(2)
 
 		await fetch('/api/viewer/update',{
 			method: 'PUT',

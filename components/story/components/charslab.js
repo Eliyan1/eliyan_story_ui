@@ -345,7 +345,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     };
 
 
-    return {populateActiveCharacter, setActiveIndex, directPopulate,
+    return {populateActiveCharacter, directPopulate, setActiveIndex,
         charPanel:(<>
         {charSlab == 1 && <div spellCheck="false" className={`${StyleCSS.charslab}`}>
         <div className={`${StyleCSS.frontslabshort}`}/>

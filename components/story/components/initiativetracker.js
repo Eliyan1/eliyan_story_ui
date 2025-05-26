@@ -1,6 +1,6 @@
 import StyleCSS from '@/styles/general.module.css'
 
-export default function InitiativeTracker({activeChars, setActiveChars, setStorySlab, populateActiveCharacter, setCombatActive, setInactiveChars, setActiveIndex, setCurrentTurn, setLockDatabase}) {
+export default function InitiativeTracker({activeChars, setActiveChars, setStorySlab, populateActiveCharacter, setCombatActive, setInactiveChars, setCurrentTurn, setLockDatabase, setActiveIndex}) {
 
 const handleKeyPress = (e) => {
   if(e.keyCode === 13){
@@ -13,23 +13,36 @@ const setInitiative = async () => {
   setInactiveChars(activeChars.filter(activeChars => activeChars.initiative === undefined)) 
 
   var initiatedChar = activeChars.filter(activeChars => activeChars.initiative)
-  console.log(initiatedChar)
+  if(initiatedChar.length==0){
+    alert('Please provide initiative to at least 1 character.')
+    return
+  }
 
   let sortedChar = activeChars.sort(
     (a, b) => (a.initiative < b.initiative) ? 1 : (a.initiative > b.initiative) ? -1 : 0);
     await setActiveChars(sortedChar)
 
     var initiatedChar = activeChars.filter(activeChars => activeChars.initiative)
+    var villainHP=0
+    var villainMaxHP=0
     for (let i=0; i < initiatedChar.length; i++) {
       if (initiatedChar[i].player == false){
         initiatedChar[i].villainhp = true
+        villainHP = villainHP + initiatedChar[i].hp
+        villainMaxHP = villainMaxHP + initiatedChar[i].maxhp
       }
     }
+    
+    var highestInitiative = highestInitiative = 0
+    if (initiatedChar.length>1) {highestInitiative = initiatedChar.findIndex(initiatedChar => Math.max(initiatedChar.initiative))}
 
     setActiveChars(initiatedChar)
-    populateActiveCharacter(activeChars.findIndex(activeChars => Math.max(activeChars.initiative)))
+    populateActiveCharacter(activeChars.findIndex(activeChars => activeChars._id == initiatedChar[highestInitiative]._id))
+ 		await setStorySlab(0); //necessary to update the notes of the character
     setStorySlab(2)
     setActiveIndex(0)
+
+
     await fetch('/api/viewer/update',{
       method: 'PUT',
       headers: {
@@ -37,10 +50,12 @@ const setInitiative = async () => {
       },
       body: JSON.stringify({
           initiatedChar: initiatedChar,
-          currentTurn:   initiatedChar[activeChars.findIndex(activeChars => Math.max(activeChars.initiative))]
+          currentTurn:   initiatedChar[highestInitiative],
+          villainCurrentHP: villainHP,
+          villainMaxHP: villainMaxHP
       }),
   });
-  setCurrentTurn(activeChars[activeChars.findIndex(activeChars => Math.max(activeChars.initiative))])
+  setCurrentTurn(initiatedChar[highestInitiative])
   setLockDatabase(false)
 }
 
@@ -59,6 +74,7 @@ return <div spellCheck="false" className={`${StyleCSS.charslab}`}>
           <input 
             type='number'
             onChange={(e)=> activeChars.initiative=e.target.valueAsNumber}
+            onBlur={(e)=> activeChars.initiative=e.target.valueAsNumber}
             className={`${StyleCSS.initvalue}`}
             onKeyDown={(e) => handleKeyPress(e)}
             onFocus={(e) => e.target.select()}

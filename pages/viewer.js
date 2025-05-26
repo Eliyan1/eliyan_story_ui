@@ -22,16 +22,19 @@ export default function Viewer() {
     }
 
     const sortChar = (unsortedChar) => {
-        while (unsortedChar.initiatedChar[0].uniquechar != unsortedChar.currentTurn[0].uniquechar){
-            unsortedChar.initiatedChar.push(unsortedChar.initiatedChar.splice(unsortedChar.initiatedChar[0], 1)[0])
+        const initiatedChars = unsortedChar.initiatedChar
+        const initiatedIsActive = initiatedChars.findIndex((initiatedChars)=> initiatedChars._id == unsortedChar.currentTurn[0]._id)
+		if (initiatedIsActive != -1){
+            while (unsortedChar.initiatedChar[0].uniquechar != unsortedChar.currentTurn[0].uniquechar){
+                unsortedChar.initiatedChar.push(unsortedChar.initiatedChar.splice(unsortedChar.initiatedChar[0], 1)[0])
+            }
+            const beforeTurnOrder = JSON.stringify(activeChars)
+            const afterTurnOrder = JSON.stringify(unsortedChar.initiatedChar)
+            if (beforeTurnOrder != afterTurnOrder){setActiveChars(unsortedChar.initiatedChar); console.log('Updated Turn Order')}
         }
-        const beforeTurnOrder = JSON.stringify(activeChars)
-        const afterTurnOrder = JSON.stringify(unsortedChar.initiatedChar)
-        if (beforeTurnOrder != afterTurnOrder){setActiveChars(unsortedChar.initiatedChar); console.log('Updated Turn Order')}
     }
 
     const updateUI = (response) => {
-        console.log('Updating...')
         const beforeCurrentTurn = JSON.stringify(currentTurn)
         const afterCurrentTurn = JSON.stringify(response.displayImage.currentTurn)
         if(displayImage != response.displayImage.url){setDisplayImage(response.displayImage.url); console.log('Updated Image')}
@@ -40,7 +43,7 @@ export default function Viewer() {
         if(beforeCurrentTurn != afterCurrentTurn){setCurrentTurn(response.displayImage.currentTurn); console.log('Updated Turn')}
         if(response.displayImage.initiatedChar.length>0) {sortChar(response.displayImage)}
         if(villainCurrentHP != response.displayImage.villainCurrentHP) {setVillainCurrentHP(response.displayImage.villainCurrentHP); console.log('Updated Villain HP')}
-        if(villainMaxHP != response.displayImage.villainMaxHP){setVillainMaxHP(response.displayImage.villainMaxHP); console.log(villainMaxHP)}
+        if(villainMaxHP != response.displayImage.villainMaxHP){setVillainMaxHP(response.displayImage.villainMaxHP); console.log('Updated Max Villain HP')}
         if(villainName != response.displayImage.villainName) {setVillainName(response.displayImage.villainName) ; console.log('Updated Villain Name')}
     }
 
@@ -70,7 +73,7 @@ export default function Viewer() {
                 <div className={`${StyleCSS.baddiehpwrapper}`} style={{display: hpOverlay ? "flex" : "none"}}>
                     <div className={`${StyleCSS.baddiename}`}>{villainName}</div>
                     <div className={`${StyleCSS.totalhealth}`}/>
-                    <div className={`${StyleCSS.baddiehealth}`} style={{width: `${villainCurrentHP/(villainMaxHP+0.000001)*92}cqw`}}/>
+                    <div className={`${StyleCSS.baddiehealth}`} style={{width: `${villainCurrentHP/(villainMaxHP)*92}cqw`}}/>
                 </div>
             </div>
         </div>
