@@ -9,8 +9,8 @@ export default function Viewer() {
     const [displayImage, setDisplayImage] = useState('https://storage.googleapis.com/eliyan_multimedia/Images/Commissioned/Background%20BW.png')
     const [hpOverlay, setHPOverlay] = useState(false)
     const [initiativeOverlay, setInitiativeOverlay] = useState(false)
-    const [activeChars, setActiveChars] = useState([{hp:100, maxphp:100, uniquechar:0, name:'Nothing Entered Yet'}])
-    const [currentTurn, setCurrentTurn] = useState([{hp:100, maxphp:100, uniquechar:0}])
+    const [activeChars, setActiveChars] = useState([{hp:100, maxhp:100, uniquechar:0, name:'Nothing Entered Yet'}])
+    const [currentTurn, setCurrentTurn] = useState([{hp:100, maxhp:100, uniquechar:0}])
     const [villainCurrentHP, setVillainCurrentHP] = useState(100)
     const [villainMaxHP, setVillainMaxHP] = useState(100)
     const [villainName, setVillainName] = useState('Enemy Forces')
@@ -25,24 +25,30 @@ export default function Viewer() {
         while (unsortedChar.initiatedChar[0].uniquechar != unsortedChar.currentTurn[0].uniquechar){
             unsortedChar.initiatedChar.push(unsortedChar.initiatedChar.splice(unsortedChar.initiatedChar[0], 1)[0])
         }
-        setActiveChars(unsortedChar.initiatedChar)
+        const beforeTurnOrder = JSON.stringify(activeChars)
+        const afterTurnOrder = JSON.stringify(unsortedChar.initiatedChar)
+        if (beforeTurnOrder != afterTurnOrder){setActiveChars(unsortedChar.initiatedChar); console.log('Updated Turn Order')}
     }
 
     const updateUI = (response) => {
-        setDisplayImage(response.displayImage.url)
-        setHPOverlay(response.displayImage.hpOverlay)
-        setInitiativeOverlay(response.displayImage.initiativeOverlay)
-        setCurrentTurn(response.displayImage.currentTurn)
+        console.log('Updating...')
+        const beforeCurrentTurn = JSON.stringify(currentTurn)
+        const afterCurrentTurn = JSON.stringify(response.displayImage.currentTurn)
+        if(displayImage != response.displayImage.url){setDisplayImage(response.displayImage.url); console.log('Updated Image')}
+        if(hpOverlay != response.displayImage.hpOverlay){setHPOverlay(response.displayImage.hpOverlay); console.log ('Updated Boss Health Bar')}
+        if(initiativeOverlay != response.displayImage.initiativeOverlay){setInitiativeOverlay(response.displayImage.initiativeOverlay); console.log('Updated Initiative Visibility')}
+        if(beforeCurrentTurn != afterCurrentTurn){setCurrentTurn(response.displayImage.currentTurn); console.log('Updated Turn')}
         if(response.displayImage.initiatedChar.length>0) {sortChar(response.displayImage)}
-        setVillainCurrentHP(response.displayImage.villainCurrentHP)
-        setVillainMaxHP(response.displayImage.villainMaxHP)
-        setVillainName(response.displayImage.villainName)
+        if(villainCurrentHP != response.displayImage.villainCurrentHP) {setVillainCurrentHP(response.displayImage.villainCurrentHP); console.log('Updated Villain HP')}
+        if(villainMaxHP != response.displayImage.villainMaxHP){setVillainMaxHP(response.displayImage.villainMaxHP); console.log(villainMaxHP)}
+        if(villainName != response.displayImage.villainName) {setVillainName(response.displayImage.villainName) ; console.log('Updated Villain Name')}
     }
 
     useEffect(() => {
+        console.log('Starting Operations')
         const interval = setInterval(() => {updateDisplayImage()}, 1000);
         return () => clearInterval(interval);
-    }, [currentTurn, villainCurrentHP, villainName])
+    }, [currentTurn, villainCurrentHP, villainMaxHP, villainName, activeChars, displayImage, hpOverlay, initiativeOverlay])
 
     return<>
     	<Head>
@@ -64,7 +70,7 @@ export default function Viewer() {
                 <div className={`${StyleCSS.baddiehpwrapper}`} style={{display: hpOverlay ? "flex" : "none"}}>
                     <div className={`${StyleCSS.baddiename}`}>{villainName}</div>
                     <div className={`${StyleCSS.totalhealth}`}/>
-                    <div className={`${StyleCSS.baddiehealth}`} style={{width: `${villainCurrentHP/villainMaxHP*92}cqw`}}/>
+                    <div className={`${StyleCSS.baddiehealth}`} style={{width: `${villainCurrentHP/(villainMaxHP+0.000001)*92}cqw`}}/>
                 </div>
             </div>
         </div>
