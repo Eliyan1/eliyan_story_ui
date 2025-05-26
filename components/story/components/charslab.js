@@ -378,6 +378,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
                 <div className={`${StyleCSS.charslabhp}`}>HP:</div>
                 <input 
                     type="text"
+                    inputMode='numeric'
                     maxLength={4}
                     value={`${charHP}`} 
                     className={`${StyleCSS.charslabhpvalue}`}
