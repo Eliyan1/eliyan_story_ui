@@ -26,6 +26,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 
 		useEffect(() => {
 			if (lockDatabase == false) {
+				console.log('updating...')
 				const interval = setInterval(() => {updateCurrentParty()}, 1000);
 				return () => clearInterval(interval);
 			}
