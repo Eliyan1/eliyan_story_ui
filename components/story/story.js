@@ -26,13 +26,13 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 
 		useEffect(() => {
 			if (lockDatabase == false) {
-				console.log('updating...')
 				const interval = setInterval(() => {updateCurrentParty()}, 1000);
 				return () => clearInterval(interval);
 			}
 		}, [activeChars, lockDatabase])
 	
 		const updateCurrentParty = async () =>{
+			console.log('updating...')
 			var updatedChars = await fetch('/api/characters/read',{
 				method: 'GET'
 			}).then(response => response.json()).then(response => updatedChars = response.characters.filter((characters) => characters.active == 1))
@@ -60,7 +60,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 			}
 
 			if(somethingChanged == true) {
-
+				console.log('character changed!')
 				var villainHP = 0
 				var villainMaxHP = 0
 
