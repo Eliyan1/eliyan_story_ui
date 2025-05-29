@@ -20,9 +20,10 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 	const [characterState, setCharacterState] = useState(0) 
 	const [characterName, setCharacterName] = useState('Character Name') 
 	const [groupList, setGroupList] = useState(chargroups)
-	const {charPanel, populateActiveCharacter, setActiveIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user)
 	const [currentTurn, setCurrentTurn] = useState([{uniquechar: -1}])
 	const [lockDatabase, setLockDatabase] = useState(false)
+	const {charPanel, populateActiveCharacter, setActiveIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, setLockDatabase, lockDatabase)
+
 
 		useEffect(() => {
 			if (lockDatabase == false) {

@@ -1,6 +1,5 @@
 import StyleCSS from '@/styles/general.module.css'
 import PlayerButton from './components/playerbutton'
-import CharButton from './components/charbutton'
 import { useEffect, useState } from 'react';
 import CharSlab from './components/charslab';
 import PartySlab from './components/partyslab';
@@ -14,11 +13,11 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 	const [characters, setCharacters] = useState(dbCharacters)
 	const [storySlab, setStorySlab] = useState(3)
 	const [activeChars, setActiveChars] = useState([])
-	var partyChars = activeChars.filter((activeChars) => activeChars.uniquechar != 99999)
+	const [partyChars, setPartyChars] = useState([])
 	const [uniqueChar, setUniqueChar] = useState(0) 
-	const [characterName, setCharacterName] = useState('Character Name') 
-	const currentTurn= [{uniquechar: -1}]
-	const {charPanel, populateActiveCharacter, directPopulate, setActiveIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain)
+	const [characterName, setCharacterName] = useState('Character Name')
+	const [lockDatabase, setLockDatabase] = useState(false)
+	const {charPanel, populateActiveCharacter, directPopulate, setActiveIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, setLockDatabase, lockDatabase )
 	const {partyPanel, populatePartyCharacter} = PartySlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain, populateActiveCharacter)
 	const [mainChar, setMainChar] = useState(					
 		{name:'No Character Selected', 
@@ -38,57 +37,34 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 		})
 
 	useEffect(() => {
-		const interval = setInterval(() => {updateCurrentParty()}, 1000);
-		return () => clearInterval(interval);
-	}, [mainChar])
+		if (lockDatabase == false) {
+			const interval = setInterval(() => {updateCurrentParty()}, 1000);
+			return () => clearInterval(interval);
+		}
+	}, [mainChar, lockDatabase])
 
 	const updateCurrentParty = async () =>{
-		try {
-			var newParty = await fetch('/api/characters/read',{
-				method: 'GET'
-			}).then(response => response.json()).then(response => newParty = response.characters.filter((characters) => characters.active == 1))
+		var newParty = await fetch('/api/characters/read',{
+			method: 'GET'
+		}).then(response => response.json()).then(response => newParty = response.characters.filter((characters) => characters.active == 1))
 
-			var j =-1;
+		var j =-1;
 
-			if (newParty.length>0) {
+		if (newParty.length>0) {
 
-				for (let i=0; i < newParty.length; i++) {
-					newParty[i].uniquechar = i;
-					if (newParty[i].name==mainChar.name){
-						newParty[i].uniquechar = 99999
-						setMainChar(newParty[i])
-						j=i
-					}
+			for (let i=0; i < newParty.length; i++) {
+				newParty[i].uniquechar = i;
+				if (newParty[i].name==mainChar.name){
+					newParty[i].uniquechar = 99999
+					setMainChar(newParty[i])
+					j=i
 				}
-
-				newParty.push(newParty.splice(j, 1)[0])
-				setActiveChars(newParty)
 			}
-		} catch (ex) {throw ex}
-		return false
-	}
 
-	const removeActiveChar =  (uniquechar) => {
-		const removeIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == uniquechar);
-		const removeChar = JSON.parse(JSON.stringify(activeChars))
-		removeChar.splice(removeIndex,1);
-		setActiveChars(removeChar);
-	}
-
-	const moveCharUp = (uniquechar) => {
-		const moveIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == uniquechar);
-		const moveChar = JSON.parse(JSON.stringify(activeChars));
-		if (moveIndex === 0) {return}
-		[moveChar[moveIndex], moveChar[moveIndex-1]] = [moveChar[moveIndex-1], moveChar[moveIndex]]
-		setActiveChars(moveChar)
-	}
-
-	const moveCharDown = (uniquechar) => {
-		const moveIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == uniquechar);
-		const moveChar = JSON.parse(JSON.stringify(activeChars));
-		if (moveIndex === moveChar.length - 1) {return}
-		[moveChar[moveIndex], moveChar[moveIndex+1]] = [moveChar[moveIndex+1], moveChar[moveIndex]]
-		setActiveChars(moveChar)
+			//newParty.push(newParty.splice(j, 1)[0])
+			setPartyChars(newParty.filter((newParty) => newParty.uniquechar != 99999))
+			setActiveChars(newParty)
+		}
 	}
 
 	
@@ -98,7 +74,7 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 	populateActiveCharacter(activeCharIndex)
 	populatePartyCharacter(activeCharIndex)
 	await setStorySlab(0); //necessary to update the notes of the character
-	if (mutuable==true){setStorySlab(2);}
+	if (mutuable==true){setStorySlab(2); setActiveIndex(activeChars.length-1)}
 	if (mutuable==false){setStorySlab(1);}
 	}
 
@@ -200,6 +176,7 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 				directPopulate = {directPopulate}
 				setActiveIndex = {setActiveIndex}
 				main = {main}
+				setPartyChars = {setPartyChars}
 			/>}
 		</div>
 		
@@ -207,12 +184,13 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 			<div className={`${StyleCSS.playerbox}`}>
                 <PlayerButton char={mainChar} 
 				charMenu = {switchToChar}
+				mutuable= {true}
 				/>
 			</div>
 			<div className={`${StyleCSS.characterline}`}/>
 			<div className={`${StyleCSS.characterbox}`}>
 				{partyChars.map(partyChars => (
-				<CharButton key={partyChars.uniquechar} char={
+				<PlayerButton key={partyChars.uniquechar} char={
 					{name:partyChars.name, 
 					hp:partyChars.hp,
 					temphp:partyChars.temphp, 
@@ -230,11 +208,7 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 					url: partyChars.url
 				}} 
 				charMenu = {switchToChar}
-				removeActiveChar = {removeActiveChar}
-				moveCharUp = {moveCharUp}
-				moveCharDown = {moveCharDown}
 				mutuable = {false}
-				currentTurn={currentTurn}
 				/>
 				))}
 			</div>

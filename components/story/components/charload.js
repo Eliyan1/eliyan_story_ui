@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import StyleCSS from '@/styles/general.module.css'
 
-export default function CharLoad({characters, setActiveChars, activeChars, setStorySlab, uniqueChar, setUniqueChar, groupList, user, createNewCharacter, setMainChar, mainChar, setMain, setNoSelect, populateActiveCharacter, directPopulate, setActiveIndex, main, work, setLockDatabase}) {
+export default function CharLoad({characters, setActiveChars, activeChars, setStorySlab, uniqueChar, setUniqueChar, groupList, user, createNewCharacter, setMainChar, mainChar, setMain, setNoSelect, populateActiveCharacter, directPopulate, setActiveIndex, main, work, setLockDatabase, setPartyChars}) {
 
   const [characterType, setCharacterType] = useState(characters.filter((characters) => characters.player == true))
   const [groupTab, setGroupTab] = useState(0)
@@ -25,6 +25,14 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
     if(user == 'Player')
       {e.preventDefault();
       char.uniquechar= 99999;
+      var updatedParty= JSON.parse(JSON.stringify(activeChars))
+      if (updatedParty.findIndex((updatedParty) => updatedParty._id == char._id) != -1){
+        updatedParty[updatedParty.findIndex((updatedParty) => updatedParty._id == char._id)].uniquechar=99999;
+      }else{
+        updatedParty = [...updatedParty, char]
+      }
+
+
       if ('_id' in mainChar) { 
       const response = await fetch(`/api/characters/update?id=${mainChar._id}`,{
         method: 'PUT',
@@ -40,16 +48,7 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
         throw new Error("Failed to edit the Character")
     }}
 
-
-      var updatedChars = JSON.parse(JSON.stringify(activeChars))
-      for (let i=0; i < updatedChars.length; i++){
-        if (updatedChars[i]._id == char._id)
-          updatedChars.splice(i, 1)
-      }
-      if (main == 0) {updatedChars = [...updatedChars, char];
-      }
-      if (main == 1) {updatedChars[updatedChars.length-1] = char;}
-      await setActiveChars(updatedChars)
+      setPartyChars(updatedParty.filter((updatedParty) => updatedParty.uniquechar != 99999))
       
         
       const res = await fetch(`/api/characters/update?id=${char._id}`,{
@@ -69,7 +68,7 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
     
       setNoSelect(0)
       directPopulate(char)
-      setActiveIndex(updatedChars.length-1)
+      setActiveIndex(updatedParty.findIndex((updatedParty) => updatedParty.uniquechar == 99999))
       setMainChar(char);
       setMain(1);
       await setStorySlab(0); //necessary to update the notes of the character

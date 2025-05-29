@@ -1,14 +1,15 @@
-import { useState } from 'react'
 import StyleCSS from '@/styles/general.module.css'
-import CharContextMenu from './charcontextmenu'
 
 
 
-export default function PlayerButton({char, charMenu}) {
+export default function PlayerButton({char, charMenu, mutuable}) {
 
 
   return <div>
-    <button className={`${StyleCSS.playerbutton}`} onClick={()=>charMenu(char, 1, true)} style={{display: char.name!='No Character Selected' ? "flex" : "none"}}>  
+    <button
+    className={mutuable ? `${StyleCSS.playerbutton}` : `${StyleCSS.characterbutton}`} 
+    onClick={()=>charMenu(char, 1, mutuable)} 
+    style={{display: char.name!='No Character Selected' ? "flex" : "none"}}>  
       <div className={`${StyleCSS.characterbuttoncolumn}`}> 
       <div className={`${StyleCSS.characterbuttonrow}`}>
           <div className={`${StyleCSS.charactername}`}> {char.name} </div>

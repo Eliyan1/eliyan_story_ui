@@ -24,6 +24,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     const [charSlab, setCharSlab] = useState(1)
     const [extButtonText, setExtButtonText] = useState("External Info")
+
     
     const activateMain = async () => {
         const activeCharIndex = activeChars.length - 1

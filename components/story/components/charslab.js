@@ -1,8 +1,8 @@
 import StyleCSS from '@/styles/general.module.css'
 import CharNotes from './charnotes'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, setMain) {
+export default function CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, setLockDatabase, lockDatabase) {
 
     const [activeIndex, setActiveIndex] = useState(0)
     const mutuable = true
@@ -24,14 +24,13 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     const [charSlab, setCharSlab] = useState(1)
     const [extButtonText, setExtButtonText] = useState("External Info")
-    
-    const activateMain = async () => {
-        const activeCharIndex = activeChars.length - 1
-        setMain(1)
-        populateActiveCharacter(activeCharIndex)
-        await setStorySlab(0); //necessary to update the notes of the character
-        setStorySlab(2);
-    }
+
+    useEffect(() => {
+        if (lockDatabase == false) {
+                if (user=='DM'){const interval = setInterval(() => {populateActiveCharacter(activeIndex)}, 1000);
+                return () => clearInterval(interval);}
+        }
+    }, [activeChars, lockDatabase])
 
     const directPopulate = (directChar) => {
         setName(directChar.name);
@@ -97,33 +96,72 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     }
 
     const nameUpdate = (e) => {
+        activeChars[activeIndex].name=e.target.value
         setName(e.target.value)
 	}
 
     const acUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
+            activeChars[activeIndex].ac=e.target.value
             setAC(e.target.value)
         }
         
 	}
 
-    const hpUpdate = (e) => {setHP(e.target.value)}
+    const hpUpdate = (e) => {
+        var mutateTHP = charCurTHP
+        var mutateHP = String(charCurHP)
+        console.log(mutateHP)
+
+        if (mutateHP.startsWith("-") && !isNaN(mutateHP.substring(1))) {
+            mutateTHP = charTHP - Number(charHP.substring(1))
+                if (mutateTHP < 0) {
+                    mutateTHP = 0;
+                    mutateHP=String(Number(charCurHP) + Number(charTHP) - Number(charHP.substring(1)))
+                }else(mutateHP=charCurHP)
+            setTHP(Number(mutateTHP))
+        }else if (mutateHP.startsWith("+") && !isNaN(mutateHP.substring(1))) {
+            mutateHP=String(Number(charCurHP) + Number(mutateHP.substring(1)))
+        }else if (!isNaN(mutateHP)) {
+            mutateHP=String(e.target.value)
+            console.log('HP is a number')
+            console.log(mutateHP)
+        }else{
+            mutateHP = charHP
+        }
+
+
+        if(Number(mutateHP)<0) {mutateHP='0'};
+        if(Number(mutateHP)>activeChars[activeIndex].maxhp) {mutateHP=String(activeChars[activeIndex].maxhp)};
+        setHP(e.target.value)
+        console.log(mutateHP)
+
+        activeChars[activeIndex].temphp=isNaN(mutateTHP) ? null : Number(mutateTHP);
+        activeChars[activeIndex].hp=isNaN(mutateHP) ? null : Number(mutateHP);
+    }
 
     const hpSelect = (e) => {
+        setLockDatabase(true)
         if (activeIndex > activeChars.length-1) {
             setCurHP(activeChars[activeChars.length-1].hp);
             setCurTHP(activeChars[activeChars.length-1].temphp);
             e.target.select()
+            console.log('if')
         }else{
             setCurHP(activeChars[activeIndex].hp);
             setCurTHP(activeChars[activeIndex].temphp);
             e.target.select()
+            console.log('else')
+            console.log(activeChars[activeIndex].hp)
         }
+        console.log(charCurHP)
     }
 
     const thpUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<1000){
+            activeChars[activeIndex].temphp=e.target.value
             setTHP(e.target.value);
+            setHP(charHP+e.target.value)
         }
 	}
 
@@ -135,36 +173,42 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     const strUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
+            activeChars[activeIndex].str=e.target.value
             setStr(e.target.value);
         }
 	}
 
     const dexUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
+            activeChars[activeIndex].dex=e.target.value
             setDex(e.target.value);
         }
 	}
 
     const conUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
+            activeChars[activeIndex].con=e.target.value
             setCon(e.target.value);
         }
 	}
 
     const wisUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
+            activeChars[activeIndex].wis=e.target.value
             setWis(e.target.value);
         }
 	}
 
     const intUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100){
+            activeChars[activeIndex].intel=e.target.value
             setInt(e.target.value);
         }
 	}
 
     const chaUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<100) {
+            activeChars[activeIndex].cha=e.target.value
             setCha(e.target.value);
         }
 	}
@@ -245,44 +289,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     }
 
-    const actualUpdate = async (updateIndex) => {
-        var mutateTHP = charTHP
-        var mutateHP = String(charHP)
-
-        if (mutateHP.startsWith("-") && !isNaN(mutateHP.substring(1))) {
-            mutateTHP = charTHP - Number(charHP.substring(1))
-                if (mutateTHP < 0) {
-                    mutateTHP = 0;
-                    mutateHP=String(Number(charCurHP) + Number(charTHP) - Number(charHP.substring(1)))
-                }else(mutateHP=charCurHP)
-            setTHP(Number(mutateTHP))
-        }else if (mutateHP.startsWith("+") && !isNaN(mutateHP.substring(1))) {
-            mutateHP=String(Number(charCurHP) + Number(mutateHP.substring(1)))
-        }else if (!isNaN(mutateHP)) {
-            mutateHP=String(mutateHP)
-        }else{
-            mutateHP = charHP
-        }
-
-
-        if(Number(mutateHP)<0) {mutateHP='0'};
-        if(Number(mutateHP) >activeChars[updateIndex].maxhp) {mutateHP=String(activeChars[updateIndex].maxhp)};
-        setHP(mutateHP)
-
-		activeChars[updateIndex].name=charName;
-        activeChars[updateIndex].ac=isNaN(charAC) ? null : charAC;
-        activeChars[updateIndex].temphp=isNaN(mutateTHP) ? null : Number(mutateTHP);
-        activeChars[updateIndex].hp=isNaN(mutateHP) ? null : Number(mutateHP);
-        activeChars[updateIndex].maxhp=isNaN(charMHP) ? null : charMHP;
-        activeChars[updateIndex].str=isNaN(charStr) ? null : charStr;
-        activeChars[updateIndex].dex=isNaN(charDex) ? null : charDex;
-        activeChars[updateIndex].con=isNaN(charCon) ? null : charCon;
-        activeChars[updateIndex].wis=isNaN(charWis) ? null : charWis;
-        activeChars[updateIndex].intel=isNaN(charInt) ? null : charInt;
-        activeChars[updateIndex].cha=isNaN(charCha) ? null : charCha;
-
-
-        
+    const actualUpdate = async (updateIndex) => {       
         const res = await fetch(`/api/characters/update?id=${activeChars[updateIndex]._id}`,{
             method: 'PUT',
             headers: {
@@ -355,6 +362,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
                 maxLength={12} 
                 value={`${charName}`} 
                 className={`${StyleCSS.charname}`} 
+                onSelect={() => setLockDatabase(true)}
                 onChange={(e) => nameUpdate(e)}
                 onBlur={(e) => updateCharDatabase(e)}
                 onKeyDown={(e) => handleKeyPress(e)}
@@ -368,6 +376,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
                     type="number"
                     value={`${charAC}`}
                     className={`${StyleCSS.charslabacvalue}`}
+                    onSelect={() => setLockDatabase(true)}
                     onChange={(e) => acUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
                     onKeyDown={(e) => handleKeyPress(e)}
@@ -392,6 +401,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
                     type="number"
                     value={`${charMHP}`}
                     className={`${StyleCSS.charslabmaxhpvalue}`}
+                    onSelect={() => setLockDatabase(true)}
                     onChange={(e) => mhpUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
                     onKeyDown={(e) => handleKeyPress(e)}
@@ -404,6 +414,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
                     type="number"
                     value={`${charTHP}`}
                     className={`${StyleCSS.charslabacvalue}`}
+                    onSelect={() => setLockDatabase(true)}
                     onChange={(e) => thpUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
                     onKeyDown={(e) => handleKeyPress(e)}
@@ -418,6 +429,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
                     type='number'
                     value={charStr}
                     className={`${StyleCSS.charslabstatvalue}`}
+                    onSelect={() => setLockDatabase(true)}
                     onChange={(e) => strUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
                     onKeyDown={(e) => handleKeyPress(e)}
@@ -430,6 +442,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
                     type='number'
                     value={charDex}
                     className={`${StyleCSS.charslabstatvalue}`}
+                    onSelect={() => setLockDatabase(true)}
                     onChange={(e) => dexUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
                     onKeyDown={(e) => handleKeyPress(e)}
@@ -442,6 +455,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
                     type='number'
                     value={charCon}
                     className={`${StyleCSS.charslabstatvalue}`}
+                    onSelect={() => setLockDatabase(true)}
                     onChange={(e) => conUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
                     onKeyDown={(e) => handleKeyPress(e)}
@@ -454,6 +468,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
                     type='number'
                     value={charWis}
                     className={`${StyleCSS.charslabstatvalue}`}
+                    onSelect={() => setLockDatabase(true)}
                     onChange={(e) => wisUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
                     onKeyDown={(e) => handleKeyPress(e)}
@@ -466,6 +481,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
                     type='number'
                     value={charInt}
                     className={`${StyleCSS.charslabstatvalue}`}
+                    onSelect={() => setLockDatabase(true)}
                     onChange={(e) => intUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
                     onKeyDown={(e) => handleKeyPress(e)}
@@ -478,6 +494,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
                     type='number'
                     value={charCha}
                     className={`${StyleCSS.charslabstatvalue}`}
+                    onSelect={() => setLockDatabase(true)}
                     onChange={(e) => chaUpdate(e)}
                     onBlur={(e) => updateCharDatabase(e)}
                     onKeyDown={(e) => handleKeyPress(e)}
