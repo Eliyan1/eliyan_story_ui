@@ -1,8 +1,8 @@
 import StyleCSS from '@/styles/general.module.css'
 import CharNotes from './charnotes'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain, populateActiveCharacter) {
+export default function CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain, populateActiveCharacter, lockDatabase) {
 
     const [activeIndex, setActiveIndex] = useState(0)
     const mutuable = false
@@ -19,15 +19,21 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     const [charCha, setCha] = useState(0);
     const [charNotes, setNotes] = useState("Character Notes")
     const [charCurHP, setCurHP] = useState(0)
-    const [charCurTHP, setCurTHP] = useState(0)
     const [charURL, setURL] = useState("");
 
     const [charSlab, setCharSlab] = useState(1)
     const [extButtonText, setExtButtonText] = useState("External Info")
 
+    useEffect(() => {
+            if (lockDatabase == false) {
+                    const interval = setInterval(() => {populatePartyCharacter(activeIndex)}, 1000);
+                    return () => clearInterval(interval);
+            }
+        }, [activeChars, lockDatabase])
+
     
     const activateMain = async () => {
-        const activeCharIndex = activeChars.length - 1
+        const activeCharIndex = activeChars.findIndex(activeChars => activeChars.uniquechar == 99999)
         setMain(1)
         populatePartyCharacter(activeCharIndex)
         populateActiveCharacter(activeCharIndex)

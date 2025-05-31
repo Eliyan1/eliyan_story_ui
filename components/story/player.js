@@ -17,8 +17,8 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 	const [uniqueChar, setUniqueChar] = useState(0) 
 	const [characterName, setCharacterName] = useState('Character Name')
 	const [lockDatabase, setLockDatabase] = useState(false)
-	const {charPanel, populateActiveCharacter, directPopulate, setActiveIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, setLockDatabase, lockDatabase )
-	const {partyPanel, populatePartyCharacter} = PartySlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain, populateActiveCharacter)
+	const {charPanel, populateActiveCharacter, directPopulate, setActiveIndex, activeIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, setLockDatabase, lockDatabase )
+	const {partyPanel, populatePartyCharacter} = PartySlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain, populateActiveCharacter, lockDatabase)
 	const [mainChar, setMainChar] = useState(					
 		{name:'No Character Selected', 
 		hp:1,
@@ -48,8 +48,6 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 			method: 'GET'
 		}).then(response => response.json()).then(response => newParty = response.characters.filter((characters) => characters.active == 1))
 
-		var j =-1;
-
 		if (newParty.length>0) {
 
 			for (let i=0; i < newParty.length; i++) {
@@ -57,11 +55,12 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 				if (newParty[i].name==mainChar.name){
 					newParty[i].uniquechar = 99999
 					setMainChar(newParty[i])
-					j=i
 				}
 			}
 
-			//newParty.push(newParty.splice(j, 1)[0])
+			if(activeChars.length>0){
+				setActiveIndex(newParty.findIndex((newParty) => newParty.name == activeChars[activeIndex].name))
+			}		
 			setPartyChars(newParty.filter((newParty) => newParty.uniquechar != 99999))
 			setActiveChars(newParty)
 		}
@@ -71,11 +70,17 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 	const switchToChar = async (char, mainTrue, mutuable) => {
 	setMain(mainTrue)
 	const activeCharIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == char.uniquechar)
+	setActiveIndex(activeCharIndex)
 	populateActiveCharacter(activeCharIndex)
 	populatePartyCharacter(activeCharIndex)
 	await setStorySlab(0); //necessary to update the notes of the character
-	if (mutuable==true){setStorySlab(2); setActiveIndex(activeChars.length-1)}
+	if (mutuable==true){setStorySlab(2); setActiveIndex(activeChars.findIndex((activeChars) => activeChars.uniquechar == 99999))}
 	if (mutuable==false){setStorySlab(1);}
+
+	const delay = ms => new Promise(res => setTimeout(res, ms));
+	setLockDatabase(true)
+	await delay(1000)
+	setLockDatabase(false)
 	}
 
 	const createNewCharacter = async ([e,playerstatus]) =>{
@@ -135,8 +140,8 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 					setActiveIndex(activeChars.length)
 				  }
 				  if (main == 1) {
-					activeChars[activeChars.length-1] = newEntry[0];
-					populateActiveCharacter(activeChars.length-1)
+					activeChars[activeChars.findIndex((activeChars) => activeChars.uniquechar == 99999)] = newEntry[0];
+					populateActiveCharacter(activeChars.findIndex((activeChars) => activeChars.uniquechar == 99999))
 				}
 
 				setMainChar(newEntry[0]);
@@ -177,6 +182,7 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 				setActiveIndex = {setActiveIndex}
 				main = {main}
 				setPartyChars = {setPartyChars}
+				setLockDatabase= {setLockDatabase}
 			/>}
 		</div>
 		

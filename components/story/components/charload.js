@@ -64,11 +64,12 @@ export default function CharLoad({characters, setActiveChars, activeChars, setSt
       if (!res.ok) {
           throw new Error("Failed to edit the Character")
       }
-      
-    
+
       setNoSelect(0)
       directPopulate(char)
-      setActiveIndex(updatedParty.findIndex((updatedParty) => updatedParty.uniquechar == 99999))
+      setActiveChars(updatedParty)
+      setActiveIndex(updatedParty.findIndex((updatedParty) => updatedParty.name == char.name))
+      
       setMainChar(char);
       setMain(1);
       await setStorySlab(0); //necessary to update the notes of the character

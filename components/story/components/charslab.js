@@ -19,7 +19,6 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     const [charCha, setCha] = useState(0);
     const [charNotes, setNotes] = useState("Character Notes")
     const [charCurHP, setCurHP] = useState(0)
-    const [charCurTHP, setCurTHP] = useState(0)
     const [charURL, setURL] = useState("");
 
     const [charSlab, setCharSlab] = useState(1)
@@ -27,8 +26,8 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     useEffect(() => {
         if (lockDatabase == false) {
-                if (user=='DM'){const interval = setInterval(() => {populateActiveCharacter(activeIndex)}, 1000);
-                return () => clearInterval(interval);}
+                const interval = setInterval(() => {populateActiveCharacter(activeIndex)}, 1000);
+                return () => clearInterval(interval);
         }
     }, [activeChars, lockDatabase])
 
@@ -109,59 +108,49 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 	}
 
     const hpUpdate = (e) => {
-        var mutateTHP = charCurTHP
-        var mutateHP = String(charCurHP)
-        console.log(mutateHP)
+        if (e.target.value.startsWith("-") && !isNaN(e.target.value.substring(1))) {
+            if (Number(charCurHP) + Number(charTHP) + Number(e.target.value) < 0 && e.target.value.length>1){
+                activeChars[activeIndex].temphp=0
+                activeChars[activeIndex].hp=0 
+            }else if (Number(charTHP) + Number(e.target.value) < 0 && e.target.value.length>1){
+                activeChars[activeIndex].hp=Number(charCurHP)+Number(e.target.value)+Number(charTHP)
+                activeChars[activeIndex].temphp=0
+            }else if (e.target.value.length>1){
+                activeChars[activeIndex].temphp=Number(charTHP)+Number(e.target.value)
+            }
+            setHP(e.target.value)
 
-        if (mutateHP.startsWith("-") && !isNaN(mutateHP.substring(1))) {
-            mutateTHP = charTHP - Number(charHP.substring(1))
-                if (mutateTHP < 0) {
-                    mutateTHP = 0;
-                    mutateHP=String(Number(charCurHP) + Number(charTHP) - Number(charHP.substring(1)))
-                }else(mutateHP=charCurHP)
-            setTHP(Number(mutateTHP))
-        }else if (mutateHP.startsWith("+") && !isNaN(mutateHP.substring(1))) {
-            mutateHP=String(Number(charCurHP) + Number(mutateHP.substring(1)))
-        }else if (!isNaN(mutateHP)) {
-            mutateHP=String(e.target.value)
-            console.log('HP is a number')
-            console.log(mutateHP)
-        }else{
-            mutateHP = charHP
+        }else if (e.target.value.startsWith("+") && !isNaN(e.target.value.substring(1))) {
+            if (e.target.value.length>1){
+                if(Number(charCurHP)+Number(e.target.value)>Number(activeChars[activeIndex].maxhp)){
+                    activeChars[activeIndex].hp=activeChars[activeIndex].maxhp
+                }else{
+                    activeChars[activeIndex].hp=Number(charCurHP)+Number(e.target.value)
+                }
+            }
+            setHP(e.target.value)
+        }else if (!isNaN(e.target.value)){
+            if (e.target.value.length>0){
+                if(Number(e.target.value)>Number(activeChars[activeIndex].maxhp)){
+                    activeChars[activeIndex].hp=activeChars[activeIndex].maxhp
+                }else{
+                    activeChars[activeIndex].hp=Number(e.target.value)
+                }
+            }
+            setHP(e.target.value)
         }
-
-
-        if(Number(mutateHP)<0) {mutateHP='0'};
-        if(Number(mutateHP)>activeChars[activeIndex].maxhp) {mutateHP=String(activeChars[activeIndex].maxhp)};
-        setHP(e.target.value)
-        console.log(mutateHP)
-
-        activeChars[activeIndex].temphp=isNaN(mutateTHP) ? null : Number(mutateTHP);
-        activeChars[activeIndex].hp=isNaN(mutateHP) ? null : Number(mutateHP);
     }
 
     const hpSelect = (e) => {
         setLockDatabase(true)
-        if (activeIndex > activeChars.length-1) {
-            setCurHP(activeChars[activeChars.length-1].hp);
-            setCurTHP(activeChars[activeChars.length-1].temphp);
-            e.target.select()
-            console.log('if')
-        }else{
-            setCurHP(activeChars[activeIndex].hp);
-            setCurTHP(activeChars[activeIndex].temphp);
-            e.target.select()
-            console.log('else')
-            console.log(activeChars[activeIndex].hp)
-        }
-        console.log(charCurHP)
+        setCurHP(activeChars[activeIndex].hp);
+        e.target.select()
     }
 
     const thpUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<1000){
+        if (e.target.value>0 && e.target.value<1000){
             activeChars[activeIndex].temphp=e.target.value
             setTHP(e.target.value);
-            setHP(charHP+e.target.value)
         }
 	}
 
@@ -289,7 +278,12 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     }
 
-    const actualUpdate = async (updateIndex) => {       
+    const actualUpdate = async (updateIndex) => {    
+        
+        setHP(activeChars[updateIndex].hp)
+        setTHP(activeChars[updateIndex].temphp)
+        setLockDatabase(false)
+
         const res = await fetch(`/api/characters/update?id=${activeChars[updateIndex]._id}`,{
             method: 'PUT',
             headers: {
@@ -352,7 +346,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     };
 
 
-    return {populateActiveCharacter, directPopulate, setActiveIndex,
+    return {populateActiveCharacter, directPopulate, setActiveIndex, activeIndex,
         charPanel:(<>
         {charSlab == 1 && <div spellCheck="false" className={`${StyleCSS.charslab}`}>
         <div className={`${StyleCSS.frontslabshort}`}/>
