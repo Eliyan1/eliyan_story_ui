@@ -2,7 +2,7 @@ import StyleCSS from '@/styles/general.module.css'
 import CharNotes from './charnotes'
 import { useState, useEffect } from "react";
 
-export default function CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain, populateActiveCharacter, lockDatabase) {
+export default function CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain, populateActiveCharacter, lockDatabase, setLockDatabase) {
 
     const [activeIndex, setActiveIndex] = useState(0)
     const mutuable = false
@@ -26,7 +26,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     useEffect(() => {
             if (lockDatabase == false) {
-                    const interval = setInterval(() => {populatePartyCharacter(activeIndex)}, 1000);
+                    const interval = setInterval(() => {populatePartyCharacter(activeIndex, true)}, 1000);
                     return () => clearInterval(interval);
             }
         }, [activeChars, lockDatabase])
@@ -35,13 +35,17 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     const activateMain = async () => {
         const activeCharIndex = activeChars.findIndex(activeChars => activeChars.uniquechar == 99999)
         setMain(1)
-        populatePartyCharacter(activeCharIndex)
-        populateActiveCharacter(activeCharIndex)
+        populatePartyCharacter(activeCharIndex, false)
+        populateActiveCharacter(activeCharIndex, false)
         await setStorySlab(0); //necessary to update the notes of the character
         setStorySlab(2);
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+	    setLockDatabase(true)
+	    await delay(1000)
+	    setLockDatabase(false)
     }
 
-    const populatePartyCharacter = (activeCharIndex) => {
+    const populatePartyCharacter = (activeCharIndex, databaseUpdate) => {
         if(activeCharIndex < activeChars.length) {
             setActiveIndex(activeCharIndex);
             setName(activeChars[activeCharIndex].name);
@@ -56,8 +60,10 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
             setInt(activeChars[activeCharIndex].intel)
             setCha(activeChars[activeCharIndex].cha)
             setNotes(activeChars[activeCharIndex].notes)
-            setCharSlab(1)
-            setExtButtonText("External Info")
+            if(databaseUpdate==false){
+                setCharSlab(1)
+                setExtButtonText("External Info")
+            }
             setURL(activeChars[activeCharIndex].url)
         }else{
             setActiveIndex(activeCharIndex);
@@ -73,8 +79,10 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
             setInt(1)
             setCha(1)
             setNotes(1)
-            setCharSlab(1)
-            setExtButtonText("External Info")
+            if(databaseUpdate==false){
+                setCharSlab(1)
+                setExtButtonText("External Info")
+            }
             setURL("")
         }
 
@@ -249,6 +257,10 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
             activeCharacter = {activeIndex > activeChars.length-1 ? activeChars[activeChars.length-1] : activeChars[activeIndex]}
             charNotes = {charNotes}
             mutuable = {mutuable}
+            activeIndex = {activeIndex}
+            lockDatabase = {lockDatabase}
+            setLockDatabase = {setLockDatabase}
+            activeChars = {activeChars}
         />
     </div>}
 

@@ -30,7 +30,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				const interval = setInterval(() => {updateCurrentParty()}, 1000);
 				return () => clearInterval(interval);
 			}
-		}, [activeChars, lockDatabase])
+		}, [activeChars, lockDatabase, storySlab])
 	
 		const updateCurrentParty = async () =>{
 			var updatedChars = await fetch('/api/characters/read',{
@@ -43,9 +43,18 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 			for (let i=0; i < updatedChars.length; i++) {
 				const sameIndex = currentChar.findIndex((currentChar)=> currentChar._id == updatedChars[i]._id)
 
+				var notesBefore = []
+				var notesAfter = []
+
 				if (sameIndex != -1){
-					const notesBefore = JSON.stringify(currentChar[sameIndex].notes.content)
-					const notesAfter = JSON.stringify(updatedChars[i].notes.content)			
+					if(currentChar[sameIndex].notes.content){
+						notesBefore = JSON.stringify(currentChar[sameIndex].notes.content)
+					}
+
+					if(updatedChars[i].notes.content){
+						notesAfter = JSON.stringify(updatedChars[i].notes.content)
+					}
+								
 					if (currentChar[sameIndex].hp != updatedChars[i].hp ||
 						currentChar[sameIndex].ac != updatedChars[i].ac ||
 						currentChar[sameIndex].temphp != updatedChars[i].temphp ||
@@ -77,6 +86,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 			if(somethingChanged == true) {
 				var villainHP = 0
 				var villainMaxHP = 0
+				setActiveChars(currentChar)
 
 				for (let i=0; i < activeChars.length; i++) {
 					if (activeChars[i].villainhp==true){
@@ -95,8 +105,6 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 						villainMaxHP: villainMaxHP
 					}),
 				});
-
-				setActiveChars(currentChar)
 			}
 		}
 
@@ -114,7 +122,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 			newTurnIndex = 0
 		}
 		setCurrentTurn(activeChars[newTurnIndex])
-		populateActiveCharacter(newTurnIndex)
+		populateActiveCharacter(newTurnIndex, false)
 		await setStorySlab(0); //necessary to update the notes of the character
 		setStorySlab(2)
 
@@ -144,7 +152,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 			newTurnIndex = activeChars.length-1
 		}
 		setCurrentTurn(activeChars[newTurnIndex])
-		populateActiveCharacter(newTurnIndex)
+		populateActiveCharacter(newTurnIndex, false)
 		await setStorySlab(0); //necessary to update the notes of the character
 		setStorySlab(2)
 
@@ -244,9 +252,14 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 	const switchToChar = async (char) => {
 		setLockDatabase(false)
 		const activeCharIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == char.uniquechar)
-		populateActiveCharacter(activeCharIndex)
+		populateActiveCharacter(activeCharIndex, false)
 		await setStorySlab(0); //necessary to update the notes of the character
 		setStorySlab(2);
+
+		const delay = ms => new Promise(res => setTimeout(res, ms));
+		setLockDatabase(true)
+		await delay(1000)
+		setLockDatabase(false)
 	}
 
 	const createNewCharacter = async ([e,playerstatus]) =>{
@@ -286,7 +299,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				newEntry[newEntry.length-1].uniquechar= uniqueChar;
 				setUniqueChar(uniqueChar+1)
 				setActiveChars(newEntry)
-				populateActiveCharacter(newEntry.length-1)
+				populateActiveCharacter(newEntry.length-1, false)
 				await setStorySlab(0); //necessary to update the notes of the character
 				setStorySlab(2);
 				setCharacterState(0)

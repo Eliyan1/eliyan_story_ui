@@ -18,7 +18,7 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 	const [characterName, setCharacterName] = useState('Character Name')
 	const [lockDatabase, setLockDatabase] = useState(false)
 	const {charPanel, populateActiveCharacter, directPopulate, setActiveIndex, activeIndex} = CharSlab(activeChars, setStorySlab, characterName, setCharacterName, user, setLockDatabase, lockDatabase )
-	const {partyPanel, populatePartyCharacter} = PartySlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain, populateActiveCharacter, lockDatabase)
+	const {partyPanel, populatePartyCharacter} = PartySlab(activeChars, setStorySlab, characterName, setCharacterName, user, noSelect, setMain, populateActiveCharacter, lockDatabase, setLockDatabase)
 	const [mainChar, setMainChar] = useState(					
 		{name:'No Character Selected', 
 		hp:1,
@@ -41,7 +41,7 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 			const interval = setInterval(() => {updateCurrentParty()}, 1000);
 			return () => clearInterval(interval);
 		}
-	}, [mainChar, lockDatabase])
+	}, [mainChar, lockDatabase, storySlab])
 
 	const updateCurrentParty = async () =>{
 		var newParty = await fetch('/api/characters/read',{
@@ -71,8 +71,8 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 	setMain(mainTrue)
 	const activeCharIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == char.uniquechar)
 	setActiveIndex(activeCharIndex)
-	populateActiveCharacter(activeCharIndex)
-	populatePartyCharacter(activeCharIndex)
+	populateActiveCharacter(activeCharIndex, false)
+	populatePartyCharacter(activeCharIndex, false)
 	await setStorySlab(0); //necessary to update the notes of the character
 	if (mutuable==true){setStorySlab(2); setActiveIndex(activeChars.findIndex((activeChars) => activeChars.uniquechar == 99999))}
 	if (mutuable==false){setStorySlab(1);}
@@ -141,7 +141,7 @@ export default function PlayerPage({dbCharacters, activePage, chargroups})  {
 				  }
 				  if (main == 1) {
 					activeChars[activeChars.findIndex((activeChars) => activeChars.uniquechar == 99999)] = newEntry[0];
-					populateActiveCharacter(activeChars.findIndex((activeChars) => activeChars.uniquechar == 99999))
+					populateActiveCharacter(activeChars.findIndex((activeChars) => activeChars.uniquechar == 99999), false)
 				}
 
 				setMainChar(newEntry[0]);

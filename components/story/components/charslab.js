@@ -26,12 +26,12 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     useEffect(() => {
         if (lockDatabase == false) {
-                const interval = setInterval(() => {populateActiveCharacter(activeIndex)}, 1000);
+                const interval = setInterval(() => {populateActiveCharacter(activeIndex, true)}, 1000);
                 return () => clearInterval(interval);
         }
     }, [activeChars, lockDatabase])
 
-    const directPopulate = (directChar) => {
+    const directPopulate = (directChar, databaseUpdate) => {
         setName(directChar.name);
         setAC(directChar.ac)
         setHP(directChar.hp)
@@ -44,12 +44,14 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         setInt(directChar.intel)
         setCha(directChar.cha)
         setNotes(directChar.notes)
-        setCharSlab(1)
-        setExtButtonText("External Info")
+        if(databaseUpdate==false){
+            setCharSlab(1)
+            setExtButtonText("External Info")
+        }
         setURL(directChar.url)
     }
 
-    const populateActiveCharacter = (activeCharIndex) => {
+    const populateActiveCharacter = (activeCharIndex, databaseUpdate) => {
         if(activeCharIndex < activeChars.length) {
             setActiveIndex(activeCharIndex);
             setName(activeChars[activeCharIndex].name);
@@ -64,8 +66,10 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
             setInt(activeChars[activeCharIndex].intel)
             setCha(activeChars[activeCharIndex].cha)
             setNotes(activeChars[activeCharIndex].notes)
-            setCharSlab(1)
-            setExtButtonText("External Info")
+            if(databaseUpdate==false){
+                setCharSlab(1)
+                setExtButtonText("External Info")
+            }
             setURL(activeChars[activeCharIndex].url)
         }else{
             setActiveIndex(activeCharIndex);
@@ -81,8 +85,10 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
             setInt(1)
             setCha(1)
             setNotes(1)
-            setCharSlab(1)
-            setExtButtonText("External Info")
+            if(databaseUpdate==false){
+                setCharSlab(1)
+                setExtButtonText("External Info")
+            }   
             setURL("")
         }
 
@@ -250,6 +256,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         {
             setCharSlab(2);
             setExtButtonText("Edit URL")
+            setLockDatabase(false)
         }
 
         if(extButtonText == "Edit URL")
@@ -261,8 +268,8 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     }
 
     const updateCharURL = async (e) => {
-        const updateIndex = activeChars.findIndex(activeChars => activeChars.uniquechar==99999);
-        const res = await fetch(`/api/characters/update?id=${activeChars[updateIndex]._id}`,{
+        setLockDatabase(false)
+        const res = await fetch(`/api/characters/update?id=${activeChars[activeIndex]._id}`,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -503,6 +510,10 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
             activeCharacter = {user == 'Player' ? activeChars[activeChars.findIndex(activeChars => activeChars.uniquechar==99999)] : activeChars[activeIndex]}
             charNotes = {charNotes}
             mutuable = {mutuable}
+            activeIndex = {activeIndex}
+            lockDatabase = {lockDatabase}
+            setLockDatabase = {setLockDatabase}
+            activeChars = {activeChars}
         />
     </div>}
 
@@ -516,7 +527,8 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         Please enter external URL:
         </div>
         <input 
-        className={`${StyleCSS.charexternalinput}`} 
+        className={`${StyleCSS.charexternalinput}`}
+        onSelect={()=>setLockDatabase(true)} 
         onChange={(e) => urlUpdate(e)} 
         value={charURL}
         onBlur={(e) => updateCharURL(e)}/>
