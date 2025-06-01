@@ -136,6 +136,11 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				currentTurn:   activeChars[newTurnIndex]
 			}),
 		});
+
+		const delay = ms => new Promise(res => setTimeout(res, ms));
+		setLockDatabase(true)
+		await delay(1000)
+		setLockDatabase(false)
 	}
 
 	const previousTurn = async () =>{
@@ -166,6 +171,11 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				currentTurn:   activeChars[newTurnIndex]
 			}),
 		});
+
+		const delay = ms => new Promise(res => setTimeout(res, ms));
+		setLockDatabase(true)
+		await delay(1000)
+		setLockDatabase(false)
 	}
 
 	const saveGroup = async () =>{
