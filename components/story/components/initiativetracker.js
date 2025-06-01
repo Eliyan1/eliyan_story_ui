@@ -73,8 +73,10 @@ return <div spellCheck="false" className={`${StyleCSS.charslab}`}>
           <div className={`${StyleCSS.initname}`}> {activeChars.name}: </div>
           <input 
             type='number'
-            onChange={(e)=> activeChars.initiative=e.target.valueAsNumber}
-            onBlur={(e)=> activeChars.initiative=e.target.valueAsNumber}
+            onBlur={(e) => {
+              if(e.target.value.length>0){activeChars.initiative=e.target.valueAsNumber}
+              else{delete activeChars.initiative}}
+            }
             className={`${StyleCSS.initvalue}`}
             onKeyDown={(e) => handleKeyPress(e)}
             onFocus={(e) => e.target.select()}
