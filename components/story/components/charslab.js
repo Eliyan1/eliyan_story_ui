@@ -106,7 +106,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 	}
 
     const acUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100){
+        if (e.target.valueAsNumber>=0 && e.target.value<100){
             activeChars[activeIndex].ac=e.target.value
             setAC(e.target.value)
         }
@@ -154,56 +154,56 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     }
 
     const thpUpdate = (e) => {
-        if (e.target.value>0 && e.target.value<1000){
+        if (e.target.value>=0 && e.target.value<1000){
             activeChars[activeIndex].temphp=e.target.value
             setTHP(e.target.value);
         }
 	}
 
     const mhpUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<1000){
+        if (e.target.valueAsNumber>=0 && e.target.value<1000){
             activeChars[activeIndex].maxhp=e.target.value
             setMHP(e.target.value);
         }
 	}
 
     const strUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100){
+        if (e.target.valueAsNumber>=0 && e.target.value<100){
             activeChars[activeIndex].str=e.target.value
             setStr(e.target.value);
         }
 	}
 
     const dexUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100){
+        if (e.target.valueAsNumber>=0 && e.target.value<100){
             activeChars[activeIndex].dex=e.target.value
             setDex(e.target.value);
         }
 	}
 
     const conUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100){
+        if (e.target.valueAsNumber>=0 && e.target.value<100){
             activeChars[activeIndex].con=e.target.value
             setCon(e.target.value);
         }
 	}
 
     const wisUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100){
+        if (e.target.valueAsNumber>=0 && e.target.value<100){
             activeChars[activeIndex].wis=e.target.value
             setWis(e.target.value);
         }
 	}
 
     const intUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100){
+        if (e.target.valueAsNumber>=0 && e.target.value<100){
             activeChars[activeIndex].intel=e.target.value
             setInt(e.target.value);
         }
 	}
 
     const chaUpdate = (e) => {
-        if (e.target.valueAsNumber>0 && e.target.value<100) {
+        if (e.target.valueAsNumber>=0 && e.target.value<100) {
             activeChars[activeIndex].cha=e.target.value
             setCha(e.target.value);
         }
