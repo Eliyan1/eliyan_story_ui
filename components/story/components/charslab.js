@@ -162,6 +162,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
 
     const mhpUpdate = (e) => {
         if (e.target.valueAsNumber>0 && e.target.value<1000){
+            activeChars[activeIndex].maxhp=e.target.value
             setMHP(e.target.value);
         }
 	}
