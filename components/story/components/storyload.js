@@ -17,7 +17,7 @@ export default function StoryLoad({storyList, setActiveStoryContent, setActiveSt
   return <div spellCheck="false" className={`${StyleCSS.storyslab}`}>
     <div className={`${StyleCSS.frontslab}`}/>
     <div className={`${StyleCSS.titleloadwrapper}`}>
-      <div type="text" className={`${StyleCSS.storytitle}`}>Select your Journey</div>
+      <div type="text" className={`${StyleCSS.storytitle}`}>Select your Setting</div>
     </div>
     <div className={`${StyleCSS.storyoptionwrapper}`}>
     {storyList.map(storyList => (

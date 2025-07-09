@@ -55,8 +55,8 @@ export default function Viewer() {
 
     return<>
     	<Head>
-            <title>Journey Viewer</title>
-            <meta name="description" content="To Visualize the Journey from Potential to Essence" />
+            <title>Setting Viewer</title>
+            <meta name="description" content="Visualize the Shaping of Potential into Essence" />
             <link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
             <link rel="icon" type="image/png" href="/favicon.png"></link>
         </Head>

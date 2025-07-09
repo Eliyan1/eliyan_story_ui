@@ -27,8 +27,8 @@ export default function PlayerUI({dbCharacters, chargroups}) {
 
     return<>
     	<Head>
-            <title>Journey Player</title>
-            <meta name="description" content="The One who Journeys from Potential to Essence" />
+            <title>Setting Player</title>
+            <meta name="description" content="The Shaper of Potential into Essence" />
             <link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
             <link rel="icon" type="image/png" href="/favicon.png"></link>
         </Head>

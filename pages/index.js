@@ -44,8 +44,8 @@ export default function IndexPage({dbCharacters, stories, audios, visuals, viewe
 	
 	return <>
 	<Head>
-        <title>Journey Shaper</title>
-        <meta name="description" content="To Shape the Journey from Potential to Essence" />
+        <title>Setting Shaper</title>
+        <meta name="description" content="Create a Setting to Shape Potential into Essence" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
 		<link rel="icon" type="image/png" href="/favicon.png"></link>
     </Head>

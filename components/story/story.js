@@ -14,7 +14,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 	const [storyList, setStoryList] = useState(stories)
 	const [storySlab, setStorySlab] = useState(1)
 	const [activeStoryContent, setActiveStoryContent] = useState("") 
-	const [activeStoryTitle, setActiveStoryTitle] = useState("Title of New Journey")
+	const [activeStoryTitle, setActiveStoryTitle] = useState("Title of New Setting")
 	const [inactiveChars, setInactiveChars] = useState([])
 	const [uniqueChar, setUniqueChar] = useState(0) 
 	const [characterState, setCharacterState] = useState(0) 
