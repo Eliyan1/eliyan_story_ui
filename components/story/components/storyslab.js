@@ -6,7 +6,7 @@ export default function StorySlab({setActiveStoryContent, activeStoryTitle, acti
   const saveClick = async (content) => {
     const storyNumber = checkStoryPresent()
 
-    if(activeStoryTitle == 'Title of New Setting') {
+    if(activeStoryTitle == 'Title of the New Setting') {
       alert('Please give a title to the setting')
     }
     else{
@@ -32,7 +32,7 @@ export default function StorySlab({setActiveStoryContent, activeStoryTitle, acti
 
   const autoSave = async (content) => {
     const storyNumber = checkStoryPresent()
-    if(activeStoryTitle != 'Title of New Setting') {
+    if(activeStoryTitle != 'Title of the New Setting') {
       if (storyNumber!=-1){
         saveStory(storyNumber, content, work)
       }
