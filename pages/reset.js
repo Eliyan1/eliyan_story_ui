@@ -50,8 +50,8 @@ export default function ResetButton({dbCharacters}) {
 
     return<>
         <Head>
-            <title>Setting Reset</title>
-            <meta name="description" content="Reset the Setting" />
+            <title>Journey Reset</title>
+            <meta name="description" content="Re-open the Setting for all Potential" />
             <link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
             <link rel="icon" type="image/png" href="/favicon.png"></link>
         </Head>
