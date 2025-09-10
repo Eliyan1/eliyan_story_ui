@@ -31,26 +31,6 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
         }
     }, [activeChars, lockDatabase])
 
-    const directPopulate = (directChar, databaseUpdate) => {
-        setName(directChar.name);
-        setAC(directChar.ac)
-        setHP(directChar.hp)
-        setTHP(directChar.temphp)
-        setMHP(directChar.maxhp)
-        setStr(directChar.str)
-        setDex(directChar.dex)
-        setCon(directChar.con)
-        setWis(directChar.wis)
-        setInt(directChar.intel)
-        setCha(directChar.cha)
-        setNotes(directChar.notes)
-        if(databaseUpdate==false){
-            setCharSlab(1)
-            setExtButtonText("External Info")
-        }
-        setURL(directChar.url)
-    }
-
     const populateActiveCharacter = (activeCharIndex, databaseUpdate) => {
         if(activeCharIndex < activeChars.length) {
             setActiveIndex(activeCharIndex);
@@ -354,7 +334,7 @@ export default function CharSlab(activeChars, setStorySlab, characterName, setCh
     };
 
 
-    return {populateActiveCharacter, directPopulate, setActiveIndex, activeIndex,
+    return {populateActiveCharacter, setActiveIndex, activeIndex,
         charPanel:(<>
         {charSlab == 1 && <div spellCheck="false" className={`${StyleCSS.charslab}`}>
         <div className={`${StyleCSS.frontslabshort}`}/>

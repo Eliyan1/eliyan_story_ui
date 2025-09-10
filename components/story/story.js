@@ -47,12 +47,14 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				var notesAfter = []
 
 				if (sameIndex != -1){
-					if(currentChar[sameIndex].notes.content){
-						notesBefore = JSON.stringify(currentChar[sameIndex].notes.content)
-					}
+					if(currentChar[sameIndex].notes){
+						if(currentChar[sameIndex].notes.content){
+							notesBefore = JSON.stringify(currentChar[sameIndex].notes.content)
+						}
 
-					if(updatedChars[i].notes.content){
-						notesAfter = JSON.stringify(updatedChars[i].notes.content)
+						if(updatedChars[i].notes.content){
+							notesAfter = JSON.stringify(updatedChars[i].notes.content)
+						}
 					}
 								
 					if (currentChar[sameIndex].hp != updatedChars[i].hp ||
@@ -109,6 +111,7 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 		}
 
 	const nextTurn = async () =>{
+		setLockDatabase(true)
 		var newTurnIndex = 0
 
 		if(currentTurn.uniquechar != -1){
@@ -121,11 +124,13 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 		}else {
 			newTurnIndex = 0
 		}
+
 		setCurrentTurn(activeChars[newTurnIndex])
 		populateActiveCharacter(newTurnIndex, false)
 		await setStorySlab(0); //necessary to update the notes of the character
 		setStorySlab(2)
-
+		setLockDatabase(false)
+		
 		await fetch('/api/viewer/update',{
 			method: 'PUT',
 			headers: {
@@ -136,14 +141,10 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				currentTurn:   activeChars[newTurnIndex]
 			}),
 		});
-
-		const delay = ms => new Promise(res => setTimeout(res, ms));
-		setLockDatabase(true)
-		await delay(1000)
-		setLockDatabase(false)
 	}
 
 	const previousTurn = async () =>{
+		setLockDatabase(true)
 		var newTurnIndex = 0
 
 		if(currentTurn.uniquechar != -1){
@@ -156,11 +157,13 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 		}else {
 			newTurnIndex = activeChars.length-1
 		}
+
 		setCurrentTurn(activeChars[newTurnIndex])
 		populateActiveCharacter(newTurnIndex, false)
 		await setStorySlab(0); //necessary to update the notes of the character
 		setStorySlab(2)
-
+		setLockDatabase(false)
+		
 		await fetch('/api/viewer/update',{
 			method: 'PUT',
 			headers: {
@@ -171,11 +174,6 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 				currentTurn:   activeChars[newTurnIndex]
 			}),
 		});
-
-		const delay = ms => new Promise(res => setTimeout(res, ms));
-		setLockDatabase(true)
-		await delay(1000)
-		setLockDatabase(false)
 	}
 
 	const saveGroup = async () =>{
@@ -260,15 +258,11 @@ export default function Story({dbCharacters, stories, activePage, chargroups, ac
 
 	
 	const switchToChar = async (char) => {
-		setLockDatabase(false)
+		setLockDatabase(true)
 		const activeCharIndex = activeChars.findIndex((activeChars)=> activeChars.uniquechar == char.uniquechar)
 		populateActiveCharacter(activeCharIndex, false)
 		await setStorySlab(0); //necessary to update the notes of the character
 		setStorySlab(2);
-
-		const delay = ms => new Promise(res => setTimeout(res, ms));
-		setLockDatabase(true)
-		await delay(1000)
 		setLockDatabase(false)
 	}
 
