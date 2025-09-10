@@ -1872,6 +1872,7 @@ margin-right: 5cqw;
     flex-direction: column;
     overflow: hidden; 
     margin-bottom: -5cqw;
+    z-index: 2;
 }
 
 .baddiehpwrapper{
@@ -1880,7 +1881,9 @@ margin-right: 5cqw;
     flex-direction: column;
     overflow: hidden; 
     margin-top: auto;
-    margin-bottom: 3cqw;
+    padding-top: 2cqw;
+    padding-bottom: 3cqw;
+    background-image: linear-gradient(rgb(0,0,0,0), rgb(0,0,0,0.55) 40%);
 }
 
 .viewer{
@@ -1898,7 +1901,8 @@ margin-right: 5cqw;
     background-size: 100% 100%;
     margin-top: 2cqw;
     margin-left: 3cqw;
-    color: rgba(255, 255, 235, 0.45);
+    color: rgba(255, 250, 235, 0.47);
+    text-shadow: -0.2cqw 0 rgb(70, 70, 60, 0.65), 0 0.2cqw rgb(70, 70, 60, 0.65), 0.1cqw 0 rgb(70, 70, 60, 0.65), 0 -0.1cqw rgb(70, 70, 60, 0.65);
     text-align: center;
     padding-top: 3.2cqw;
     font-size: 5cqw;
@@ -1913,7 +1917,8 @@ margin-right: 5cqw;
     background-size: 100% 100%;
     margin-top: 2cqw;
     margin-left: 3cqw;
-    color: rgba(255, 255, 235, 0.25);
+    color: rgba(255, 250, 235, 0.25);
+    text-shadow: -0.2cqw 0 rgb(40, 40, 35, 0.45), 0 0.2cqw rgb(40, 40, 35, 0.45), 0.1cqw 0 rgb(40, 40, 35, 0.45), 0 -0.1cqw rgb(40, 40, 35, 0.45);
     text-align: center;
     padding-top: 3.2cqw;
     font-size: 5cqw;
@@ -1928,7 +1933,8 @@ margin-right: 5cqw;
     background-size: 100% 100%;
     margin-top: 0.9cqw;
     margin-left: 3cqw;
-    color: rgba(255, 255, 235, 0.45);
+    color: rgba(255, 250, 235, 0.47);
+    text-shadow: -0.2cqw 0 rgb(70, 70, 60, 0.65), 0 0.2cqw rgb(70, 70, 60, 0.65), 0.1cqw 0 rgb(70, 70, 60, 0.65), 0 -0.1cqw rgb(70, 70, 60, 0.65);
     text-align: center;
     padding-top: 2.4cqw;
     font-size: 3cqw;
@@ -1943,7 +1949,8 @@ margin-right: 5cqw;
     background-size: 100% 100%;
     margin-top: 0.9cqw;
     margin-left: 3cqw;
-    color: rgba(255, 255, 235, 0.25);
+    color: rgba(255, 250, 235, 0.25);
+    text-shadow: -0.2cqw 0 rgb(40, 40, 35, 0.45), 0 0.2cqw rgb(40, 40, 35, 0.45), 0.1cqw 0 rgb(40, 40, 35, 0.45), 0 -0.1cqw rgb(40, 40, 35, 0.45);
     text-align: center;
     padding-top: 2.4cqw;
     font-size: 3cqw;
@@ -1952,8 +1959,8 @@ margin-right: 5cqw;
 
 .baddiename{
     position: relative;
-    color: rgb(180, 175, 160);
-    text-shadow: 0cqw 0cqw 0.7cqw rgb(5, 5, 0);
+    color: rgb(183, 177, 173);
+    text-shadow: -0.1cqw 0 rgb(60, 57, 56), 0 0.1cqw rgb(60, 57, 56), 0.1cqw 0 rgb(60, 57, 56), 0 -0.1cqw rgb(60, 57, 56);
     font-size: 5cqw;
     height: 5cqw;
     width:100cqw;
@@ -1963,24 +1970,24 @@ margin-right: 5cqw;
 
 .totalhealth {
     position: relative;
-    border: rgb(135, 135, 125) solid;
+    border: rgb(147, 140, 138) solid, 0.15cqw;
     width: 92cqw;
     margin-top: 1cqw;
     margin-left: 4cqw;
     height: 1cqw;
     background-color: black;
-    box-shadow: 0cqw 0cqw 0.2cqw rgb(55, 55, 50);
+    box-shadow: 0cqw 0cqw 0.5cqw rgb(55, 55, 50);
     border-radius: 0.2cqw;
 }
 
 .baddiehealth {
     position: relative;
-    border: rgb(145, 145, 135) solid;
     width: 52cqw;
     margin-top: -1cqw;
     margin-left: 4cqw;
     height: 1cqw;
-    background-color: rgb(160, 152, 140);
+    background-color: rgb(160, 153, 148);
+    box-shadow: -0.1cqw 0 rgb(60, 57, 56), 0 0.1cqw rgb(60, 57, 56), 0 -0.1cqw rgb(60, 57, 56);
     border-radius: 0.2cqw;
 }
 
