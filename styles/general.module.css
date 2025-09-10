@@ -376,6 +376,7 @@
     text-align: center;
     border-color: rgba(219, 221, 229, 0.8);
     border-bottom: solid;
+    caret-color: rgba(211, 212, 235, 0.6);
 }
 
 .charexternalframe{
@@ -1335,6 +1336,7 @@
     border-bottom: solid;
     margin-left: 2cqw;
     text-align: left;
+    caret-color: rgba(211, 212, 235, 0.6);
 }
 
 .newaudiobutton{
@@ -1690,6 +1692,7 @@ margin-right: 5cqw;
     border-bottom: solid;
     margin-left: 2cqw;
     text-align: left;
+    caret-color: rgba(211, 212, 235, 0.6);
 }
 
 .newvisualbutton{
@@ -1901,8 +1904,8 @@ margin-right: 5cqw;
     background-size: 100% 100%;
     margin-top: 2cqw;
     margin-left: 3cqw;
-    color: rgba(255, 250, 235, 0.47);
-    text-shadow: -0.2cqw 0 rgb(70, 70, 60, 0.65), 0 0.2cqw rgb(70, 70, 60, 0.65), 0.1cqw 0 rgb(70, 70, 60, 0.65), 0 -0.1cqw rgb(70, 70, 60, 0.65);
+    color: rgba(255, 240, 235, 0.44);
+    text-shadow: -0.1cqw 0 rgb(70, 70, 60, 0.6), 0 0.1cqw rgb(70, 70, 60, 0.6), 0.1cqw 0 rgb(70, 70, 60, 0.6), 0 -0.1cqw rgb(70, 70, 60, 0.6);
     text-align: center;
     padding-top: 3.2cqw;
     font-size: 5cqw;
@@ -1917,8 +1920,8 @@ margin-right: 5cqw;
     background-size: 100% 100%;
     margin-top: 2cqw;
     margin-left: 3cqw;
-    color: rgba(255, 250, 235, 0.25);
-    text-shadow: -0.2cqw 0 rgb(40, 40, 35, 0.45), 0 0.2cqw rgb(40, 40, 35, 0.45), 0.1cqw 0 rgb(40, 40, 35, 0.45), 0 -0.1cqw rgb(40, 40, 35, 0.45);
+    color: rgba(200, 190, 180, 0.35);
+    text-shadow: -0.1cqw 0 rgb(40, 40, 35, 0.3), 0 0.1cqw rgb(40, 40, 35, 0.3), 0.1cqw 0 rgb(40, 40, 35, 0.3), 0 -0.1cqw rgb(40, 40, 35, 0.3);
     text-align: center;
     padding-top: 3.2cqw;
     font-size: 5cqw;
@@ -1933,8 +1936,8 @@ margin-right: 5cqw;
     background-size: 100% 100%;
     margin-top: 0.9cqw;
     margin-left: 3cqw;
-    color: rgba(255, 250, 235, 0.47);
-    text-shadow: -0.2cqw 0 rgb(70, 70, 60, 0.65), 0 0.2cqw rgb(70, 70, 60, 0.65), 0.1cqw 0 rgb(70, 70, 60, 0.65), 0 -0.1cqw rgb(70, 70, 60, 0.65);
+    color: rgba(255, 240, 235, 0.44);
+    text-shadow: -0.1cqw 0 rgb(70, 70, 60, 0.6), 0 0.1cqw rgb(70, 70, 60, 0.6), 0.1cqw 0 rgb(70, 70, 60, 0.6), 0 -0.1cqw rgb(70, 70, 60, 0.6);
     text-align: center;
     padding-top: 2.4cqw;
     font-size: 3cqw;
@@ -1949,8 +1952,8 @@ margin-right: 5cqw;
     background-size: 100% 100%;
     margin-top: 0.9cqw;
     margin-left: 3cqw;
-    color: rgba(255, 250, 235, 0.25);
-    text-shadow: -0.2cqw 0 rgb(40, 40, 35, 0.45), 0 0.2cqw rgb(40, 40, 35, 0.45), 0.1cqw 0 rgb(40, 40, 35, 0.45), 0 -0.1cqw rgb(40, 40, 35, 0.45);
+    color: rgba(200, 190, 180, 0.35);
+    text-shadow: -0.1cqw 0 rgb(40, 40, 35, 0.3), 0 0.1cqw rgb(40, 40, 35, 0.3), 0.1cqw 0 rgb(40, 40, 35, 0.3), 0 -0.1cqw rgb(40, 40, 35, 0.3);
     text-align: center;
     padding-top: 2.4cqw;
     font-size: 3cqw;
